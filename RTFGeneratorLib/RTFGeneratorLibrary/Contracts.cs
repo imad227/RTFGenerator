@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RTFGeneratorLibrary
 {
-    internal class Contracts
+    public class Contracts
     {
         public string? PhoneNumber { get; set; }
         public string? SimNumber { get; set; }

@@ -12,7 +12,7 @@ namespace RTFGeneratorLibrary
         public string? LastName { get; set; }
         public string? FatherName { get; set; }
         public Address? FirstAddress { get; set; }
-        public OrderforPayment orderforPayment {get; set;}
+        public OrderforPayment? orderforPayment {get; set;}
 
     }
 }
