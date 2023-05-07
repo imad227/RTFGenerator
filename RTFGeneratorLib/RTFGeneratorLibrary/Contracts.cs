@@ -8,9 +8,19 @@ namespace RTFGeneratorLibrary
 {
     public class Contracts
     {
-        public string PhoneNumber { get; set; }
-        public string SimNumber { get; set; }
-        public string Number { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string SimNumber { get; set; } = string.Empty;
+        public string Number { get; set; } = string.Empty;
+        public string ContractType { get; set; } = string.Empty;
         public DateTime Date { get; set; }
+
+        public string Show
+        {
+            get 
+            {
+                return ($"{PhoneNumber} - {Number} - {Date.ToShortDateString()}."); 
+            }
+        }
+
     }
 }

@@ -58,12 +58,27 @@ namespace RTFGeneratorWinForms
             firstNameLabel = new Label();
             GeneratePaymenOrderBbutton = new Button();
             genderGroupBox = new GroupBox();
+            CompanyTypeComboBox = new ComboBox();
+            companyRadioButton = new RadioButton();
             femaleRadioButton = new RadioButton();
             maleRadioButton = new RadioButton();
+            contractsGroupBox = new GroupBox();
+            contractDurationComboBox = new ComboBox();
+            addSimNumberButton = new Button();
+            phoneContractsListBox = new ListBox();
+            removeContractButton = new Button();
+            addContractButton = new Button();
+            contractDateTextBox = new TextBox();
+            phoneNumberContractTextBox = new TextBox();
+            ContractDateLabel = new Label();
+            phnoeNumberLabel = new Label();
+            contractNumberTextBox = new TextBox();
+            contractNumberLabel = new Label();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
             genderGroupBox.SuspendLayout();
+            contractsGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -304,6 +319,8 @@ namespace RTFGeneratorWinForms
             // 
             // genderGroupBox
             // 
+            genderGroupBox.Controls.Add(CompanyTypeComboBox);
+            genderGroupBox.Controls.Add(companyRadioButton);
             genderGroupBox.Controls.Add(femaleRadioButton);
             genderGroupBox.Controls.Add(maleRadioButton);
             genderGroupBox.Location = new Point(8, 325);
@@ -313,10 +330,30 @@ namespace RTFGeneratorWinForms
             genderGroupBox.TabStop = false;
             genderGroupBox.Text = "Gender";
             // 
+            // CompanyTypeComboBox
+            // 
+            CompanyTypeComboBox.FormattingEnabled = true;
+            CompanyTypeComboBox.Location = new Point(10, 56);
+            CompanyTypeComboBox.Name = "CompanyTypeComboBox";
+            CompanyTypeComboBox.Size = new Size(260, 28);
+            CompanyTypeComboBox.TabIndex = 12;
+            // 
+            // companyRadioButton
+            // 
+            companyRadioButton.AutoSize = true;
+            companyRadioButton.Location = new Point(182, 26);
+            companyRadioButton.Name = "companyRadioButton";
+            companyRadioButton.Size = new Size(90, 24);
+            companyRadioButton.TabIndex = 11;
+            companyRadioButton.TabStop = true;
+            companyRadioButton.Text = "Company";
+            companyRadioButton.UseVisualStyleBackColor = true;
+            companyRadioButton.CheckedChanged += companyRadioButton_CheckedChanged;
+            // 
             // femaleRadioButton
             // 
             femaleRadioButton.AutoSize = true;
-            femaleRadioButton.Location = new Point(156, 26);
+            femaleRadioButton.Location = new Point(72, 26);
             femaleRadioButton.Name = "femaleRadioButton";
             femaleRadioButton.Size = new Size(75, 24);
             femaleRadioButton.TabIndex = 10;
@@ -337,11 +374,129 @@ namespace RTFGeneratorWinForms
             maleRadioButton.UseVisualStyleBackColor = true;
             maleRadioButton.CheckedChanged += maleRadioButton_CheckedChanged;
             // 
+            // contractsGroupBox
+            // 
+            contractsGroupBox.Controls.Add(contractDurationComboBox);
+            contractsGroupBox.Controls.Add(addSimNumberButton);
+            contractsGroupBox.Controls.Add(phoneContractsListBox);
+            contractsGroupBox.Controls.Add(removeContractButton);
+            contractsGroupBox.Controls.Add(addContractButton);
+            contractsGroupBox.Controls.Add(contractDateTextBox);
+            contractsGroupBox.Controls.Add(phoneNumberContractTextBox);
+            contractsGroupBox.Controls.Add(ContractDateLabel);
+            contractsGroupBox.Controls.Add(phnoeNumberLabel);
+            contractsGroupBox.Controls.Add(contractNumberTextBox);
+            contractsGroupBox.Controls.Add(contractNumberLabel);
+            contractsGroupBox.Location = new Point(12, 440);
+            contractsGroupBox.Name = "contractsGroupBox";
+            contractsGroupBox.Size = new Size(429, 349);
+            contractsGroupBox.TabIndex = 201;
+            contractsGroupBox.TabStop = false;
+            contractsGroupBox.Text = "Contracts";
+            // 
+            // contractDurationComboBox
+            // 
+            contractDurationComboBox.FormattingEnabled = true;
+            contractDurationComboBox.Location = new Point(6, 92);
+            contractDurationComboBox.Name = "contractDurationComboBox";
+            contractDurationComboBox.Size = new Size(283, 28);
+            contractDurationComboBox.TabIndex = 16;
+            // 
+            // addSimNumberButton
+            // 
+            addSimNumberButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            addSimNumberButton.Location = new Point(295, 92);
+            addSimNumberButton.Name = "addSimNumberButton";
+            addSimNumberButton.Size = new Size(55, 28);
+            addSimNumberButton.TabIndex = 19;
+            addSimNumberButton.Text = "SIM";
+            addSimNumberButton.UseVisualStyleBackColor = true;
+            // 
+            // phoneContractsListBox
+            // 
+            phoneContractsListBox.FormattingEnabled = true;
+            phoneContractsListBox.ItemHeight = 20;
+            phoneContractsListBox.Location = new Point(6, 132);
+            phoneContractsListBox.Name = "phoneContractsListBox";
+            phoneContractsListBox.Size = new Size(414, 204);
+            phoneContractsListBox.TabIndex = 202;
+            // 
+            // removeContractButton
+            // 
+            removeContractButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            removeContractButton.Location = new Point(356, 90);
+            removeContractButton.Name = "removeContractButton";
+            removeContractButton.Size = new Size(29, 30);
+            removeContractButton.TabIndex = 18;
+            removeContractButton.Text = "-";
+            removeContractButton.UseVisualStyleBackColor = true;
+            removeContractButton.Click += removeContractButton_Click;
+            // 
+            // addContractButton
+            // 
+            addContractButton.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            addContractButton.Location = new Point(391, 90);
+            addContractButton.Name = "addContractButton";
+            addContractButton.Size = new Size(29, 30);
+            addContractButton.TabIndex = 17;
+            addContractButton.Text = "+";
+            addContractButton.UseVisualStyleBackColor = true;
+            addContractButton.Click += addContractButton_Click;
+            // 
+            // contractDateTextBox
+            // 
+            contractDateTextBox.Location = new Point(305, 59);
+            contractDateTextBox.Name = "contractDateTextBox";
+            contractDateTextBox.Size = new Size(115, 27);
+            contractDateTextBox.TabIndex = 15;
+            // 
+            // phoneNumberContractTextBox
+            // 
+            phoneNumberContractTextBox.Location = new Point(112, 24);
+            phoneNumberContractTextBox.Name = "phoneNumberContractTextBox";
+            phoneNumberContractTextBox.Size = new Size(308, 27);
+            phoneNumberContractTextBox.TabIndex = 13;
+            // 
+            // ContractDateLabel
+            // 
+            ContractDateLabel.AutoSize = true;
+            ContractDateLabel.Location = new Point(258, 62);
+            ContractDateLabel.Name = "ContractDateLabel";
+            ContractDateLabel.Size = new Size(41, 20);
+            ContractDateLabel.TabIndex = 202;
+            ContractDateLabel.Text = "Date";
+            // 
+            // phnoeNumberLabel
+            // 
+            phnoeNumberLabel.AutoSize = true;
+            phnoeNumberLabel.Location = new Point(-2, 29);
+            phnoeNumberLabel.Name = "phnoeNumberLabel";
+            phnoeNumberLabel.Size = new Size(108, 20);
+            phnoeNumberLabel.TabIndex = 0;
+            phnoeNumberLabel.Text = "Phone Number";
+            // 
+            // contractNumberTextBox
+            // 
+            contractNumberTextBox.Location = new Point(112, 59);
+            contractNumberTextBox.Name = "contractNumberTextBox";
+            contractNumberTextBox.Size = new Size(140, 27);
+            contractNumberTextBox.TabIndex = 14;
+            // 
+            // contractNumberLabel
+            // 
+            contractNumberLabel.AutoSize = true;
+            contractNumberLabel.Location = new Point(0, 62);
+            contractNumberLabel.Name = "contractNumberLabel";
+            contractNumberLabel.Size = new Size(92, 20);
+            contractNumberLabel.TabIndex = 203;
+            contractNumberLabel.Text = "Contract No.";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 814);
+            Controls.Add(contractsGroupBox);
             Controls.Add(genderGroupBox);
             Controls.Add(GeneratePaymenOrderBbutton);
             Controls.Add(userInfoGroupBox);
@@ -360,6 +515,8 @@ namespace RTFGeneratorWinForms
             userInfoGroupBox.PerformLayout();
             genderGroupBox.ResumeLayout(false);
             genderGroupBox.PerformLayout();
+            contractsGroupBox.ResumeLayout(false);
+            contractsGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -396,5 +553,19 @@ namespace RTFGeneratorWinForms
         private GroupBox genderGroupBox;
         private RadioButton maleRadioButton;
         private RadioButton femaleRadioButton;
+        private GroupBox contractsGroupBox;
+        private TextBox contractDateTextBox;
+        private TextBox phoneNumberContractTextBox;
+        private Label ContractDateLabel;
+        private Label phnoeNumberLabel;
+        private TextBox contractNumberTextBox;
+        private Label contractNumberLabel;
+        private Button removeContractButton;
+        private Button addContractButton;
+        private ListBox phoneContractsListBox;
+        private Button addSimNumberButton;
+        private RadioButton companyRadioButton;
+        private ComboBox CompanyTypeComboBox;
+        private ComboBox contractDurationComboBox;
     }
 }

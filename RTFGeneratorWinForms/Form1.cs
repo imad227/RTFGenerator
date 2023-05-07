@@ -1,3 +1,4 @@
+using DocumentFormat.OpenXml.Office2010.PowerPoint;
 using RTFGeneratorLibrary;
 using RTFGeneratorWinForms.Models;
 using System;
@@ -77,11 +78,103 @@ namespace RTFGeneratorWinForms
         private void maleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             person.Gender = gender.Male;
+            CompanyTypeComboBox.Items.Clear();
         }
 
         private void femaleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             person.Gender = gender.Female;
+            CompanyTypeComboBox.Items.Clear();
         }
+
+        private void companyRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            person.Gender = gender.Company;
+
+            // TODO (Enable ComboBox here, and disable elsewhere.
+            // Enable ComboBox here to enable user to select the company type.
+            // temporary solution.
+            //ConstValues constValues = new ConstValues();
+            
+            //CompanyTypeComboBox.Items.Add("ATOMIKI");
+            //CompanyTypeComboBox.Items.Add("IDIOTIKI KEFALEOYXA");
+            //CompanyTypeComboBox.Items.Add("MONOPROSOPI");
+        }
+
+        private void addContractButton_Click(object sender, EventArgs e)
+        {
+            if (phoneNumberContractTextBox.Text == "" || contractNumberTextBox.Text == "" || contractDateTextBox.Text == "")
+            {
+                MessageBox.Show("Please provide a phone number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Contracts cont = new()
+                {
+                    PhoneNumber = phoneNumberContractTextBox.Text,
+                    Number = contractNumberTextBox.Text
+                };
+                // TODO
+                // Convert string to date.
+                //cont.Date = contractDateTextBox.Text.Todate();
+
+                DateTime date = DateTime.MinValue;
+                bool parseResult = DateTime.TryParse(contractDateTextBox.Text, out date);
+                if (parseResult)
+                {
+                    //parse was successful, continue
+                    cont.Date = date;
+                }
+                else
+                {
+                    MessageBox.Show("Unable to read Date value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                person.orderforPayment.contracts.Add(cont);
+
+
+                phoneContractsListBox.Items.Clear();
+                // update the list box
+                foreach (Contracts p in person.orderforPayment.contracts)
+                {
+                    phoneContractsListBox.Items.Add(p.Show);
+                }
+
+                // clear the boxs in anticpation for new contract
+                // TODO
+                // move this to a function
+                phoneNumberContractTextBox.Text = null;
+                contractNumberTextBox.Text = null;
+                contractDateTextBox.Text = null;
+            }
+        }
+
+        private void removeContractButton_Click(object sender, EventArgs e)
+        {
+            if (phoneNumberContractTextBox.Text == "")
+            {
+                MessageBox.Show("Please provide a phone number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                var toRemove = person.orderforPayment.contracts.RemoveAll(r => r.PhoneNumber == phoneNumberContractTextBox.Text);
+            }
+
+            phoneContractsListBox.Items.Clear();
+            // update the list box
+            foreach (Contracts p in person.orderforPayment.contracts)
+            {
+                phoneContractsListBox.Items.Add(p.Show);
+            }
+
+            // clear the boxs in anticpation for new contract
+            // TODO
+            // move this to a function
+            phoneNumberContractTextBox.Text = null;
+            contractNumberTextBox.Text = null;
+            contractDateTextBox.Text = null;
+        }
+
     }
+
 }
