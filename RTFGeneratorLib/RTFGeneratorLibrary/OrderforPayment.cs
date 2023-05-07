@@ -8,31 +8,16 @@ namespace RTFGeneratorLibrary
 {
     public class OrderforPayment
     {
-        public string? CourtName { get; set; }
-        public string? City { get; set; }
-        public double? Debt { get; set; }
-        public List<Contracts>? contracts {get; set;}
-        public List<Bills>? bills { get; set;}
+        public string CourtName { get; set; }
+        public string City { get; set; }
+        public double Debt { get; set; }
+        public List<Contracts> contracts {get; set;}
+        public List<Bills> bills { get; set;}
 
-
-        public string AllContracts
+        public OrderforPayment()
         {
-            get
-            { 
-                // Implement return all contracts.
-                return $""; 
-            }
-
-        }
-
-        public string AllBills
-        {
-            get
-            {
-                // Implement return all Bills.
-                return $"";
-            }
-
+            contracts = new List<Contracts>();
+            bills = new List<Bills>();
         }
 
 

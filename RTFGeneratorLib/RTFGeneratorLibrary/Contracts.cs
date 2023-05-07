@@ -8,9 +8,9 @@ namespace RTFGeneratorLibrary
 {
     public class Contracts
     {
-        public string? PhoneNumber { get; set; }
-        public string? SimNumber { get; set; }
-        public string? Number { get; set; }
-        public DateTime? Date { get; set; }
+        public string PhoneNumber { get; set; }
+        public string SimNumber { get; set; }
+        public string Number { get; set; }
+        public DateTime Date { get; set; }
     }
 }

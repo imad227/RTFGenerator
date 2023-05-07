@@ -1,4 +1,6 @@
-﻿namespace RTFGeneratorWinForms
+﻿using RTFGeneratorLibrary;
+
+namespace RTFGeneratorWinForms
 {
     partial class Form1
     {
@@ -37,6 +39,15 @@
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             userInfoGroupBox = new GroupBox();
+            zipCodeTextBox = new TextBox();
+            zipCodeLabel = new Label();
+            streetNameTextBox = new TextBox();
+            CityNameLabel = new Label();
+            streetNumberTextBox = new TextBox();
+            streetNumberLabel = new Label();
+            streetTextBox = new TextBox();
+            streetLabel = new Label();
+            label1 = new Label();
             taxNumberTextBox = new TextBox();
             taxNumberLabel = new Label();
             fatherNameTextBox = new TextBox();
@@ -45,18 +56,14 @@
             lasNameLabel = new Label();
             firstNameTextBox = new TextBox();
             firstNameLabel = new Label();
-            label1 = new Label();
-            streetTextBox = new TextBox();
-            streetLabel = new Label();
-            streetNumberTextBox = new TextBox();
-            streetNumberLabel = new Label();
-            zipCodeTextBox = new TextBox();
-            zipCodeLabel = new Label();
-            streetNameTextBox = new TextBox();
-            CityNameLabel = new Label();
+            GeneratePaymenOrderBbutton = new Button();
+            genderGroupBox = new GroupBox();
+            femaleRadioButton = new RadioButton();
+            maleRadioButton = new RadioButton();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
+            genderGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -135,115 +142,10 @@
             userInfoGroupBox.Controls.Add(firstNameLabel);
             userInfoGroupBox.Location = new Point(8, 31);
             userInfoGroupBox.Name = "userInfoGroupBox";
-            userInfoGroupBox.Size = new Size(276, 288);
+            userInfoGroupBox.Size = new Size(278, 288);
             userInfoGroupBox.TabIndex = 0;
             userInfoGroupBox.TabStop = false;
             userInfoGroupBox.Text = "User Information";
-            // 
-            // taxNumberTextBox
-            // 
-            taxNumberTextBox.Location = new Point(98, 148);
-            taxNumberTextBox.Name = "taxNumberTextBox";
-            taxNumberTextBox.Size = new Size(172, 27);
-            taxNumberTextBox.TabIndex = 4;
-            // 
-            // taxNumberLabel
-            // 
-            taxNumberLabel.AutoSize = true;
-            taxNumberLabel.Location = new Point(2, 151);
-            taxNumberLabel.Name = "taxNumberLabel";
-            taxNumberLabel.Size = new Size(88, 20);
-            taxNumberLabel.TabIndex = 0;
-            taxNumberLabel.Text = "Tax Number";
-            // 
-            // fatherNameTextBox
-            // 
-            fatherNameTextBox.Location = new Point(98, 92);
-            fatherNameTextBox.Name = "fatherNameTextBox";
-            fatherNameTextBox.Size = new Size(172, 27);
-            fatherNameTextBox.TabIndex = 3;
-            // 
-            // fatherNameLabel
-            // 
-            fatherNameLabel.AutoSize = true;
-            fatherNameLabel.Location = new Point(4, 95);
-            fatherNameLabel.Name = "fatherNameLabel";
-            fatherNameLabel.Size = new Size(93, 20);
-            fatherNameLabel.TabIndex = 0;
-            fatherNameLabel.Text = "Father Name";
-            // 
-            // lastNameTextBox
-            // 
-            lastNameTextBox.Location = new Point(98, 59);
-            lastNameTextBox.Name = "lastNameTextBox";
-            lastNameTextBox.Size = new Size(172, 27);
-            lastNameTextBox.TabIndex = 2;
-            // 
-            // lasNameLabel
-            // 
-            lasNameLabel.AutoSize = true;
-            lasNameLabel.Location = new Point(2, 62);
-            lasNameLabel.Name = "lasNameLabel";
-            lasNameLabel.Size = new Size(79, 20);
-            lasNameLabel.TabIndex = 0;
-            lasNameLabel.Text = "Last Name";
-            // 
-            // firstNameTextBox
-            // 
-            firstNameTextBox.Location = new Point(98, 26);
-            firstNameTextBox.Name = "firstNameTextBox";
-            firstNameTextBox.Size = new Size(172, 27);
-            firstNameTextBox.TabIndex = 1;
-            // 
-            // firstNameLabel
-            // 
-            firstNameLabel.AutoSize = true;
-            firstNameLabel.Location = new Point(2, 29);
-            firstNameLabel.Name = "firstNameLabel";
-            firstNameLabel.Size = new Size(80, 20);
-            firstNameLabel.TabIndex = 0;
-            firstNameLabel.Text = "First Name";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(62, 189);
-            label1.Name = "label1";
-            label1.Size = new Size(62, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Address";
-            // 
-            // streetTextBox
-            // 
-            streetTextBox.Location = new Point(58, 212);
-            streetTextBox.Name = "streetTextBox";
-            streetTextBox.Size = new Size(107, 27);
-            streetTextBox.TabIndex = 5;
-            // 
-            // streetLabel
-            // 
-            streetLabel.AutoSize = true;
-            streetLabel.Location = new Point(4, 215);
-            streetLabel.Name = "streetLabel";
-            streetLabel.Size = new Size(48, 20);
-            streetLabel.TabIndex = 0;
-            streetLabel.Text = "Street";
-            // 
-            // streetNumberTextBox
-            // 
-            streetNumberTextBox.Location = new Point(201, 212);
-            streetNumberTextBox.Name = "streetNumberTextBox";
-            streetNumberTextBox.Size = new Size(69, 27);
-            streetNumberTextBox.TabIndex = 6;
-            // 
-            // streetNumberLabel
-            // 
-            streetNumberLabel.AutoSize = true;
-            streetNumberLabel.Location = new Point(168, 215);
-            streetNumberLabel.Name = "streetNumberLabel";
-            streetNumberLabel.Size = new Size(32, 20);
-            streetNumberLabel.TabIndex = 0;
-            streetNumberLabel.Text = "No.";
             // 
             // zipCodeTextBox
             // 
@@ -251,6 +153,7 @@
             zipCodeTextBox.Name = "zipCodeTextBox";
             zipCodeTextBox.Size = new Size(69, 27);
             zipCodeTextBox.TabIndex = 8;
+            zipCodeTextBox.TextChanged += zipCodeTextBox_TextChanged;
             // 
             // zipCodeLabel
             // 
@@ -267,6 +170,7 @@
             streetNameTextBox.Name = "streetNameTextBox";
             streetNameTextBox.Size = new Size(107, 27);
             streetNameTextBox.TabIndex = 7;
+            streetNameTextBox.TextChanged += streetNameTextBox_TextChanged;
             // 
             // CityNameLabel
             // 
@@ -277,11 +181,169 @@
             CityNameLabel.TabIndex = 0;
             CityNameLabel.Text = "City";
             // 
+            // streetNumberTextBox
+            // 
+            streetNumberTextBox.Location = new Point(201, 212);
+            streetNumberTextBox.Name = "streetNumberTextBox";
+            streetNumberTextBox.Size = new Size(69, 27);
+            streetNumberTextBox.TabIndex = 6;
+            streetNumberTextBox.TextChanged += streetNumberTextBox_TextChanged;
+            // 
+            // streetNumberLabel
+            // 
+            streetNumberLabel.AutoSize = true;
+            streetNumberLabel.Location = new Point(168, 215);
+            streetNumberLabel.Name = "streetNumberLabel";
+            streetNumberLabel.Size = new Size(32, 20);
+            streetNumberLabel.TabIndex = 0;
+            streetNumberLabel.Text = "No.";
+            // 
+            // streetTextBox
+            // 
+            streetTextBox.Location = new Point(58, 212);
+            streetTextBox.Name = "streetTextBox";
+            streetTextBox.Size = new Size(107, 27);
+            streetTextBox.TabIndex = 5;
+            streetTextBox.TextChanged += streetTextBox_TextChanged;
+            // 
+            // streetLabel
+            // 
+            streetLabel.AutoSize = true;
+            streetLabel.Location = new Point(4, 215);
+            streetLabel.Name = "streetLabel";
+            streetLabel.Size = new Size(48, 20);
+            streetLabel.TabIndex = 0;
+            streetLabel.Text = "Street";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(62, 189);
+            label1.Name = "label1";
+            label1.Size = new Size(62, 20);
+            label1.TabIndex = 0;
+            label1.Text = "Address";
+            // 
+            // taxNumberTextBox
+            // 
+            taxNumberTextBox.Location = new Point(98, 148);
+            taxNumberTextBox.Name = "taxNumberTextBox";
+            taxNumberTextBox.Size = new Size(172, 27);
+            taxNumberTextBox.TabIndex = 4;
+            taxNumberTextBox.TextChanged += taxNumberTextBox_TextChanged;
+            // 
+            // taxNumberLabel
+            // 
+            taxNumberLabel.AutoSize = true;
+            taxNumberLabel.Location = new Point(2, 151);
+            taxNumberLabel.Name = "taxNumberLabel";
+            taxNumberLabel.Size = new Size(88, 20);
+            taxNumberLabel.TabIndex = 0;
+            taxNumberLabel.Text = "Tax Number";
+            // 
+            // fatherNameTextBox
+            // 
+            fatherNameTextBox.Location = new Point(98, 92);
+            fatherNameTextBox.Name = "fatherNameTextBox";
+            fatherNameTextBox.Size = new Size(172, 27);
+            fatherNameTextBox.TabIndex = 3;
+            fatherNameTextBox.TextChanged += fatherNameTextBox_TextChanged;
+            // 
+            // fatherNameLabel
+            // 
+            fatherNameLabel.AutoSize = true;
+            fatherNameLabel.Location = new Point(0, 95);
+            fatherNameLabel.Name = "fatherNameLabel";
+            fatherNameLabel.Size = new Size(102, 20);
+            fatherNameLabel.TabIndex = 0;
+            fatherNameLabel.Text = "Father's Name";
+            // 
+            // lastNameTextBox
+            // 
+            lastNameTextBox.Location = new Point(98, 59);
+            lastNameTextBox.Name = "lastNameTextBox";
+            lastNameTextBox.Size = new Size(172, 27);
+            lastNameTextBox.TabIndex = 2;
+            lastNameTextBox.TextChanged += lastNameTextBox_TextChanged;
+            // 
+            // lasNameLabel
+            // 
+            lasNameLabel.AutoSize = true;
+            lasNameLabel.Location = new Point(2, 62);
+            lasNameLabel.Name = "lasNameLabel";
+            lasNameLabel.Size = new Size(79, 20);
+            lasNameLabel.TabIndex = 0;
+            lasNameLabel.Text = "Last Name";
+            // 
+            // firstNameTextBox
+            // 
+            firstNameTextBox.Location = new Point(98, 26);
+            firstNameTextBox.Name = "firstNameTextBox";
+            firstNameTextBox.Size = new Size(172, 27);
+            firstNameTextBox.TabIndex = 1;
+            firstNameTextBox.TextChanged += firstNameTextBox_TextChanged;
+            // 
+            // firstNameLabel
+            // 
+            firstNameLabel.AutoSize = true;
+            firstNameLabel.Location = new Point(2, 29);
+            firstNameLabel.Name = "firstNameLabel";
+            firstNameLabel.Size = new Size(80, 20);
+            firstNameLabel.TabIndex = 0;
+            firstNameLabel.Text = "First Name";
+            // 
+            // GeneratePaymenOrderBbutton
+            // 
+            GeneratePaymenOrderBbutton.Location = new Point(865, 744);
+            GeneratePaymenOrderBbutton.Name = "GeneratePaymenOrderBbutton";
+            GeneratePaymenOrderBbutton.Size = new Size(107, 45);
+            GeneratePaymenOrderBbutton.TabIndex = 200;
+            GeneratePaymenOrderBbutton.Text = "Generate";
+            GeneratePaymenOrderBbutton.UseVisualStyleBackColor = true;
+            GeneratePaymenOrderBbutton.Click += GeneratePaymenOrderBbutton_Click;
+            // 
+            // genderGroupBox
+            // 
+            genderGroupBox.Controls.Add(femaleRadioButton);
+            genderGroupBox.Controls.Add(maleRadioButton);
+            genderGroupBox.Location = new Point(8, 325);
+            genderGroupBox.Name = "genderGroupBox";
+            genderGroupBox.Size = new Size(278, 100);
+            genderGroupBox.TabIndex = 0;
+            genderGroupBox.TabStop = false;
+            genderGroupBox.Text = "Gender";
+            // 
+            // femaleRadioButton
+            // 
+            femaleRadioButton.AutoSize = true;
+            femaleRadioButton.Location = new Point(156, 26);
+            femaleRadioButton.Name = "femaleRadioButton";
+            femaleRadioButton.Size = new Size(75, 24);
+            femaleRadioButton.TabIndex = 10;
+            femaleRadioButton.TabStop = true;
+            femaleRadioButton.Text = "Female";
+            femaleRadioButton.UseVisualStyleBackColor = true;
+            femaleRadioButton.CheckedChanged += femaleRadioButton_CheckedChanged;
+            // 
+            // maleRadioButton
+            // 
+            maleRadioButton.AutoSize = true;
+            maleRadioButton.Location = new Point(6, 26);
+            maleRadioButton.Name = "maleRadioButton";
+            maleRadioButton.Size = new Size(60, 24);
+            maleRadioButton.TabIndex = 9;
+            maleRadioButton.TabStop = true;
+            maleRadioButton.Text = "Male";
+            maleRadioButton.UseVisualStyleBackColor = true;
+            maleRadioButton.CheckedChanged += maleRadioButton_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 814);
+            Controls.Add(genderGroupBox);
+            Controls.Add(GeneratePaymenOrderBbutton);
             Controls.Add(userInfoGroupBox);
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
@@ -296,6 +358,8 @@
             menuStrip1.PerformLayout();
             userInfoGroupBox.ResumeLayout(false);
             userInfoGroupBox.PerformLayout();
+            genderGroupBox.ResumeLayout(false);
+            genderGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -328,5 +392,9 @@
         private Label streetNumberLabel;
         private TextBox streetTextBox;
         private Label streetLabel;
+        private Button GeneratePaymenOrderBbutton;
+        private GroupBox genderGroupBox;
+        private RadioButton maleRadioButton;
+        private RadioButton femaleRadioButton;
     }
 }

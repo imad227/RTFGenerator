@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace RTFGeneratorLibrary
 {
-    internal class Address
+    public class Address
     {
-        public string? Street { get; set; }
-        public int? StrNumber { get; set; }
-        public string? City { get; set; }
-        public string? PostalCode { get; set; }
+        public string Street { get; set; }
+        public string StrNumber { get; set; }
+        public string City { get; set; }
+        public string PostalCode { get; set; }
 
     }
 }
