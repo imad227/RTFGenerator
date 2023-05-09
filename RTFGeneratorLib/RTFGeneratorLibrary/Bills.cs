@@ -7,6 +7,13 @@ namespace RTFGeneratorLibrary
         public DateTime IssueDate { get; set; }
         public Double Amount { get; set; }
 
+
+        public string Show
+        {
+            get { return $"{IssueDate.ToShortDateString()} {Amount}"; }
+        }
+
+
     }
 
 }

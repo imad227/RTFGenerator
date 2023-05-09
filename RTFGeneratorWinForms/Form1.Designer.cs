@@ -36,8 +36,13 @@ namespace RTFGeneratorWinForms
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
+            toolsToolStripMenuItem = new ToolStripMenuItem();
+            addCourtToolStripMenuItem = new ToolStripMenuItem();
+            addLawyerToolStripMenuItem = new ToolStripMenuItem();
+            addContractsToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
+            checkForUpdateToolStripMenuItem = new ToolStripMenuItem();
             userInfoGroupBox = new GroupBox();
             zipCodeTextBox = new TextBox();
             zipCodeLabel = new Label();
@@ -74,11 +79,29 @@ namespace RTFGeneratorWinForms
             phnoeNumberLabel = new Label();
             contractNumberTextBox = new TextBox();
             contractNumberLabel = new Label();
+            billsGroupBox = new GroupBox();
+            billAmountTextBox = new TextBox();
+            billAmountLabel = new Label();
+            billsListBox = new ListBox();
+            removeBillButton = new Button();
+            billDateTextBox = new TextBox();
+            addBillButton = new Button();
+            billDateLabel = new Label();
+            clearAllButton = new Button();
+            typeGroupBox = new GroupBox();
+            searchCourtTextBox = new TextBox();
+            selectCourtLabel = new Label();
+            courtSelectionComboBox = new ComboBox();
+            oteRadioButton = new RadioButton();
+            cosmoteRadioButton = new RadioButton();
+            advancedOptionsGroupBox = new GroupBox();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
             genderGroupBox.SuspendLayout();
             contractsGroupBox.SuspendLayout();
+            billsGroupBox.SuspendLayout();
+            typeGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -103,7 +126,7 @@ namespace RTFGeneratorWinForms
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(984, 24);
@@ -122,10 +145,36 @@ namespace RTFGeneratorWinForms
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             exitToolStripMenuItem.Size = new Size(93, 22);
             exitToolStripMenuItem.Text = "E&xit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            // 
+            // toolsToolStripMenuItem
+            // 
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { addCourtToolStripMenuItem, addLawyerToolStripMenuItem, addContractsToolStripMenuItem });
+            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            toolsToolStripMenuItem.Size = new Size(46, 20);
+            toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // addCourtToolStripMenuItem
+            // 
+            addCourtToolStripMenuItem.Name = "addCourtToolStripMenuItem";
+            addCourtToolStripMenuItem.Size = new Size(150, 22);
+            addCourtToolStripMenuItem.Text = "Add &Court";
+            // 
+            // addLawyerToolStripMenuItem
+            // 
+            addLawyerToolStripMenuItem.Name = "addLawyerToolStripMenuItem";
+            addLawyerToolStripMenuItem.Size = new Size(150, 22);
+            addLawyerToolStripMenuItem.Text = "Add &Lawyer";
+            // 
+            // addContractsToolStripMenuItem
+            // 
+            addContractsToolStripMenuItem.Name = "addContractsToolStripMenuItem";
+            addContractsToolStripMenuItem.Size = new Size(150, 22);
+            addContractsToolStripMenuItem.Text = "Add C&ontracts";
             // 
             // helpToolStripMenuItem
             // 
-            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutToolStripMenuItem });
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutToolStripMenuItem, checkForUpdateToolStripMenuItem });
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             helpToolStripMenuItem.Size = new Size(44, 20);
             helpToolStripMenuItem.Text = "&Help";
@@ -133,8 +182,14 @@ namespace RTFGeneratorWinForms
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new Size(107, 22);
+            aboutToolStripMenuItem.Size = new Size(166, 22);
             aboutToolStripMenuItem.Text = "&About";
+            // 
+            // checkForUpdateToolStripMenuItem
+            // 
+            checkForUpdateToolStripMenuItem.Name = "checkForUpdateToolStripMenuItem";
+            checkForUpdateToolStripMenuItem.Size = new Size(166, 22);
+            checkForUpdateToolStripMenuItem.Text = "Check for &Update";
             // 
             // userInfoGroupBox
             // 
@@ -491,11 +546,175 @@ namespace RTFGeneratorWinForms
             contractNumberLabel.TabIndex = 203;
             contractNumberLabel.Text = "Contract No.";
             // 
+            // billsGroupBox
+            // 
+            billsGroupBox.Controls.Add(billAmountTextBox);
+            billsGroupBox.Controls.Add(billAmountLabel);
+            billsGroupBox.Controls.Add(billsListBox);
+            billsGroupBox.Controls.Add(removeBillButton);
+            billsGroupBox.Controls.Add(billDateTextBox);
+            billsGroupBox.Controls.Add(addBillButton);
+            billsGroupBox.Controls.Add(billDateLabel);
+            billsGroupBox.Location = new Point(447, 440);
+            billsGroupBox.Name = "billsGroupBox";
+            billsGroupBox.Size = new Size(150, 349);
+            billsGroupBox.TabIndex = 0;
+            billsGroupBox.TabStop = false;
+            billsGroupBox.Text = "Bills";
+            // 
+            // billAmountTextBox
+            // 
+            billAmountTextBox.Location = new Point(59, 59);
+            billAmountTextBox.Name = "billAmountTextBox";
+            billAmountTextBox.Size = new Size(84, 27);
+            billAmountTextBox.TabIndex = 21;
+            // 
+            // billAmountLabel
+            // 
+            billAmountLabel.AutoSize = true;
+            billAmountLabel.Location = new Point(1, 60);
+            billAmountLabel.Name = "billAmountLabel";
+            billAmountLabel.Size = new Size(62, 20);
+            billAmountLabel.TabIndex = 206;
+            billAmountLabel.Text = "Amount";
+            // 
+            // billsListBox
+            // 
+            billsListBox.FormattingEnabled = true;
+            billsListBox.ItemHeight = 20;
+            billsListBox.Location = new Point(6, 132);
+            billsListBox.Name = "billsListBox";
+            billsListBox.Size = new Size(134, 204);
+            billsListBox.TabIndex = 204;
+            // 
+            // removeBillButton
+            // 
+            removeBillButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            removeBillButton.Location = new Point(6, 90);
+            removeBillButton.Name = "removeBillButton";
+            removeBillButton.Size = new Size(57, 29);
+            removeBillButton.TabIndex = 23;
+            removeBillButton.Text = "-";
+            removeBillButton.UseVisualStyleBackColor = true;
+            removeBillButton.Click += removeBillButton_Click;
+            // 
+            // billDateTextBox
+            // 
+            billDateTextBox.Location = new Point(38, 26);
+            billDateTextBox.Name = "billDateTextBox";
+            billDateTextBox.Size = new Size(105, 27);
+            billDateTextBox.TabIndex = 20;
+            // 
+            // addBillButton
+            // 
+            addBillButton.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            addBillButton.Location = new Point(69, 90);
+            addBillButton.Name = "addBillButton";
+            addBillButton.Size = new Size(74, 30);
+            addBillButton.TabIndex = 22;
+            addBillButton.Text = "+";
+            addBillButton.UseVisualStyleBackColor = true;
+            addBillButton.Click += addBillButton_Click;
+            // 
+            // billDateLabel
+            // 
+            billDateLabel.AutoSize = true;
+            billDateLabel.Location = new Point(1, 29);
+            billDateLabel.Name = "billDateLabel";
+            billDateLabel.Size = new Size(41, 20);
+            billDateLabel.TabIndex = 204;
+            billDateLabel.Text = "Date";
+            // 
+            // clearAllButton
+            // 
+            clearAllButton.Location = new Point(737, 744);
+            clearAllButton.Name = "clearAllButton";
+            clearAllButton.Size = new Size(107, 45);
+            clearAllButton.TabIndex = 202;
+            clearAllButton.Text = "Clear All";
+            clearAllButton.UseVisualStyleBackColor = true;
+            clearAllButton.Click += clearAllButton_Click;
+            // 
+            // typeGroupBox
+            // 
+            typeGroupBox.Controls.Add(searchCourtTextBox);
+            typeGroupBox.Controls.Add(selectCourtLabel);
+            typeGroupBox.Controls.Add(courtSelectionComboBox);
+            typeGroupBox.Controls.Add(oteRadioButton);
+            typeGroupBox.Controls.Add(cosmoteRadioButton);
+            typeGroupBox.Location = new Point(307, 31);
+            typeGroupBox.Name = "typeGroupBox";
+            typeGroupBox.Size = new Size(665, 53);
+            typeGroupBox.TabIndex = 203;
+            typeGroupBox.TabStop = false;
+            typeGroupBox.Text = "Type";
+            // 
+            // searchCourtTextBox
+            // 
+            searchCourtTextBox.ForeColor = SystemColors.ScrollBar;
+            searchCourtTextBox.Location = new Point(276, 19);
+            searchCourtTextBox.Name = "searchCourtTextBox";
+            searchCourtTextBox.Size = new Size(117, 27);
+            searchCourtTextBox.TabIndex = 26;
+            searchCourtTextBox.Text = "Search";
+            // 
+            // selectCourtLabel
+            // 
+            selectCourtLabel.AutoSize = true;
+            selectCourtLabel.Location = new Point(178, 25);
+            selectCourtLabel.Name = "selectCourtLabel";
+            selectCourtLabel.Size = new Size(92, 20);
+            selectCourtLabel.TabIndex = 9;
+            selectCourtLabel.Text = "Select Court:";
+            // 
+            // courtSelectionComboBox
+            // 
+            courtSelectionComboBox.FormattingEnabled = true;
+            courtSelectionComboBox.Location = new Point(399, 19);
+            courtSelectionComboBox.Name = "courtSelectionComboBox";
+            courtSelectionComboBox.Size = new Size(260, 28);
+            courtSelectionComboBox.TabIndex = 27;
+            // 
+            // oteRadioButton
+            // 
+            oteRadioButton.AutoSize = true;
+            oteRadioButton.Location = new Point(102, 21);
+            oteRadioButton.Name = "oteRadioButton";
+            oteRadioButton.Size = new Size(53, 24);
+            oteRadioButton.TabIndex = 25;
+            oteRadioButton.TabStop = true;
+            oteRadioButton.Text = "OTE";
+            oteRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // cosmoteRadioButton
+            // 
+            cosmoteRadioButton.AutoSize = true;
+            cosmoteRadioButton.Location = new Point(10, 23);
+            cosmoteRadioButton.Name = "cosmoteRadioButton";
+            cosmoteRadioButton.Size = new Size(86, 24);
+            cosmoteRadioButton.TabIndex = 24;
+            cosmoteRadioButton.TabStop = true;
+            cosmoteRadioButton.Text = "Cosomte";
+            cosmoteRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // advancedOptionsGroupBox
+            // 
+            advancedOptionsGroupBox.Location = new Point(307, 93);
+            advancedOptionsGroupBox.Name = "advancedOptionsGroupBox";
+            advancedOptionsGroupBox.Size = new Size(665, 332);
+            advancedOptionsGroupBox.TabIndex = 204;
+            advancedOptionsGroupBox.TabStop = false;
+            advancedOptionsGroupBox.Text = "Advanced Options";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 814);
+            Controls.Add(advancedOptionsGroupBox);
+            Controls.Add(typeGroupBox);
+            Controls.Add(clearAllButton);
+            Controls.Add(billsGroupBox);
             Controls.Add(contractsGroupBox);
             Controls.Add(genderGroupBox);
             Controls.Add(GeneratePaymenOrderBbutton);
@@ -517,6 +736,10 @@ namespace RTFGeneratorWinForms
             genderGroupBox.PerformLayout();
             contractsGroupBox.ResumeLayout(false);
             contractsGroupBox.PerformLayout();
+            billsGroupBox.ResumeLayout(false);
+            billsGroupBox.PerformLayout();
+            typeGroupBox.ResumeLayout(false);
+            typeGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -567,5 +790,26 @@ namespace RTFGeneratorWinForms
         private RadioButton companyRadioButton;
         private ComboBox CompanyTypeComboBox;
         private ComboBox contractDurationComboBox;
+        private GroupBox billsGroupBox;
+        private Button removeBillButton;
+        private TextBox billDateTextBox;
+        private Button addBillButton;
+        private Label billDateLabel;
+        private ListBox billsListBox;
+        private TextBox billAmountTextBox;
+        private Label billAmountLabel;
+        private ToolStripMenuItem toolsToolStripMenuItem;
+        private Button clearAllButton;
+        private ToolStripMenuItem addCourtToolStripMenuItem;
+        private ToolStripMenuItem addLawyerToolStripMenuItem;
+        private ToolStripMenuItem addContractsToolStripMenuItem;
+        private GroupBox typeGroupBox;
+        private TextBox searchCourtTextBox;
+        private Label selectCourtLabel;
+        private ComboBox courtSelectionComboBox;
+        private RadioButton oteRadioButton;
+        private RadioButton cosmoteRadioButton;
+        private GroupBox advancedOptionsGroupBox;
+        private ToolStripMenuItem checkForUpdateToolStripMenuItem;
     }
 }

@@ -16,16 +16,10 @@ namespace RTFGeneratorWinForms
         }
 
 
-        private void GeneratePaymenOrderBbutton_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel.Text = "Ready . . .";
-            // Generate Payment Order Here.
-            //MessageBox.Show("Generate Not implemented yet.", "Generate RTF not avaliable", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            MessageBox.Show(CreateRTF.ClientData(person));
-
-            CreateRTF.MaleSingelContract(person);
-            //MessageBox.Show($"Test if person info is passed: ({person.FirstName} Postal Code: {person.FirstAddress.PostalCode})");
-        }
+        /// <summary>
+        /// Add User Information
+        /// </summary>
+        /// 
 
         private void firstNameTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -75,6 +69,10 @@ namespace RTFGeneratorWinForms
             person.FirstAddress.PostalCode = zipCodeTextBox.Text;
         }
 
+        /// <summary>
+        /// Add user Gender or Company type.
+        /// </summary>
+        /// 
         private void maleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             person.Gender = gender.Male;
@@ -95,12 +93,17 @@ namespace RTFGeneratorWinForms
             // Enable ComboBox here to enable user to select the company type.
             // temporary solution.
             //ConstValues constValues = new ConstValues();
-            
+
             //CompanyTypeComboBox.Items.Add("ATOMIKI");
             //CompanyTypeComboBox.Items.Add("IDIOTIKI KEFALEOYXA");
             //CompanyTypeComboBox.Items.Add("MONOPROSOPI");
         }
 
+
+        /// <summary>
+        /// Add user Contracts.
+        /// </summary>
+        /// 
         private void addContractButton_Click(object sender, EventArgs e)
         {
             if (phoneNumberContractTextBox.Text == "" || contractNumberTextBox.Text == "" || contractDateTextBox.Text == "")
@@ -174,6 +177,144 @@ namespace RTFGeneratorWinForms
             contractNumberTextBox.Text = null;
             contractDateTextBox.Text = null;
         }
+
+        /// <summary>
+        /// Add User Bills
+        /// </summary>
+        /// 
+
+        private void addBillButton_Click(object sender, EventArgs e)
+        {
+            if (billDateTextBox.Text == "")
+            {
+                MessageBox.Show("Please provide the Bill issue date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Bills cont = new Bills();
+                DateTime date = DateTime.MinValue;
+                bool parseResult = DateTime.TryParse(billDateTextBox.Text, out date);
+                if (parseResult)
+                {
+                    //parse was successful, continue
+                    if (billAmountTextBox.Text == "")
+                    {
+                        cont.IssueDate = date;
+                        person.orderforPayment.bills.Add(cont);
+                    }
+                    else
+                    {
+
+                        // TODO
+                        // Fix the comma seperation issue.
+                        double amount = new double();
+                        string str = new string(billAmountTextBox.Text.Replace(',', '.'));
+                        bool amountParseResult = double.TryParse(str, out amount);
+                        if (amountParseResult)
+                        {
+                            cont.IssueDate = date;
+                            cont.Amount = amount;
+                            person.orderforPayment.bills.Add(cont);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Unable to read Amount value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unable to read Date value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                billsListBox.Items.Clear();
+                foreach (Bills b in person.orderforPayment.bills)
+                {
+                    billsListBox.Items.Add(b.Show);
+                }
+
+                billDateTextBox.Text = null;
+                billAmountTextBox.Text = null;
+
+            }
+        }
+
+        private void removeBillButton_Click(object sender, EventArgs e)
+        {
+            if (billDateTextBox.Text == "")
+            {
+                MessageBox.Show("Please provide the Bill issue date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                DateTime date = DateTime.MinValue;
+                bool parseResult = DateTime.TryParse(billDateTextBox.Text, out date);
+                if (parseResult)
+                {
+                    //parse was successful, continue
+                    var toRemove = person.orderforPayment.bills.RemoveAll(r => r.IssueDate == date);
+                }
+                else
+                {
+                    MessageBox.Show("Unable to read Date value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                billsListBox.Items.Clear();
+                foreach (Bills b in person.orderforPayment.bills)
+                {
+                    billsListBox.Items.Add(b.Show);
+                }
+
+                billDateTextBox.Text = null;
+                billAmountTextBox.Text = null;
+
+            }
+        }
+
+        /// <summary>
+        /// Menu Strip options.
+        /// </summary>
+        /// 
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to close", "Leave Program?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+
+
+        /// <summary>
+        /// Buttons 
+        /// </summary>
+        /// 
+
+        private void GeneratePaymenOrderBbutton_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = "Ready . . .";
+            // Generate Payment Order Here.
+            //MessageBox.Show("Generate Not implemented yet.", "Generate RTF not avaliable", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show(CreateRTF.ClientData(person));
+
+            CreateRTF.MaleSingelContract(person);
+            //MessageBox.Show($"Test if person info is passed: ({person.FirstName} Postal Code: {person.FirstAddress.PostalCode})");
+        }
+
+
+        private void clearAllButton_Click(object sender, EventArgs e)
+        {
+            // Delete Person otions.
+
+            // Clear textBox data
+
+            Form1 NewForm = new Form1();
+            NewForm.Show();
+            this.Dispose(false);
+
+        }
+
 
     }
 
