@@ -27,9 +27,9 @@ namespace RTFGeneratorWinForms.Models
                 sb.Append("Τηςςς ");
             }
 
-            sb.Append(person.FirstName + " " + person.LastName + " του " + person.FatherName + ",με ΑΦΜ " + person.TaxNumber);
-            sb.Append(" και Διευθνση " + person.FirstAddress.Street + " με Αριθ. " + person.FirstAddress.StrNumber.ToString() + " ");
-            sb.Append(" ," + person.FirstAddress.City + " ,ΤΚ " + person.FirstAddress.PostalCode);
+            sb.Append(person.FirstName + " " + person.LastName + " του " + person.FatherName + ", με ΑΦΜ " + person.TaxNumber);
+            sb.Append(" ,και Διευθνση " + person.FirstAddress.Street + " Αριθ. " + person.FirstAddress.StrNumber.ToString() + " ");
+            sb.Append("," + person.FirstAddress.City + " ,ΤΚ " + person.FirstAddress.PostalCode + ".");
 
             return sb.ToString();
         }

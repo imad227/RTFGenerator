@@ -1,7 +1,10 @@
-using DocumentFormat.OpenXml.Office2010.PowerPoint;
+﻿//using DocumentFormat.OpenXml.Office2010.PowerPoint;
 using RTFGeneratorLibrary;
 using RTFGeneratorWinForms.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Windows.Forms;
 
 namespace RTFGeneratorWinForms
 {
@@ -9,10 +12,28 @@ namespace RTFGeneratorWinForms
     {
 
         private Person person = new();
+        private List<Lawyer> Lawyers = RTFGen.LoadLawyers();
+        private List<string> ContractDuration = RTFGen.LoadContractsDuration();
+        private List<string> ComppaniesTypes = RTFGen.LoadCompaniesTypes();
 
         public Form1()
         {
             InitializeComponent();
+
+            // TODO
+            // Remove from here.
+            foreach (var lawyer in Lawyers)
+            {
+                lawyerSelectionComboBox.Items.Add(lawyer.Show);
+            }
+
+            // TODO
+            // Remove This from here.
+            foreach (var s in ContractDuration)
+            {
+                contractDurationComboBox.Items.Add(s);
+            }
+
         }
 
 
@@ -77,12 +98,16 @@ namespace RTFGeneratorWinForms
         {
             person.Gender = gender.Male;
             CompanyTypeComboBox.Items.Clear();
+            CompanyTypeComboBox.Items.Add("");
+            CompanyTypeComboBox.SelectedIndex = 0;
         }
 
         private void femaleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             person.Gender = gender.Female;
             CompanyTypeComboBox.Items.Clear();
+            CompanyTypeComboBox.Items.Add("");
+            CompanyTypeComboBox.SelectedIndex = 0;
         }
 
         private void companyRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -97,6 +122,11 @@ namespace RTFGeneratorWinForms
             //CompanyTypeComboBox.Items.Add("ATOMIKI");
             //CompanyTypeComboBox.Items.Add("IDIOTIKI KEFALEOYXA");
             //CompanyTypeComboBox.Items.Add("MONOPROSOPI");
+
+            foreach (var s in ComppaniesTypes)
+            {
+                CompanyTypeComboBox.Items.Add(s);
+            }
         }
 
 
@@ -315,7 +345,16 @@ namespace RTFGeneratorWinForms
 
         }
 
+        /// <summary>
+        /// TEST BUTTON. TO BE REMOVED LATER.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void testButton_Click(object sender, EventArgs e)
+        {
 
+            //
+        }
     }
 
 }

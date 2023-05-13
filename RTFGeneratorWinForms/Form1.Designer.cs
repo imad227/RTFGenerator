@@ -89,12 +89,18 @@ namespace RTFGeneratorWinForms
             billDateLabel = new Label();
             clearAllButton = new Button();
             typeGroupBox = new GroupBox();
+            searchLawyerTextBox = new TextBox();
+            selectLawyerLabel = new Label();
+            lawyerSelectionComboBox = new ComboBox();
             searchCourtTextBox = new TextBox();
             selectCourtLabel = new Label();
             courtSelectionComboBox = new ComboBox();
             oteRadioButton = new RadioButton();
             cosmoteRadioButton = new RadioButton();
             advancedOptionsGroupBox = new GroupBox();
+            totalAmountTextBox = new TextBox();
+            totalAmountLabel = new Label();
+            testButton = new Button();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
@@ -637,6 +643,9 @@ namespace RTFGeneratorWinForms
             // 
             // typeGroupBox
             // 
+            typeGroupBox.Controls.Add(searchLawyerTextBox);
+            typeGroupBox.Controls.Add(selectLawyerLabel);
+            typeGroupBox.Controls.Add(lawyerSelectionComboBox);
             typeGroupBox.Controls.Add(searchCourtTextBox);
             typeGroupBox.Controls.Add(selectCourtLabel);
             typeGroupBox.Controls.Add(courtSelectionComboBox);
@@ -644,10 +653,36 @@ namespace RTFGeneratorWinForms
             typeGroupBox.Controls.Add(cosmoteRadioButton);
             typeGroupBox.Location = new Point(307, 31);
             typeGroupBox.Name = "typeGroupBox";
-            typeGroupBox.Size = new Size(665, 53);
+            typeGroupBox.Size = new Size(665, 103);
             typeGroupBox.TabIndex = 203;
             typeGroupBox.TabStop = false;
             typeGroupBox.Text = "Type";
+            // 
+            // searchLawyerTextBox
+            // 
+            searchLawyerTextBox.ForeColor = SystemColors.ScrollBar;
+            searchLawyerTextBox.Location = new Point(114, 59);
+            searchLawyerTextBox.Name = "searchLawyerTextBox";
+            searchLawyerTextBox.Size = new Size(156, 27);
+            searchLawyerTextBox.TabIndex = 29;
+            searchLawyerTextBox.Text = "Search";
+            // 
+            // selectLawyerLabel
+            // 
+            selectLawyerLabel.AutoSize = true;
+            selectLawyerLabel.Location = new Point(6, 62);
+            selectLawyerLabel.Name = "selectLawyerLabel";
+            selectLawyerLabel.Size = new Size(102, 20);
+            selectLawyerLabel.TabIndex = 28;
+            selectLawyerLabel.Text = "Select Lawyer:";
+            // 
+            // lawyerSelectionComboBox
+            // 
+            lawyerSelectionComboBox.FormattingEnabled = true;
+            lawyerSelectionComboBox.Location = new Point(276, 59);
+            lawyerSelectionComboBox.Name = "lawyerSelectionComboBox";
+            lawyerSelectionComboBox.Size = new Size(383, 28);
+            lawyerSelectionComboBox.TabIndex = 30;
             // 
             // searchCourtTextBox
             // 
@@ -699,18 +734,47 @@ namespace RTFGeneratorWinForms
             // 
             // advancedOptionsGroupBox
             // 
-            advancedOptionsGroupBox.Location = new Point(307, 93);
+            advancedOptionsGroupBox.Location = new Point(307, 140);
             advancedOptionsGroupBox.Name = "advancedOptionsGroupBox";
-            advancedOptionsGroupBox.Size = new Size(665, 332);
+            advancedOptionsGroupBox.Size = new Size(665, 285);
             advancedOptionsGroupBox.TabIndex = 204;
             advancedOptionsGroupBox.TabStop = false;
             advancedOptionsGroupBox.Text = "Advanced Options";
+            // 
+            // totalAmountTextBox
+            // 
+            totalAmountTextBox.Location = new Point(737, 464);
+            totalAmountTextBox.Name = "totalAmountTextBox";
+            totalAmountTextBox.Size = new Size(229, 27);
+            totalAmountTextBox.TabIndex = 207;
+            // 
+            // totalAmountLabel
+            // 
+            totalAmountLabel.AutoSize = true;
+            totalAmountLabel.Location = new Point(622, 465);
+            totalAmountLabel.Name = "totalAmountLabel";
+            totalAmountLabel.Size = new Size(102, 20);
+            totalAmountLabel.TabIndex = 208;
+            totalAmountLabel.Text = "Total Amount:";
+            // 
+            // testButton
+            // 
+            testButton.Location = new Point(617, 744);
+            testButton.Name = "testButton";
+            testButton.Size = new Size(107, 45);
+            testButton.TabIndex = 209;
+            testButton.Text = "TEST";
+            testButton.UseVisualStyleBackColor = true;
+            testButton.Click += testButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 814);
+            Controls.Add(testButton);
+            Controls.Add(totalAmountTextBox);
+            Controls.Add(totalAmountLabel);
             Controls.Add(advancedOptionsGroupBox);
             Controls.Add(typeGroupBox);
             Controls.Add(clearAllButton);
@@ -811,5 +875,11 @@ namespace RTFGeneratorWinForms
         private RadioButton cosmoteRadioButton;
         private GroupBox advancedOptionsGroupBox;
         private ToolStripMenuItem checkForUpdateToolStripMenuItem;
+        private TextBox searchLawyerTextBox;
+        private Label selectLawyerLabel;
+        private ComboBox lawyerSelectionComboBox;
+        private TextBox totalAmountTextBox;
+        private Label totalAmountLabel;
+        private Button testButton;
     }
 }
