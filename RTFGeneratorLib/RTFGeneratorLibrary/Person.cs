@@ -8,6 +8,7 @@ namespace RTFGeneratorLibrary
 {
     public class Person
     {
+        public string Title { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string FatherName { get; set; } = string.Empty;
@@ -30,6 +31,7 @@ namespace RTFGeneratorLibrary
     {
         Male = 0,
         Female = 1,
-        Company = 2
+        Company = 2,
+        Neutral = 3
     };
 }

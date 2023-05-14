@@ -5,6 +5,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
+using System.Drawing;
 
 namespace RTFGeneratorWinForms
 {
@@ -14,11 +16,15 @@ namespace RTFGeneratorWinForms
         private Person person = new();
         private List<Lawyer> Lawyers = RTFGen.LoadLawyers();
         private List<string> ContractDuration = RTFGen.LoadContractsDuration();
-        private List<string> ComppaniesTypes = RTFGen.LoadCompaniesTypes();
+        private List<string> CompaniesTypes = RTFGen.LoadCompaniesTypes();
+        private List<Court> CourtsList = RTFGen.LoadCourts();
 
         public Form1()
         {
             InitializeComponent();
+
+            companyTitelLabel.Hide();
+            companyTitelTextBox.Hide();
 
             // TODO
             // Remove from here.
@@ -34,6 +40,20 @@ namespace RTFGeneratorWinForms
                 contractDurationComboBox.Items.Add(s);
             }
 
+            // TODO
+            // Remove This from here.
+            foreach (var court in CourtsList)
+            {
+                courtSelectionComboBox.Items.Add(court.Show);
+            }
+
+            // TODO
+            // Reove This from here.
+            foreach (var s in CompaniesTypes)
+            {
+                CompanyTypeComboBox.Items.Add(s);
+            }
+
         }
 
 
@@ -41,7 +61,6 @@ namespace RTFGeneratorWinForms
         /// Add User Information
         /// </summary>
         /// 
-
         private void firstNameTextBox_TextChanged(object sender, EventArgs e)
         {
             toolStripStatusLabel.Text = "Registring User information . . .";
@@ -90,6 +109,93 @@ namespace RTFGeneratorWinForms
             person.FirstAddress.PostalCode = zipCodeTextBox.Text;
         }
 
+        private void companyTitelTextBox_TextChanged(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = "Registring User information . . .";
+            person.Title = companyTitelTextBox.Text;
+        }
+
+        private void totalAmountTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // TODO
+            // Fix the comma seperation issue.
+            double amount = new();
+            string str = new(totalAmountTextBox.Text.Replace(',', '.'));
+            bool amountParseResult = double.TryParse(str, out amount);
+            if (amountParseResult)
+            {
+                person.orderforPayment.Debt = amount;
+            }
+            else
+            {
+                MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
+
+        private void CompanyTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Fix this later if we need the company prefix. Otherwise remove the prefix from the file.
+            if (companyRadioButton.Checked)
+            {
+                string line = CompaniesTypes[CompanyTypeComboBox.SelectedIndex];
+                string[] entries = line.Split(',');
+                person.orderforPayment.CompanyType = entries[0];
+                //person.orderforPayment.CompanyType = CompanyTypeComboBox.SelectedItem;
+            }
+
+        }
+
+        private void searchCourtTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+            // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
+            var v = CourtsList.Find(r => r.CapitalName == searchCourtTextBox.Text);
+            int index = new();
+            if (v != null)
+            {
+                int loopIndex = 0;
+                foreach (var entry in CourtsList)
+                {
+                    if (v.CapitalName == entry.CapitalName)
+                    {
+                        index = loopIndex; break;
+                    }
+                    loopIndex++;
+                }
+                courtSelectionComboBox.SelectedIndex = index;
+            }
+            else
+            {
+                courtSelectionComboBox.SelectedIndex = -1;
+            }
+
+        }
+
+        private void searchLawyerTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
+            var v = Lawyers.Find(r => r.LastName == searchLawyerTextBox.Text);
+            int index = new();
+            if (v != null)
+            {
+                int loopIndex = 0;
+                foreach (var entry in Lawyers)
+                {
+                    if (v.LastName == entry.LastName)
+                    {
+                        index = loopIndex; break;
+                    }
+                    loopIndex++;
+                }
+                lawyerSelectionComboBox.SelectedIndex = index;
+            }
+            else
+            {
+                lawyerSelectionComboBox.SelectedIndex = -1;
+            }
+        }
+
         /// <summary>
         /// Add user Gender or Company type.
         /// </summary>
@@ -97,17 +203,25 @@ namespace RTFGeneratorWinForms
         private void maleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             person.Gender = gender.Male;
-            CompanyTypeComboBox.Items.Clear();
-            CompanyTypeComboBox.Items.Add("");
-            CompanyTypeComboBox.SelectedIndex = 0;
+            //CompanyTypeComboBox.Items.Clear();
+            //CompanyTypeComboBox.Items.Add("");
+            CompanyTypeComboBox.SelectedIndex = -1;
+
+            companyTitelLabel.Hide();
+            companyTitelTextBox.Hide();
+            companyTitelTextBox.Text = "";
         }
 
         private void femaleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             person.Gender = gender.Female;
-            CompanyTypeComboBox.Items.Clear();
-            CompanyTypeComboBox.Items.Add("");
-            CompanyTypeComboBox.SelectedIndex = 0;
+            //CompanyTypeComboBox.Items.Clear();
+            //CompanyTypeComboBox.Items.Add("");
+            CompanyTypeComboBox.SelectedIndex = -1;
+
+            companyTitelLabel.Hide();
+            companyTitelTextBox.Hide();
+            companyTitelTextBox.Text = "";
         }
 
         private void companyRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -119,14 +233,10 @@ namespace RTFGeneratorWinForms
             // temporary solution.
             //ConstValues constValues = new ConstValues();
 
-            //CompanyTypeComboBox.Items.Add("ATOMIKI");
-            //CompanyTypeComboBox.Items.Add("IDIOTIKI KEFALEOYXA");
-            //CompanyTypeComboBox.Items.Add("MONOPROSOPI");
 
-            foreach (var s in ComppaniesTypes)
-            {
-                CompanyTypeComboBox.Items.Add(s);
-            }
+            companyTitelLabel.Show();
+            companyTitelTextBox.Show();
+
         }
 
 
@@ -136,16 +246,17 @@ namespace RTFGeneratorWinForms
         /// 
         private void addContractButton_Click(object sender, EventArgs e)
         {
-            if (phoneNumberContractTextBox.Text == "" || contractNumberTextBox.Text == "" || contractDateTextBox.Text == "")
+            if (phoneNumberContractTextBox.Text == "" || contractNumberTextBox.Text == "" || contractDateTextBox.Text == "" || contractDurationComboBox.SelectedIndex == -1)
             {
                 MessageBox.Show("Please provide a phone number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                Contracts cont = new()
+                Contract cont = new()
                 {
                     PhoneNumber = phoneNumberContractTextBox.Text,
-                    Number = contractNumberTextBox.Text
+                    Number = contractNumberTextBox.Text,
+                    Durration = ContractDuration[contractDurationComboBox.SelectedIndex]
                 };
                 // TODO
                 // Convert string to date.
@@ -160,7 +271,7 @@ namespace RTFGeneratorWinForms
                 }
                 else
                 {
-                    MessageBox.Show("Unable to read Date value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 person.orderforPayment.contracts.Add(cont);
@@ -168,7 +279,7 @@ namespace RTFGeneratorWinForms
 
                 phoneContractsListBox.Items.Clear();
                 // update the list box
-                foreach (Contracts p in person.orderforPayment.contracts)
+                foreach (Contract p in person.orderforPayment.contracts)
                 {
                     phoneContractsListBox.Items.Add(p.Show);
                 }
@@ -179,6 +290,7 @@ namespace RTFGeneratorWinForms
                 phoneNumberContractTextBox.Text = null;
                 contractNumberTextBox.Text = null;
                 contractDateTextBox.Text = null;
+                contractDurationComboBox.SelectedIndex = -1;
             }
         }
 
@@ -195,7 +307,7 @@ namespace RTFGeneratorWinForms
 
             phoneContractsListBox.Items.Clear();
             // update the list box
-            foreach (Contracts p in person.orderforPayment.contracts)
+            foreach (Contract p in person.orderforPayment.contracts)
             {
                 phoneContractsListBox.Items.Add(p.Show);
             }
@@ -221,7 +333,7 @@ namespace RTFGeneratorWinForms
             }
             else
             {
-                Bills cont = new Bills();
+                Bills cont = new();
                 DateTime date = DateTime.MinValue;
                 bool parseResult = DateTime.TryParse(billDateTextBox.Text, out date);
                 if (parseResult)
@@ -237,8 +349,8 @@ namespace RTFGeneratorWinForms
 
                         // TODO
                         // Fix the comma seperation issue.
-                        double amount = new double();
-                        string str = new string(billAmountTextBox.Text.Replace(',', '.'));
+                        double amount = new();
+                        string str = new(billAmountTextBox.Text.Replace(',', '.'));
                         bool amountParseResult = double.TryParse(str, out amount);
                         if (amountParseResult)
                         {
@@ -248,13 +360,13 @@ namespace RTFGeneratorWinForms
                         }
                         else
                         {
-                            MessageBox.Show("Unable to read Amount value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Unable to read Date value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 billsListBox.Items.Clear();
@@ -286,7 +398,7 @@ namespace RTFGeneratorWinForms
                 }
                 else
                 {
-                    MessageBox.Show("Unable to read Date value", "unrecognizable Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 billsListBox.Items.Clear();
@@ -339,7 +451,7 @@ namespace RTFGeneratorWinForms
 
             // Clear textBox data
 
-            Form1 NewForm = new Form1();
+            Form1 NewForm = new();
             NewForm.Show();
             this.Dispose(false);
 
@@ -352,9 +464,14 @@ namespace RTFGeneratorWinForms
         /// <param name="e"></param>
         private void testButton_Click(object sender, EventArgs e)
         {
+            //throw new NotImplementedException();
+            //RTFOptions.SetRTFOptions(person);
+            //MessageBox.Show($"{person.orderforPayment.CompanyType} {CompanyTypeComboBox.SelectedIndex.ToString()} ");
+            MessageBox.Show(person.orderforPayment.Debt.ToString());
 
-            //
         }
+
+
     }
 
 }

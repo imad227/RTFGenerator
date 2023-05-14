@@ -63,6 +63,8 @@ namespace RTFGeneratorWinForms
             firstNameLabel = new Label();
             GeneratePaymenOrderBbutton = new Button();
             genderGroupBox = new GroupBox();
+            companyTitelLabel = new Label();
+            companyTitelTextBox = new TextBox();
             CompanyTypeComboBox = new ComboBox();
             companyRadioButton = new RadioButton();
             femaleRadioButton = new RadioButton();
@@ -218,7 +220,7 @@ namespace RTFGeneratorWinForms
             userInfoGroupBox.Controls.Add(firstNameLabel);
             userInfoGroupBox.Location = new Point(8, 31);
             userInfoGroupBox.Name = "userInfoGroupBox";
-            userInfoGroupBox.Size = new Size(278, 288);
+            userInfoGroupBox.Size = new Size(278, 280);
             userInfoGroupBox.TabIndex = 0;
             userInfoGroupBox.TabStop = false;
             userInfoGroupBox.Text = "User Information";
@@ -380,16 +382,35 @@ namespace RTFGeneratorWinForms
             // 
             // genderGroupBox
             // 
+            genderGroupBox.Controls.Add(companyTitelLabel);
+            genderGroupBox.Controls.Add(companyTitelTextBox);
             genderGroupBox.Controls.Add(CompanyTypeComboBox);
             genderGroupBox.Controls.Add(companyRadioButton);
             genderGroupBox.Controls.Add(femaleRadioButton);
             genderGroupBox.Controls.Add(maleRadioButton);
-            genderGroupBox.Location = new Point(8, 325);
+            genderGroupBox.Location = new Point(8, 317);
             genderGroupBox.Name = "genderGroupBox";
-            genderGroupBox.Size = new Size(278, 100);
+            genderGroupBox.Size = new Size(278, 155);
             genderGroupBox.TabIndex = 0;
             genderGroupBox.TabStop = false;
             genderGroupBox.Text = "Gender";
+            // 
+            // companyTitelLabel
+            // 
+            companyTitelLabel.AutoSize = true;
+            companyTitelLabel.Location = new Point(10, 99);
+            companyTitelLabel.Name = "companyTitelLabel";
+            companyTitelLabel.Size = new Size(105, 20);
+            companyTitelLabel.TabIndex = 210;
+            companyTitelLabel.Text = "Company Titel";
+            // 
+            // companyTitelTextBox
+            // 
+            companyTitelTextBox.Location = new Point(10, 122);
+            companyTitelTextBox.Name = "companyTitelTextBox";
+            companyTitelTextBox.Size = new Size(260, 27);
+            companyTitelTextBox.TabIndex = 210;
+            companyTitelTextBox.TextChanged += companyTitelTextBox_TextChanged;
             // 
             // CompanyTypeComboBox
             // 
@@ -398,6 +419,7 @@ namespace RTFGeneratorWinForms
             CompanyTypeComboBox.Name = "CompanyTypeComboBox";
             CompanyTypeComboBox.Size = new Size(260, 28);
             CompanyTypeComboBox.TabIndex = 12;
+            CompanyTypeComboBox.SelectedIndexChanged += CompanyTypeComboBox_SelectedIndexChanged;
             // 
             // companyRadioButton
             // 
@@ -448,9 +470,9 @@ namespace RTFGeneratorWinForms
             contractsGroupBox.Controls.Add(phnoeNumberLabel);
             contractsGroupBox.Controls.Add(contractNumberTextBox);
             contractsGroupBox.Controls.Add(contractNumberLabel);
-            contractsGroupBox.Location = new Point(12, 440);
+            contractsGroupBox.Location = new Point(12, 478);
             contractsGroupBox.Name = "contractsGroupBox";
-            contractsGroupBox.Size = new Size(429, 349);
+            contractsGroupBox.Size = new Size(429, 311);
             contractsGroupBox.TabIndex = 201;
             contractsGroupBox.TabStop = false;
             contractsGroupBox.Text = "Contracts";
@@ -458,7 +480,7 @@ namespace RTFGeneratorWinForms
             // contractDurationComboBox
             // 
             contractDurationComboBox.FormattingEnabled = true;
-            contractDurationComboBox.Location = new Point(6, 92);
+            contractDurationComboBox.Location = new Point(9, 86);
             contractDurationComboBox.Name = "contractDurationComboBox";
             contractDurationComboBox.Size = new Size(283, 28);
             contractDurationComboBox.TabIndex = 16;
@@ -466,9 +488,9 @@ namespace RTFGeneratorWinForms
             // addSimNumberButton
             // 
             addSimNumberButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            addSimNumberButton.Location = new Point(295, 92);
+            addSimNumberButton.Location = new Point(298, 89);
             addSimNumberButton.Name = "addSimNumberButton";
-            addSimNumberButton.Size = new Size(55, 28);
+            addSimNumberButton.Size = new Size(55, 25);
             addSimNumberButton.TabIndex = 19;
             addSimNumberButton.Text = "SIM";
             addSimNumberButton.UseVisualStyleBackColor = true;
@@ -477,17 +499,17 @@ namespace RTFGeneratorWinForms
             // 
             phoneContractsListBox.FormattingEnabled = true;
             phoneContractsListBox.ItemHeight = 20;
-            phoneContractsListBox.Location = new Point(6, 132);
+            phoneContractsListBox.Location = new Point(9, 121);
             phoneContractsListBox.Name = "phoneContractsListBox";
-            phoneContractsListBox.Size = new Size(414, 204);
+            phoneContractsListBox.Size = new Size(414, 184);
             phoneContractsListBox.TabIndex = 202;
             // 
             // removeContractButton
             // 
             removeContractButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            removeContractButton.Location = new Point(356, 90);
+            removeContractButton.Location = new Point(359, 89);
             removeContractButton.Name = "removeContractButton";
-            removeContractButton.Size = new Size(29, 30);
+            removeContractButton.Size = new Size(29, 25);
             removeContractButton.TabIndex = 18;
             removeContractButton.Text = "-";
             removeContractButton.UseVisualStyleBackColor = true;
@@ -496,9 +518,9 @@ namespace RTFGeneratorWinForms
             // addContractButton
             // 
             addContractButton.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            addContractButton.Location = new Point(391, 90);
+            addContractButton.Location = new Point(394, 89);
             addContractButton.Name = "addContractButton";
-            addContractButton.Size = new Size(29, 30);
+            addContractButton.Size = new Size(29, 25);
             addContractButton.TabIndex = 17;
             addContractButton.Text = "+";
             addContractButton.UseVisualStyleBackColor = true;
@@ -506,14 +528,14 @@ namespace RTFGeneratorWinForms
             // 
             // contractDateTextBox
             // 
-            contractDateTextBox.Location = new Point(305, 59);
+            contractDateTextBox.Location = new Point(308, 56);
             contractDateTextBox.Name = "contractDateTextBox";
             contractDateTextBox.Size = new Size(115, 27);
             contractDateTextBox.TabIndex = 15;
             // 
             // phoneNumberContractTextBox
             // 
-            phoneNumberContractTextBox.Location = new Point(112, 24);
+            phoneNumberContractTextBox.Location = new Point(115, 21);
             phoneNumberContractTextBox.Name = "phoneNumberContractTextBox";
             phoneNumberContractTextBox.Size = new Size(308, 27);
             phoneNumberContractTextBox.TabIndex = 13;
@@ -521,7 +543,7 @@ namespace RTFGeneratorWinForms
             // ContractDateLabel
             // 
             ContractDateLabel.AutoSize = true;
-            ContractDateLabel.Location = new Point(258, 62);
+            ContractDateLabel.Location = new Point(261, 59);
             ContractDateLabel.Name = "ContractDateLabel";
             ContractDateLabel.Size = new Size(41, 20);
             ContractDateLabel.TabIndex = 202;
@@ -530,7 +552,7 @@ namespace RTFGeneratorWinForms
             // phnoeNumberLabel
             // 
             phnoeNumberLabel.AutoSize = true;
-            phnoeNumberLabel.Location = new Point(-2, 29);
+            phnoeNumberLabel.Location = new Point(1, 26);
             phnoeNumberLabel.Name = "phnoeNumberLabel";
             phnoeNumberLabel.Size = new Size(108, 20);
             phnoeNumberLabel.TabIndex = 0;
@@ -538,7 +560,7 @@ namespace RTFGeneratorWinForms
             // 
             // contractNumberTextBox
             // 
-            contractNumberTextBox.Location = new Point(112, 59);
+            contractNumberTextBox.Location = new Point(115, 56);
             contractNumberTextBox.Name = "contractNumberTextBox";
             contractNumberTextBox.Size = new Size(140, 27);
             contractNumberTextBox.TabIndex = 14;
@@ -546,7 +568,7 @@ namespace RTFGeneratorWinForms
             // contractNumberLabel
             // 
             contractNumberLabel.AutoSize = true;
-            contractNumberLabel.Location = new Point(0, 62);
+            contractNumberLabel.Location = new Point(3, 59);
             contractNumberLabel.Name = "contractNumberLabel";
             contractNumberLabel.Size = new Size(92, 20);
             contractNumberLabel.TabIndex = 203;
@@ -561,9 +583,9 @@ namespace RTFGeneratorWinForms
             billsGroupBox.Controls.Add(billDateTextBox);
             billsGroupBox.Controls.Add(addBillButton);
             billsGroupBox.Controls.Add(billDateLabel);
-            billsGroupBox.Location = new Point(447, 440);
+            billsGroupBox.Location = new Point(447, 478);
             billsGroupBox.Name = "billsGroupBox";
-            billsGroupBox.Size = new Size(150, 349);
+            billsGroupBox.Size = new Size(150, 311);
             billsGroupBox.TabIndex = 0;
             billsGroupBox.TabStop = false;
             billsGroupBox.Text = "Bills";
@@ -588,9 +610,9 @@ namespace RTFGeneratorWinForms
             // 
             billsListBox.FormattingEnabled = true;
             billsListBox.ItemHeight = 20;
-            billsListBox.Location = new Point(6, 132);
+            billsListBox.Location = new Point(10, 121);
             billsListBox.Name = "billsListBox";
-            billsListBox.Size = new Size(134, 204);
+            billsListBox.Size = new Size(134, 184);
             billsListBox.TabIndex = 204;
             // 
             // removeBillButton
@@ -666,6 +688,7 @@ namespace RTFGeneratorWinForms
             searchLawyerTextBox.Size = new Size(156, 27);
             searchLawyerTextBox.TabIndex = 29;
             searchLawyerTextBox.Text = "Search";
+            searchLawyerTextBox.TextChanged += searchLawyerTextBox_TextChanged;
             // 
             // selectLawyerLabel
             // 
@@ -692,6 +715,7 @@ namespace RTFGeneratorWinForms
             searchCourtTextBox.Size = new Size(117, 27);
             searchCourtTextBox.TabIndex = 26;
             searchCourtTextBox.Text = "Search";
+            searchCourtTextBox.TextChanged += searchCourtTextBox_TextChanged;
             // 
             // selectCourtLabel
             // 
@@ -743,15 +767,16 @@ namespace RTFGeneratorWinForms
             // 
             // totalAmountTextBox
             // 
-            totalAmountTextBox.Location = new Point(737, 464);
+            totalAmountTextBox.Location = new Point(391, 439);
             totalAmountTextBox.Name = "totalAmountTextBox";
-            totalAmountTextBox.Size = new Size(229, 27);
+            totalAmountTextBox.Size = new Size(199, 27);
             totalAmountTextBox.TabIndex = 207;
+            totalAmountTextBox.TextChanged += totalAmountTextBox_TextChanged;
             // 
             // totalAmountLabel
             // 
             totalAmountLabel.AutoSize = true;
-            totalAmountLabel.Location = new Point(622, 465);
+            totalAmountLabel.Location = new Point(292, 442);
             totalAmountLabel.Name = "totalAmountLabel";
             totalAmountLabel.Size = new Size(102, 20);
             totalAmountLabel.TabIndex = 208;
@@ -881,5 +906,7 @@ namespace RTFGeneratorWinForms
         private TextBox totalAmountTextBox;
         private Label totalAmountLabel;
         private Button testButton;
+        private Label companyTitelLabel;
+        private TextBox companyTitelTextBox;
     }
 }

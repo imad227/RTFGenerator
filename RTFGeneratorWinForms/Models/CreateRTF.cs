@@ -12,7 +12,7 @@ namespace RTFGeneratorWinForms.Models
     {
         public static string ClientData(Person person)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             if(person.Gender == gender.Male)
             {
                 sb.Append("Του ");
@@ -38,7 +38,7 @@ namespace RTFGeneratorWinForms.Models
         public static void MaleSingelContract(Person person)
         {
             
-            RichTextBox richTextBox1 = new RichTextBox();
+            RichTextBox richTextBox1 = new();
             richTextBox1 = RTFGen.ReadTemplateFiel();
 
             string str1 = richTextBox1.Rtf.Replace(RTFGen.RtfToString("ΦΟΥ"), RTFGen.RtfToString("ΚΡΗΤΗΣ"));

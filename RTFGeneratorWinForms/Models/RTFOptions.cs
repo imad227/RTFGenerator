@@ -12,16 +12,113 @@ namespace RTFGeneratorWinForms.Models
     {
         public TypeOFOrderForPayment Type;
 
-
-        public void SetRTFOptions (Person person)
+        /// <summary>
+        /// Find the Type of the Payment Order, by the provided data.
+        /// </summary>
+        /// <param name="person"></param>
+        /// TODO - Return TypeOFOrderForPayment.
+        public static TypeOFOrderForPayment SetRTFOptions(Person person)
         {
             // Temp section 
             // This is not correct.
-            if(person.Gender == gender.Male)
+
+            bool foundMultipleContracts = false;
+            bool foundMultiplePhoneNumbers = false;
+            Contract FirstContract = new();
+
+            if(person.orderforPayment.contracts.Count != 0)
             {
-                this.Type = TypeOFOrderForPayment.FemaleMultipleContracts;
+                FirstContract = person.orderforPayment.contracts[0];
+            }
+
+            //if (person.Gender == gender.Male)
+            //{
+            //    this.Type = TypeOFOrderForPayment.FemaleMultipleContracts;
+            //}
+
+            // TODO: MOVE THIS TO RTFGen.
+            // Test the number of Contracts.
+            if (person.orderforPayment.contracts.Count == 0)
+            {
+                MessageBox.Show("You Need to prvide a contract.");
+                return TypeOFOrderForPayment.NoneValid;
+            }
+            else if (person.orderforPayment.contracts.Count == 1)
+            {
+                foundMultiplePhoneNumbers = false;
+                //MessageBox.Show("One Contract only");
+            }
+            else
+            {
+                //MessageBox.Show("Not implemented yet.");
+                //bool foundMultipleContracts = false;
+                //Contracts cont = person.orderforPayment.contracts[0];
+                foundMultiplePhoneNumbers = true;
+
+                foreach (var m in person.orderforPayment.contracts)
+                {
+                    if (FirstContract.Number != m.Number) { foundMultipleContracts = true; break; }
+                }
+                //if (foundMultipleContracts)
+                //{
+                //    MessageBox.Show("Multi Numbers Multi Contracts");
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Multi Numbers One Contract");
+                //}
+            }
+
+            if (person.Gender == gender.Male)
+            {
+                if (foundMultipleContracts)
+                {
+                    MessageBox.Show("Male, Multiple Contracts");
+                    return TypeOFOrderForPayment.MaleMultipleContracts;
+                }
+                else if (!foundMultipleContracts && foundMultiplePhoneNumbers)
+                {
+                    MessageBox.Show("Male, Singele Contract, Multiple Phone number.");
+                    return TypeOFOrderForPayment.MaleSingleContractMultiplePhones;
+                }
+                else
+                {
+                    MessageBox.Show("Male, Single Contract, Single Phone number");
+                    return TypeOFOrderForPayment.MaleSingleContractSinglePhone;
+                }
+            }
+            else if(person.Gender == gender.Female)
+            {
+                if (foundMultipleContracts)
+                {
+                    MessageBox.Show("Female, Multiple Contracts");
+                    return TypeOFOrderForPayment.FemaleMultipleContracts;
+                }
+                else if (!foundMultipleContracts && foundMultiplePhoneNumbers)
+                {
+                    MessageBox.Show("Female, Singele Contract, Multiple Phone number.");
+                    return TypeOFOrderForPayment.FemaleSingleContractMultiplePhones;
+                }
+                else
+                {
+                    MessageBox.Show("Female, Single Contract, Single Phone number");
+                    return TypeOFOrderForPayment.FemaleSingleContractSinglePhone;
+                }
+            }
+
+
+            else
+            {
+                MessageBox.Show("None Valide Court Type Option!");
+                return TypeOFOrderForPayment.NoneValid;
             }
         }
+
+        public RTFOptions()
+        {
+            Type = new TypeOFOrderForPayment();
+        }
+
     }
 
     
@@ -29,11 +126,13 @@ namespace RTFGeneratorWinForms.Models
 
     public enum TypeOFOrderForPayment
     {
-        MaleSingelContractSingelPhone = 0,
-        MaleSingelContractMultiplePhones = 1,
+        MaleSingleContractSinglePhone = 0,
+        MaleSingleContractMultiplePhones = 1,
         MaleMultipleContracts = 2,
-        FemaleSingelContractSingelPhone = 3,
-        FemaleSingelContractMultiplePhones = 4,
-        FemaleMultipleContracts = 5
+        FemaleSingleContractSinglePhone = 3,
+        FemaleSingleContractMultiplePhones = 4,
+        FemaleMultipleContracts = 5,
+
+        NoneValid = 100
     };
 }

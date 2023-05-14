@@ -28,6 +28,18 @@ namespace RTFGeneratorWinForms.Models
         }
 
         /// <summary>
+        /// Takes the total amount and return the amount verbaly in a string.
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string NumberToText(double number)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
         /// temporary function to save RTF file.
         /// </summary>
         /// <param name="richTextBox1"></param>
@@ -48,12 +60,13 @@ namespace RTFGeneratorWinForms.Models
             {
                 string[] entries = line.Split(',');
 
-                Lawyer newLawyer = new Lawyer();
-
-                newLawyer.AMDSA = int.Parse(entries[0]);
-                newLawyer.FirstName = entries[1];
-                newLawyer.Prfix = entries[2];
-                newLawyer.LastName = entries[3];
+                Lawyer newLawyer = new()
+                {
+                    AMDSA = int.Parse(entries[0]),
+                    FirstName = entries[1],
+                    Prfix = entries[2],
+                    LastName = entries[3]
+                };
                 if (entries[4] == "F")
                     newLawyer.Gender = gender.Female;
                 else if (entries[4] == "M")
@@ -64,6 +77,44 @@ namespace RTFGeneratorWinForms.Models
 
             return lawyers;
         }
+
+
+        public static List<Court> LoadCourts()
+        {
+            string filePath = @"C:\Demos\DATA\CourtsDatabase.txt";
+
+            List<Court> courts = new();
+
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+
+            foreach (var line in lines)
+            {
+                string[] entries = line.Split(',');
+
+                Court newLCourt = new()
+                {
+                    CapitalName = entries[0],
+                    SmallName = entries[1],
+                    CityName = entries[2],
+                };
+                if (entries[3] == "F")
+                    newLCourt.Gender = gender.Female;
+                else if (entries[3] == "M")
+                    newLCourt.Gender = gender.Male;
+                else if (entries[3] == "N")
+                    newLCourt.Gender = gender.Neutral;
+
+                if (entries[4] == "A")
+                    newLCourt.Region = CourtRegion.ATTICA;
+                else if (entries[4] == "O")
+                    newLCourt.Region = CourtRegion.OTHERREGION;
+
+                courts.Add(newLCourt);
+            }
+
+            return courts;
+        }
+
 
         public static List<string> LoadContractsDuration()
         {
@@ -80,6 +131,8 @@ namespace RTFGeneratorWinForms.Models
             List<string> lines = File.ReadAllLines(filepath).ToList();
             return lines;
         }
+
+
 
         /// <summary>
         /// Convert String to RTF compatible Format.
@@ -709,9 +762,6 @@ namespace RTFGeneratorWinForms.Models
                         str2 += "\\'bb";
                         break;
                     // continue form this line
-
-
-
 
 
                     default:
