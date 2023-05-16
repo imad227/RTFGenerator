@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Linq;
 using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RTFGeneratorWinForms
 {
@@ -23,38 +24,50 @@ namespace RTFGeneratorWinForms
         {
             InitializeComponent();
 
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
             companyTitelLabel.Hide();
             companyTitelTextBox.Hide();
 
-            // TODO
-            // Remove from here.
-            foreach (var lawyer in Lawyers)
+
+            lawyerSelectionComboBox.DisplayMember = "Show";
+            lawyerSelectionComboBox.DataSource = Lawyers;
+            lawyerSelectionComboBox.SelectedIndex = -1;
+
+
+            contractDurationComboBox.DataSource = ContractDuration;
+            contractDurationComboBox.SelectedIndex = -1;
+
+
+            courtSelectionComboBox.DisplayMember = "Show";
+            courtSelectionComboBox.DataSource = CourtsList;
+            courtSelectionComboBox.SelectedIndex = -1;
+            courtSelectionComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            courtSelectionComboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            // TODO: FIX THIS
+            // after autocomplete, selectd the correspoding item.
+            AutoCompleteStringCollection courtAutoComleteList = new AutoCompleteStringCollection();
+            foreach (var v in CourtsList)
             {
-                lawyerSelectionComboBox.Items.Add(lawyer.Show);
+                courtAutoComleteList.Add(v.CapitalName);
             }
 
-            // TODO
-            // Remove This from here.
-            foreach (var s in ContractDuration)
-            {
-                contractDurationComboBox.Items.Add(s);
-            }
+            courtSelectionComboBox.AutoCompleteCustomSource = courtAutoComleteList;
+            // UNTIL HERE...
 
-            // TODO
-            // Remove This from here.
-            foreach (var court in CourtsList)
-            {
-                courtSelectionComboBox.Items.Add(court.Show);
-            }
-
-            // TODO
-            // Reove This from here.
-            foreach (var s in CompaniesTypes)
-            {
-                CompanyTypeComboBox.Items.Add(s);
-            }
-
+            CompanyTypeComboBox.DataSource = CompaniesTypes;
+            CompanyTypeComboBox.SelectedIndex = -1;
         }
+
+        //private void courtSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    courtSelectionComboBox.SelectedIndex = CourtsList.FindIndex(r => r.CapitalName == courtSelectionComboBox.Text);
+        //}
+
 
 
         /// <summary>
@@ -130,7 +143,7 @@ namespace RTFGeneratorWinForms
             {
                 MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         private void CompanyTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -146,55 +159,55 @@ namespace RTFGeneratorWinForms
 
         }
 
-        private void searchCourtTextBox_TextChanged(object sender, EventArgs e)
-        {
+        //private void searchCourtTextBox_TextChanged(object sender, EventArgs e)
+        //{
 
-            // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
-            var v = CourtsList.Find(r => r.CapitalName == searchCourtTextBox.Text);
-            int index = new();
-            if (v != null)
-            {
-                int loopIndex = 0;
-                foreach (var entry in CourtsList)
-                {
-                    if (v.CapitalName == entry.CapitalName)
-                    {
-                        index = loopIndex; break;
-                    }
-                    loopIndex++;
-                }
-                courtSelectionComboBox.SelectedIndex = index;
-            }
-            else
-            {
-                courtSelectionComboBox.SelectedIndex = -1;
-            }
+        //    // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
+        //    var v = CourtsList.Find(r => r.CapitalName == searchCourtTextBox.Text);
+        //    int index = new();
+        //    if (v != null)
+        //    {
+        //        int loopIndex = 0;
+        //        foreach (var entry in CourtsList)
+        //        {
+        //            if (v.CapitalName == entry.CapitalName)
+        //            {
+        //                index = loopIndex; break;
+        //            }
+        //            loopIndex++;
+        //        }
+        //        courtSelectionComboBox.SelectedIndex = index;
+        //    }
+        //    else
+        //    {
+        //        courtSelectionComboBox.SelectedIndex = -1;
+        //    }
 
-        }
+        //}
 
-        private void searchLawyerTextBox_TextChanged(object sender, EventArgs e)
-        {
-            // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
-            var v = Lawyers.Find(r => r.LastName == searchLawyerTextBox.Text);
-            int index = new();
-            if (v != null)
-            {
-                int loopIndex = 0;
-                foreach (var entry in Lawyers)
-                {
-                    if (v.LastName == entry.LastName)
-                    {
-                        index = loopIndex; break;
-                    }
-                    loopIndex++;
-                }
-                lawyerSelectionComboBox.SelectedIndex = index;
-            }
-            else
-            {
-                lawyerSelectionComboBox.SelectedIndex = -1;
-            }
-        }
+        //private void searchLawyerTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
+        //    var v = Lawyers.Find(r => r.LastName == searchLawyerTextBox.Text);
+        //    int index = new();
+        //    if (v != null)
+        //    {
+        //        int loopIndex = 0;
+        //        foreach (var entry in Lawyers)
+        //        {
+        //            if (v.LastName == entry.LastName)
+        //            {
+        //                index = loopIndex; break;
+        //            }
+        //            loopIndex++;
+        //        }
+        //        lawyerSelectionComboBox.SelectedIndex = index;
+        //    }
+        //    else
+        //    {
+        //        lawyerSelectionComboBox.SelectedIndex = -1;
+        //    }
+        //}
 
         /// <summary>
         /// Add user Gender or Company type.
@@ -467,10 +480,43 @@ namespace RTFGeneratorWinForms
             //throw new NotImplementedException();
             //RTFOptions.SetRTFOptions(person);
             //MessageBox.Show($"{person.orderforPayment.CompanyType} {CompanyTypeComboBox.SelectedIndex.ToString()} ");
-            MessageBox.Show(person.orderforPayment.Debt.ToString());
+            //MessageBox.Show(person.orderforPayment.Debt.ToString());
+
+            //CreateRTF.Test(person);
+            MessageBox.Show(RTFGen.NumberToText(person.orderforPayment.Debt));
 
         }
 
+        /// <summary>
+        /// Menu Bar Items.
+        /// </summary>
+        /// 
+        private void addCourtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddCourt addcourt = new AddCourt();
+            this.Hide();
+            addcourt.ShowDialog();
+            this.Show();
+            if (addcourt.newCourt != null)
+            {
+                CourtsList.Add(addcourt.newCourt);
+                RTFGen.SaveCourts(CourtsList);
+                CourtsList.Clear();
+                CourtsList = RTFGen.LoadCourts();
+
+                //courtSelectionComboBox.Items.Clear();
+                courtSelectionComboBox.DataSource = CourtsList;
+                courtSelectionComboBox.SelectedIndex = -1;
+                //foreach (var court in CourtsList)
+                //{
+                //    courtSelectionComboBox.Items.Add(court.Show);
+                //}
+
+            }
+
+
+            addcourt.Dispose();
+        }
 
     }
 

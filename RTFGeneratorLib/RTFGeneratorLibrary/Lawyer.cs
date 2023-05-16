@@ -10,9 +10,9 @@ namespace RTFGeneratorLibrary
     public class Lawyer
     {
         public int AMDSA { get; set; }
-        public string FirstName { get; set; }
-        public string Prfix { get; set; }
-        public string LastName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string Prfix { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public gender Gender { get; set; }
 
 

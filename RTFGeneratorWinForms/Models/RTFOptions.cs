@@ -105,6 +105,24 @@ namespace RTFGeneratorWinForms.Models
                     return TypeOFOrderForPayment.FemaleSingleContractSinglePhone;
                 }
             }
+            else if (person.Gender == gender.Company)
+            {
+                if (foundMultipleContracts)
+                {
+                    MessageBox.Show("Company, Multiple Contracts");
+                    return TypeOFOrderForPayment.CompanyMultipleContracts;
+                }
+                else if (!foundMultipleContracts && foundMultiplePhoneNumbers)
+                {
+                    MessageBox.Show("Company, Singele Contract, Multiple Phone number.");
+                    return TypeOFOrderForPayment.CompanySingleContractMultiplePhones;
+                }
+                else
+                {
+                    MessageBox.Show("Company, Single Contract, Single Phone number");
+                    return TypeOFOrderForPayment.CompanySingleContractSinglePhone;
+                }
+            }
 
 
             else
@@ -132,7 +150,18 @@ namespace RTFGeneratorWinForms.Models
         FemaleSingleContractSinglePhone = 3,
         FemaleSingleContractMultiplePhones = 4,
         FemaleMultipleContracts = 5,
+        CompanySingleContractSinglePhone = 6,
+        CompanySingleContractMultiplePhones = 7,
+        CompanyMultipleContracts = 8,
 
         NoneValid = 100
     };
+
+    public enum AdvancedTypeOFP
+    {
+        MeParektasi,
+        XorisParektasi,
+        Sxetiko4,
+        AnalisiTimologion,
+    }
 }

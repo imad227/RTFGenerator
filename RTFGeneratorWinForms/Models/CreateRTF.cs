@@ -56,5 +56,19 @@ namespace RTFGeneratorWinForms.Models
             //string fielname = $"{person.FirstName} {person.LastName}";
             RTFGen.SaveTemplateFile(richTextBox1);
         }
+
+        public static void Test(Person person)
+        {
+            
+            RichTextBox richTextBox1 = new();
+            richTextBox1 = RTFGen.ReadTemplateFiel();
+            
+            //string str1 = richTextBox1.Rtf.Replace(RTFGen.RtfToString("ΣΤΟΙΧΕΙΑΟΦΗΛΕΤΗΣ"), RTFGen.RtfToString(ClientData(person)));
+            string str1 = richTextBox1.Rtf.Replace(RTFGen.RtfToString("ΣΤΟΙΧΕΙΑΟΦΗΛΕΤΗΣ"), "");
+            richTextBox1.Rtf = str1;
+            
+            RTFGen.SaveTemplateFile(richTextBox1);
+
+        }
     }
 }

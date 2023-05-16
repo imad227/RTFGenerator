@@ -91,10 +91,8 @@ namespace RTFGeneratorWinForms
             billDateLabel = new Label();
             clearAllButton = new Button();
             typeGroupBox = new GroupBox();
-            searchLawyerTextBox = new TextBox();
             selectLawyerLabel = new Label();
             lawyerSelectionComboBox = new ComboBox();
-            searchCourtTextBox = new TextBox();
             selectCourtLabel = new Label();
             courtSelectionComboBox = new ComboBox();
             oteRadioButton = new RadioButton();
@@ -167,6 +165,7 @@ namespace RTFGeneratorWinForms
             addCourtToolStripMenuItem.Name = "addCourtToolStripMenuItem";
             addCourtToolStripMenuItem.Size = new Size(150, 22);
             addCourtToolStripMenuItem.Text = "Add &Court";
+            addCourtToolStripMenuItem.Click += addCourtToolStripMenuItem_Click;
             // 
             // addLawyerToolStripMenuItem
             // 
@@ -414,6 +413,8 @@ namespace RTFGeneratorWinForms
             // 
             // CompanyTypeComboBox
             // 
+            CompanyTypeComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            CompanyTypeComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             CompanyTypeComboBox.FormattingEnabled = true;
             CompanyTypeComboBox.Location = new Point(10, 56);
             CompanyTypeComboBox.Name = "CompanyTypeComboBox";
@@ -479,6 +480,8 @@ namespace RTFGeneratorWinForms
             // 
             // contractDurationComboBox
             // 
+            contractDurationComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            contractDurationComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             contractDurationComboBox.FormattingEnabled = true;
             contractDurationComboBox.Location = new Point(9, 86);
             contractDurationComboBox.Name = "contractDurationComboBox";
@@ -665,10 +668,8 @@ namespace RTFGeneratorWinForms
             // 
             // typeGroupBox
             // 
-            typeGroupBox.Controls.Add(searchLawyerTextBox);
             typeGroupBox.Controls.Add(selectLawyerLabel);
             typeGroupBox.Controls.Add(lawyerSelectionComboBox);
-            typeGroupBox.Controls.Add(searchCourtTextBox);
             typeGroupBox.Controls.Add(selectCourtLabel);
             typeGroupBox.Controls.Add(courtSelectionComboBox);
             typeGroupBox.Controls.Add(oteRadioButton);
@@ -680,20 +681,10 @@ namespace RTFGeneratorWinForms
             typeGroupBox.TabStop = false;
             typeGroupBox.Text = "Type";
             // 
-            // searchLawyerTextBox
-            // 
-            searchLawyerTextBox.ForeColor = SystemColors.ScrollBar;
-            searchLawyerTextBox.Location = new Point(114, 59);
-            searchLawyerTextBox.Name = "searchLawyerTextBox";
-            searchLawyerTextBox.Size = new Size(156, 27);
-            searchLawyerTextBox.TabIndex = 29;
-            searchLawyerTextBox.Text = "Search";
-            searchLawyerTextBox.TextChanged += searchLawyerTextBox_TextChanged;
-            // 
             // selectLawyerLabel
             // 
             selectLawyerLabel.AutoSize = true;
-            selectLawyerLabel.Location = new Point(6, 62);
+            selectLawyerLabel.Location = new Point(232, 62);
             selectLawyerLabel.Name = "selectLawyerLabel";
             selectLawyerLabel.Size = new Size(102, 20);
             selectLawyerLabel.TabIndex = 28;
@@ -701,26 +692,18 @@ namespace RTFGeneratorWinForms
             // 
             // lawyerSelectionComboBox
             // 
+            lawyerSelectionComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            lawyerSelectionComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             lawyerSelectionComboBox.FormattingEnabled = true;
-            lawyerSelectionComboBox.Location = new Point(276, 59);
+            lawyerSelectionComboBox.Location = new Point(349, 59);
             lawyerSelectionComboBox.Name = "lawyerSelectionComboBox";
-            lawyerSelectionComboBox.Size = new Size(383, 28);
+            lawyerSelectionComboBox.Size = new Size(310, 28);
             lawyerSelectionComboBox.TabIndex = 30;
-            // 
-            // searchCourtTextBox
-            // 
-            searchCourtTextBox.ForeColor = SystemColors.ScrollBar;
-            searchCourtTextBox.Location = new Point(276, 19);
-            searchCourtTextBox.Name = "searchCourtTextBox";
-            searchCourtTextBox.Size = new Size(117, 27);
-            searchCourtTextBox.TabIndex = 26;
-            searchCourtTextBox.Text = "Search";
-            searchCourtTextBox.TextChanged += searchCourtTextBox_TextChanged;
             // 
             // selectCourtLabel
             // 
             selectCourtLabel.AutoSize = true;
-            selectCourtLabel.Location = new Point(178, 25);
+            selectCourtLabel.Location = new Point(242, 22);
             selectCourtLabel.Name = "selectCourtLabel";
             selectCourtLabel.Size = new Size(92, 20);
             selectCourtLabel.TabIndex = 9;
@@ -729,15 +712,15 @@ namespace RTFGeneratorWinForms
             // courtSelectionComboBox
             // 
             courtSelectionComboBox.FormattingEnabled = true;
-            courtSelectionComboBox.Location = new Point(399, 19);
+            courtSelectionComboBox.Location = new Point(349, 19);
             courtSelectionComboBox.Name = "courtSelectionComboBox";
-            courtSelectionComboBox.Size = new Size(260, 28);
+            courtSelectionComboBox.Size = new Size(310, 28);
             courtSelectionComboBox.TabIndex = 27;
             // 
             // oteRadioButton
             // 
             oteRadioButton.AutoSize = true;
-            oteRadioButton.Location = new Point(102, 21);
+            oteRadioButton.Location = new Point(10, 58);
             oteRadioButton.Name = "oteRadioButton";
             oteRadioButton.Size = new Size(53, 24);
             oteRadioButton.TabIndex = 25;
@@ -815,6 +798,7 @@ namespace RTFGeneratorWinForms
             Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "RTF Generator";
+            Load += Form1_Load;
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             menuStrip1.ResumeLayout(false);
@@ -893,14 +877,12 @@ namespace RTFGeneratorWinForms
         private ToolStripMenuItem addLawyerToolStripMenuItem;
         private ToolStripMenuItem addContractsToolStripMenuItem;
         private GroupBox typeGroupBox;
-        private TextBox searchCourtTextBox;
         private Label selectCourtLabel;
         private ComboBox courtSelectionComboBox;
         private RadioButton oteRadioButton;
         private RadioButton cosmoteRadioButton;
         private GroupBox advancedOptionsGroupBox;
         private ToolStripMenuItem checkForUpdateToolStripMenuItem;
-        private TextBox searchLawyerTextBox;
         private Label selectLawyerLabel;
         private ComboBox lawyerSelectionComboBox;
         private TextBox totalAmountTextBox;

@@ -15,6 +15,96 @@ namespace RTFGeneratorWinForms.Models
     /// </summary>
     internal class RTFGen
     {
+
+        /// <summary>
+        /// Takes the total amount and return the amount verbaly in a string.
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string NumberToText(double number)
+        {
+            //throw new NotImplementedException();
+            string str = number.ToString();
+            string[] parts = str.Split('.');
+            int? intPart = null;
+            int? fractionalPart = null;
+
+            intPart = int.Parse(parts[0]);
+
+            if(parts.Length > 1 )
+            {
+                fractionalPart = int.Parse(parts[1]);
+                if(parts[1].Length < 2)
+                {
+                    fractionalPart *= 10;
+                }
+ 
+            }
+            if(fractionalPart == 1)
+            {
+                return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτό";
+            }
+            else
+            {
+                return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτά";
+            }
+
+
+
+            //return $"{intPart.ToString()} and {fractionalPart.ToString()}";
+        }
+
+        internal static string SplitNumber(int? num)
+        {
+            StringBuilder str = new StringBuilder();
+            if(num >= 1000)
+            {
+                int? thousandsNumber = num / 1000;
+                str.Append(NumberInVerbal(thousandsNumber,1000));
+                str.Append(' ');
+                num -= thousandsNumber * 1000;
+            }
+            if(num >= 100)
+            {
+                int? hundredNumber = num / 100;
+                str.Append(NumberInVerbal(hundredNumber,100));
+                str.Append(' ');
+                num -= hundredNumber * 100;
+            }
+            if(num >= 10)
+            {
+                if (num <= 21 && num >= 11)
+                {
+                    str.Append(NumberInVerbal(num, 10));
+                    str.Append(' ');
+
+                    return str.ToString();
+                }
+                else
+                {
+                    int? tensNumber = num / 10;
+                    str.Append(NumberInVerbal(tensNumber, 10));
+                    str.Append(' ');
+
+                    num -= tensNumber * 10;
+                    str.Append(NumberInVerbal(num, 1));
+
+                    return str.ToString();
+                }
+
+            }
+            else
+            {
+                str.Append(NumberInVerbal(num, 1));
+
+                return str.ToString();
+            }
+
+            return str.ToString();
+        }
+
+
         /// <summary>
         /// Temporary funciton to read the temlate file.
         /// </summary>
@@ -25,17 +115,6 @@ namespace RTFGeneratorWinForms.Models
             RichTextBox richTextBox1 = new();
             richTextBox1.LoadFile(@"C:\Demos\DATA\template.rtf");
             return richTextBox1;
-        }
-
-        /// <summary>
-        /// Takes the total amount and return the amount verbaly in a string.
-        /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string NumberToText(double number)
-        {
-            throw new NotImplementedException();
         }
 
 
@@ -113,6 +192,51 @@ namespace RTFGeneratorWinForms.Models
             }
 
             return courts;
+        }
+
+        // TODO: FIX THIS, FIND A BETTER METHOD THAN THE IF ELSE METHOD.
+        public static void SaveCourts(List<Court> courts)
+        {
+            string filePath = @"C:\Demos\DATA\CourtsDatabase.txt";
+
+            List<string> output = new List<string>();
+
+            foreach (var court in courts)
+            {
+                if(court.Region == CourtRegion.ATTICA)
+                {
+                    if(court.Gender == gender.Female)
+                    {
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},F,A");
+                    }
+                    else if(court.Gender == gender.Male)
+                    {
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},M,A");
+                    }
+                    else if(court.Gender== gender.Neutral)
+                    {
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},N,A");
+                    }
+                }
+                else if(court.Region== CourtRegion.OTHERREGION)
+                {
+                    if (court.Gender == gender.Female)
+                    {
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},F,E");
+                    }
+                    else if (court.Gender == gender.Male)
+                    {
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},M,E");
+                    }
+                    else if (court.Gender == gender.Neutral)
+                    {
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},N,E");
+                    }
+                }
+            }
+
+            File.WriteAllLines(filePath, output);
+
         }
 
 
@@ -773,6 +897,456 @@ namespace RTFGeneratorWinForms.Models
 
             }
             return str2;
+        }
+
+
+        internal static string NumberInVerbal(int? number, int controler)
+        {
+            if (number == null)
+            {
+                return "";
+            }
+            else if (number == 19)
+            {
+                if (controler == 1000)
+                {
+                    return "δεκαεννέα χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δεκαεννέα";
+                }
+                else if(controler == 1)
+                {
+                    return "δεκαεννέα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 18)
+            {
+                if (controler == 1000)
+                {
+                    return "δεκαοκτώ χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δεκαοκτώ";
+                }
+                else if (controler == 1)
+                {
+                    return "δεκαοκτώ";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 17)
+            {
+                if (controler == 1000)
+                {
+                    return "δεκαεπτά χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δεκαεπτά";
+                }
+                else if (controler == 1)
+                {
+                    return "δεκαεπτά";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 16)
+            {
+                if (controler == 1000)
+                {
+                    return "δεκαέξι χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δεκαέξι";
+                }
+                else if (controler == 1)
+                {
+                    return "δεκαέξι";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 15)
+            {
+                if (controler == 1000)
+                {
+                    return "δεκαπέντε χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δεκαπέντε";
+                }
+                else if (controler == 1)
+                {
+                    return "δεκαπέντε";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 14)
+            {
+                if (controler == 1000)
+                {
+                    return "δεκατέσσερα χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δεκατέσσερα";
+                }
+                else if (controler == 1)
+                {
+                    return "δεκατέσσερα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 13)
+            {
+                if (controler == 1000)
+                {
+                    return "δεκατρία χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δεκατρία";
+                }
+                else if (controler == 1)
+                {
+                    return "δεκατρία";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 12)
+            {
+                if (controler == 1000)
+                {
+                    return "δώδεκα χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δώδεκα";
+                }
+                else if (controler == 1)
+                {
+                    return "δώδεκα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 11)
+            {
+                if (controler == 1000)
+                {
+                    return "έντεκα χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "έντεκα";
+                }
+                else if (controler == 1)
+                {
+                    return "έντεκα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 10)
+            {
+                if (controler == 1000)
+                {
+                    return "δέκα χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "";
+                }
+                else if (controler == 10)
+                {
+                    return "δέκα";
+                }
+                else if (controler == 1)
+                {
+                    return "ένα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 9)
+            {
+                if (controler == 1000)
+                {
+                    return "εννέα χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "εννιακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "ενενήντα";
+                }
+                else if (controler == 1)
+                {
+                    return "εννέα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 8)
+            {
+                if (controler == 1000)
+                {
+                    return "οκτώ χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "οκτακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "ογδόντα";
+                }
+                else if (controler == 1)
+                {
+                    return "οκτώ";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 7)
+            {
+                if (controler == 1000)
+                {
+                    return "επτά χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "επτακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "εβδομήντα";
+                }
+                else if (controler == 1)
+                {
+                    return "επτά";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 6)
+            {
+                if (controler == 1000)
+                {
+                    return "έξι χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "εξακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "εξήντα";
+                }
+                else if (controler == 1)
+                {
+                    return "έξι";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 5)
+            {
+                if (controler == 1000)
+                {
+                    return "πέντε χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "πεντακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "πενήντα";
+                }
+                else if (controler == 1)
+                {
+                    return "πέντε";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 4)
+            {
+                if (controler == 1000)
+                {
+                    return "τέσσερις χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "τετρακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "σαράντα";
+                }
+                else if (controler == 1)
+                {
+                    return "τέσσερα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 3)
+            {
+                if (controler == 1000)
+                {
+                    return "τρεις χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "τριακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "τριάντα";
+                }
+                else if (controler == 1)
+                {
+                    return "τρία";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 2)
+            {
+                if (controler == 1000)
+                {
+                    return "δύο χιλιάδες";
+                }
+                else if (controler == 100)
+                {
+                    return "διακόσια";
+                }
+                else if (controler == 10)
+                {
+                    return "είκοσι";
+                }
+                else if (controler == 1)
+                {
+                    return "δύο";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else if (number == 1)
+            {
+                if (controler == 1000)
+                {
+                    return "χίλια";
+                }
+                else if (controler == 100)
+                {
+                    return "εκατό";
+                }
+                else if (controler == 10)
+                {
+                    return "δέκα";
+                }
+                else if (controler == 1)
+                {
+                    return "ένα";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                return "";
+            }
         }
 
 
