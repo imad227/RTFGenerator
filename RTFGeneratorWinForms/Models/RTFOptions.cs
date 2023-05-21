@@ -17,6 +17,13 @@ namespace RTFGeneratorWinForms.Models
         /// </summary>
         /// <param name="person"></param>
         /// TODO - Return TypeOFOrderForPayment.
+        /// 
+
+        public RTFOptions()
+        {
+            Type = new TypeOFOrderForPayment();
+        }
+
         public static TypeOFOrderForPayment SetRTFOptions(Person person)
         {
             // Temp section 
@@ -40,7 +47,7 @@ namespace RTFGeneratorWinForms.Models
             // Test the number of Contracts.
             if (person.orderforPayment.contracts.Count == 0)
             {
-                MessageBox.Show("You Need to prvide a contract.");
+                //MessageBox.Show("You Need to prvide a contract.");
                 return TypeOFOrderForPayment.NoneValid;
             }
             else if (person.orderforPayment.contracts.Count == 1)
@@ -68,22 +75,21 @@ namespace RTFGeneratorWinForms.Models
                 //    MessageBox.Show("Multi Numbers One Contract");
                 //}
             }
-
             if (person.Gender == gender.Male)
             {
                 if (foundMultipleContracts)
                 {
-                    MessageBox.Show("Male, Multiple Contracts");
+                    //MessageBox.Show("Male, Multiple Contracts");
                     return TypeOFOrderForPayment.MaleMultipleContracts;
                 }
                 else if (!foundMultipleContracts && foundMultiplePhoneNumbers)
                 {
-                    MessageBox.Show("Male, Singele Contract, Multiple Phone number.");
+                    //MessageBox.Show("Male, Singele Contract, Multiple Phone number.");
                     return TypeOFOrderForPayment.MaleSingleContractMultiplePhones;
                 }
                 else
                 {
-                    MessageBox.Show("Male, Single Contract, Single Phone number");
+                    //MessageBox.Show("Male, Single Contract, Single Phone number");
                     return TypeOFOrderForPayment.MaleSingleContractSinglePhone;
                 }
             }
@@ -91,17 +97,17 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (foundMultipleContracts)
                 {
-                    MessageBox.Show("Female, Multiple Contracts");
+                    //MessageBox.Show("Female, Multiple Contracts");
                     return TypeOFOrderForPayment.FemaleMultipleContracts;
                 }
                 else if (!foundMultipleContracts && foundMultiplePhoneNumbers)
                 {
-                    MessageBox.Show("Female, Singele Contract, Multiple Phone number.");
+                    //MessageBox.Show("Female, Singele Contract, Multiple Phone number.");
                     return TypeOFOrderForPayment.FemaleSingleContractMultiplePhones;
                 }
                 else
                 {
-                    MessageBox.Show("Female, Single Contract, Single Phone number");
+                    //MessageBox.Show("Female, Single Contract, Single Phone number");
                     return TypeOFOrderForPayment.FemaleSingleContractSinglePhone;
                 }
             }
@@ -109,33 +115,28 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (foundMultipleContracts)
                 {
-                    MessageBox.Show("Company, Multiple Contracts");
+                    //MessageBox.Show("Company, Multiple Contracts");
                     return TypeOFOrderForPayment.CompanyMultipleContracts;
                 }
                 else if (!foundMultipleContracts && foundMultiplePhoneNumbers)
                 {
-                    MessageBox.Show("Company, Singele Contract, Multiple Phone number.");
+                    //MessageBox.Show("Company, Singele Contract, Multiple Phone number.");
                     return TypeOFOrderForPayment.CompanySingleContractMultiplePhones;
                 }
                 else
                 {
-                    MessageBox.Show("Company, Single Contract, Single Phone number");
+                    //MessageBox.Show("Company, Single Contract, Single Phone number");
                     return TypeOFOrderForPayment.CompanySingleContractSinglePhone;
                 }
             }
-
-
             else
             {
-                MessageBox.Show("None Valide Court Type Option!");
+                //MessageBox.Show("None Valide Court Type Option!");
                 return TypeOFOrderForPayment.NoneValid;
             }
         }
 
-        public RTFOptions()
-        {
-            Type = new TypeOFOrderForPayment();
-        }
+
 
     }
 

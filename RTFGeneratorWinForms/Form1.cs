@@ -15,7 +15,7 @@ namespace RTFGeneratorWinForms
     {
 
         private Person person = new();
-        private List<Lawyer> Lawyers = RTFGen.LoadLawyers();
+        private List<Lawyer> LawyersList = RTFGen.LoadLawyers();
         private List<string> ContractDuration = RTFGen.LoadContractsDuration();
         private List<string> CompaniesTypes = RTFGen.LoadCompaniesTypes();
         private List<Court> CourtsList = RTFGen.LoadCourts();
@@ -34,7 +34,7 @@ namespace RTFGeneratorWinForms
 
 
             lawyerSelectionComboBox.DisplayMember = "Show";
-            lawyerSelectionComboBox.DataSource = Lawyers;
+            lawyerSelectionComboBox.DataSource = LawyersList;
             lawyerSelectionComboBox.SelectedIndex = -1;
 
 
@@ -126,6 +126,15 @@ namespace RTFGeneratorWinForms
         {
             toolStripStatusLabel.Text = "Registring User information . . .";
             person.Title = companyTitelTextBox.Text;
+        }
+
+        private void courtSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Add the selected court to the person.orderforPayment class to the Court name memeber.
+            if (courtSelectionComboBox.SelectedIndex != -1)
+            {
+                person.orderforPayment.CourtName = CourtsList[courtSelectionComboBox.SelectedIndex];
+            }
         }
 
         private void totalAmountTextBox_TextChanged(object sender, EventArgs e)
@@ -482,8 +491,9 @@ namespace RTFGeneratorWinForms
             //MessageBox.Show($"{person.orderforPayment.CompanyType} {CompanyTypeComboBox.SelectedIndex.ToString()} ");
             //MessageBox.Show(person.orderforPayment.Debt.ToString());
 
-            //CreateRTF.Test(person);
-            MessageBox.Show(RTFGen.NumberToText(person.orderforPayment.Debt));
+            CreateRTF.Test(person);
+
+            //MessageBox.Show(RTFGen.NumberToText(person.orderforPayment.Debt));
 
         }
 
@@ -518,6 +528,22 @@ namespace RTFGeneratorWinForms
             addcourt.Dispose();
         }
 
+        private void addLawyerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddLawyer addlawyer = new AddLawyer();
+            this.Hide();
+            addlawyer.ShowDialog();
+            this.Show();
+            if (addlawyer.newLawyer != null)
+            {
+                LawyersList.Add(addlawyer.newLawyer);
+                RTFGen.SaveLawyers(LawyersList);
+                LawyersList = RTFGen.LoadLawyers();
+
+                lawyerSelectionComboBox.DataSource = LawyersList;
+                lawyerSelectionComboBox.SelectedIndex = -1;
+            }
+        }
     }
 
 }

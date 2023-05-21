@@ -20,8 +20,7 @@ namespace RTFGeneratorWinForms.Models
         /// Takes the total amount and return the amount verbaly in a string.
         /// </summary>
         /// <param name="number"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <returns> string </returns>
         public static string NumberToText(double number)
         {
             //throw new NotImplementedException();
@@ -39,18 +38,18 @@ namespace RTFGeneratorWinForms.Models
                 {
                     fractionalPart *= 10;
                 }
- 
-            }
-            if(fractionalPart == 1)
-            {
-                return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτό";
-            }
-            else
-            {
-                return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτά";
-            }
 
+                if (fractionalPart == 1)
+                {
+                    return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτό";
+                }
+                else
+                {
+                    return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτά";
+                }
 
+            }
+            return $"{SplitNumber(intPart)} Ευρώ";
 
             //return $"{intPart.ToString()} and {fractionalPart.ToString()}";
         }
@@ -113,7 +112,7 @@ namespace RTFGeneratorWinForms.Models
         public static RichTextBox ReadTemplateFiel()
         {
             RichTextBox richTextBox1 = new();
-            richTextBox1.LoadFile(@"C:\Demos\DATA\template.rtf");
+            richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
             return richTextBox1;
         }
 
@@ -239,6 +238,26 @@ namespace RTFGeneratorWinForms.Models
 
         }
 
+        public static void SaveLawyers(List<Lawyer> lawyers)
+        {
+            string filePath = @"C:\Demos\DATA\LawyersDatabase.txt";
+            List<string> output = new List<string>();
+
+            foreach (Lawyer lawyer in lawyers)
+            {
+                if(lawyer.Gender == gender.Male)
+                {
+                    output.Add($"{lawyer.AMDSA.ToString()},{lawyer.FirstName},{lawyer.Prfix},{lawyer.LastName},M");
+                }
+                else if( lawyer.Gender == gender.Female)
+                {
+                    output.Add($"{lawyer.AMDSA.ToString()},{lawyer.FirstName},{lawyer.Prfix},{lawyer.LastName},F");
+                }
+            }
+            File.WriteAllLines(filePath, output);
+
+        }
+
 
         public static List<string> LoadContractsDuration()
         {
@@ -268,6 +287,7 @@ namespace RTFGeneratorWinForms.Models
         public static string RtfToString(string str)
         {
             string str2 = "";
+            
             for (int i = 0; i < str.Length; i++)
             {
 
@@ -885,7 +905,32 @@ namespace RTFGeneratorWinForms.Models
                     case '»':
                         str2 += "\\'bb";
                         break;
-                    // continue form this line
+                    // ASCII control characters
+                    case '\0':
+                        str2 += "\\'00";
+                        break;
+                    case '\a':
+                        str2 += "\\'bb";
+                        break;
+                    case '\b':
+                        str2 += "\\'08";
+                        break;
+                    // test if this is a page break.
+                    case '\f':
+                        str2 += "\\'0c";
+                        break;
+                    case '\n':
+                        str2 += "\\'0a";
+                        break;
+                    case '\r':
+                        str2 += "\\'0d";
+                        break;
+                    case '\t':
+                        str2 += "\\'09";
+                        break;
+                    case '\v':
+                        str2 += "\\'0b";
+                        break;
 
 
                     default:
@@ -896,7 +941,8 @@ namespace RTFGeneratorWinForms.Models
                 }
 
             }
-            return str2;
+                return str2;
+
         }
 
 

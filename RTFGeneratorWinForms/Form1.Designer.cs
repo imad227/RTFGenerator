@@ -172,6 +172,7 @@ namespace RTFGeneratorWinForms
             addLawyerToolStripMenuItem.Name = "addLawyerToolStripMenuItem";
             addLawyerToolStripMenuItem.Size = new Size(150, 22);
             addLawyerToolStripMenuItem.Text = "Add &Lawyer";
+            addLawyerToolStripMenuItem.Click += addLawyerToolStripMenuItem_Click;
             // 
             // addContractsToolStripMenuItem
             // 
@@ -716,6 +717,7 @@ namespace RTFGeneratorWinForms
             courtSelectionComboBox.Name = "courtSelectionComboBox";
             courtSelectionComboBox.Size = new Size(310, 28);
             courtSelectionComboBox.TabIndex = 27;
+            courtSelectionComboBox.SelectedIndexChanged += courtSelectionComboBox_SelectedIndexChanged;
             // 
             // oteRadioButton
             // 
