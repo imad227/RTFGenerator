@@ -9,6 +9,7 @@ namespace RTFGeneratorLibrary
     public class OrderforPayment
     {
         public Court CourtName { get; set; }
+        public Lawyer LawyerName { get; set; }
         public string City { get; set; } = string.Empty;
         public string CompanyType { get; set; } = string.Empty;
         public double Debt { get; set; }
@@ -20,6 +21,7 @@ namespace RTFGeneratorLibrary
             contracts = new List<Contract>();
             bills = new List<Bills>();
             CourtName = new Court();
+            LawyerName = new Lawyer();
         }
 
 

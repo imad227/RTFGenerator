@@ -700,6 +700,7 @@ namespace RTFGeneratorWinForms
             lawyerSelectionComboBox.Name = "lawyerSelectionComboBox";
             lawyerSelectionComboBox.Size = new Size(310, 28);
             lawyerSelectionComboBox.TabIndex = 30;
+            lawyerSelectionComboBox.SelectedIndexChanged += lawyerSelectionComboBox_SelectedIndexChanged;
             // 
             // selectCourtLabel
             // 

@@ -137,6 +137,14 @@ namespace RTFGeneratorWinForms
             }
         }
 
+        private void lawyerSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(lawyerSelectionComboBox.SelectedIndex != -1)
+            {
+                person.orderforPayment.LawyerName = LawyersList[lawyerSelectionComboBox.SelectedIndex];
+            }
+        }
+
         private void totalAmountTextBox_TextChanged(object sender, EventArgs e)
         {
             // TODO
@@ -544,6 +552,7 @@ namespace RTFGeneratorWinForms
                 lawyerSelectionComboBox.SelectedIndex = -1;
             }
         }
+
     }
 
 }
