@@ -16,6 +16,51 @@ namespace RTFGeneratorWinForms.Models
     internal class RTFGen
     {
 
+        public static Bills FirstBill(Person person)
+        {
+            Bills bill = new Bills();
+            if (person.orderforPayment.bills.Count > 0)
+            {
+                bill = person.orderforPayment.bills[0];
+                foreach (var t in person.orderforPayment.bills)
+                {
+                    if (DateTime.Compare(t.IssueDate, bill.IssueDate) < 0)
+                    {
+                        bill = t;
+                    }
+                }
+                return bill;
+            }
+            else
+            {
+                bill.IssueDate = DateTime.MinValue;
+                return bill;
+            }
+
+        }
+
+        public static Bills LastBill(Person person)
+        {
+            Bills bill = new Bills();
+            if (person.orderforPayment.bills.Count > 0)
+            {
+                bill = person.orderforPayment.bills[0];
+                foreach (var t in person.orderforPayment.bills)
+                {
+                    if (DateTime.Compare(t.IssueDate, bill.IssueDate) > 0)
+                    {
+                        bill = t;
+                    }
+                }
+                return bill;
+            }
+            else
+            {
+                bill.IssueDate = DateTime.MaxValue;
+                return bill;
+            }
+        }
+
         /// <summary>
         /// Takes the total amount and return the amount verbaly in a string.
         /// </summary>

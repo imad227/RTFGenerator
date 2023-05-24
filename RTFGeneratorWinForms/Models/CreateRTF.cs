@@ -181,7 +181,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("\tΜεταξύ εμού και του καθού συνήφθη η κάτωθι σύμβαση σύνδεσης στο δίκτυο της COSMOTE: ");
             }
-            else if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones)
+            else if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones)
             {
                 sb.Append("\tΜεταξύ εμού και της καθής συνήφθη η κάτωθι σύμβαση σύνδεσης στο δίκτυο της COSMOTE: ");
             }
@@ -189,7 +189,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("\tΜεταξύ εμού και του καθού συνήφθησαν οι κάτωθι συμβάσεις σύνδεσης στο δίκτυο της COSMOTE: ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts)
             {
                 sb.Append("\tΜεταξύ εμού και της καθής συνήφθησαν οι κάτωθι συμβάσεις σύνδεσης στο δίκτυο της COSMOTE: ");
             }
@@ -206,23 +206,35 @@ namespace RTFGeneratorWinForms.Models
         public static string AddLawyerSignatureAtApplicationSection(Person person)
         {
             StringBuilder sb = new();
-            // Check the Lawyer Gender Here.
-            sb.Append("παρόντος δικογράφου από τη\rδικηγόρο Νικολέττα Α. Λυμπεροπούλου\r");
+            if(person.orderforPayment.LawyerName.Gender == gender.Female)
+            {
+                sb.Append($"παρόντος δικογράφου από την\rδικηγόρο {person.orderforPayment.LawyerName.Show}\r");
+            }
+            else if(person.orderforPayment.LawyerName.Gender == gender.Male)
+            {
+                sb.Append($"παρόντος δικογράφου από τον\r\nδικηγόρο {person.orderforPayment.LawyerName.Show}\r");
+            }
             return sb.ToString();
         }
 
         public static string AddLawyerTitelAtApplicationSection(Person preson)
         {
             StringBuilder sb = new();
-            // Check the Lawyer Gender Here.
-            sb.Append("Η πληρεξούσια δικηγόρος");
+            if(preson.orderforPayment.LawyerName.Gender == gender.Female)
+            {
+                sb.Append("Η πληρεξούσια δικηγόρος");
+            }
+            else if(preson.orderforPayment.LawyerName.Gender == gender.Male)
+            {
+                sb.Append("Ο πληρεξούσιος δικηγόρος");
+            }
             return sb.ToString();
         }
 
         public static string AddAplicationSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
-
+            // need improvment.
             // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
             if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true) 
             {
@@ -242,7 +254,7 @@ namespace RTFGeneratorWinForms.Models
                 sb.Append("Ειδικά, τέλος, συμφωνήσαμε ότι η μη έγγραφη αμφισβήτηση από τον καθού των λογαριασμών αυτών εντός 45 ημερών από την έκδοσή τους, θα σήμαινε την πλήρη και ανεπιφύλακτη αποδοχή τους.");
 
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone && true)
             {
                 sb.Append("\tΜε την σύμβαση αυτή εγώ μεν η αιτούσα ανέλαβα την υποχρέωση να παρέχω στην καθής τηλεπικοινωνιακές υπηρεσίες, αυτή δε ανέλαβε την υποχρέωση να εξοφλεί εμένα,  βάσει των όρων της μεταξύ μας σύμβασης και ειδικότερα μέσα σε 30 ημέρες από την έκδοση των μηνιαίων λογαριασμών που θα της απέστελνα.\r");
                 sb.Append("\tΗ παραπάνω αναφερόμενη σύμβαση συμφωνήσαμε να διέπεται από τους ισχύοντες «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE», τους οποίους ενυπόγραφα και ανεπιφύλακτα αποδέχθηκε η καθής κατά την υπογραφή της, καθώς και από τους «Ειδικούς Όρους Εταιρικών Πελατών», τους οποίους επίσης η καθής ενυπόγραφα και ανεπιφύλακτα αποδέχθηκε.\r");
@@ -250,7 +262,7 @@ namespace RTFGeneratorWinForms.Models
                 // AITHMA AMFHSVITHSH.
                 sb.Append("Ειδικά, τέλος, συμφωνήσαμε ότι η μη έγγραφη αμφισβήτηση από την καθής των λογαριασμών αυτών εντός 45 ημερών από την έκδοσή τους, θα σήμαινε την πλήρη και ανεπιφύλακτη αποδοχή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("\tΜε την σύμβαση αυτή εγώ μεν η αιτούσα ανέλαβα την υποχρέωση να παρέχω στην καθής τηλεπικοινωνιακές υπηρεσίες, αυτή δε ανέλαβε την υποχρέωση να εξοφλεί εμένα,  βάσει των όρων της μεταξύ μας σύμβασης και ειδικότερα μέσα σε 30 ημέρες από την έκδοση των μηνιαίων λογαριασμών που θα της απέστελνα.\r");
                 sb.Append("\tΗ παραπάνω αναφερόμενη σύμβαση συμφωνήσαμε να διέπεται από τους ισχύοντες «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE», τους οποίους ενυπόγραφα και ανεπιφύλακτα αποδέχθηκε η καθής κατά την υπογραφή της, καθώς και από τους «Ειδικούς Όρους Εταιρικών Πελατών», τους οποίους επίσης η καθής ενυπόγραφα και ανεπιφύλακτα αποδέχθηκε. \r");
@@ -268,7 +280,7 @@ namespace RTFGeneratorWinForms.Models
                 // AITHMA AMFHSVITHSH.
                 sb.Append("Ειδικά, τέλος, συμφωνήσαμε ότι η μη έγγραφη αμφισβήτηση από τον καθού των λογαριασμών αυτών εντός 45 ημερών από την έκδοσή τους, θα σήμαινε την πλήρη και ανεπιφύλακτη αποδοχή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("\tΜε τις συμβάσεις αυτές εγώ μεν η αιτούσα ανέλαβα την υποχρέωση να παρέχω στην καθής τηλεπικοινωνιακές υπηρεσίες, αυτή δε ανέλαβε την υποχρέωση να εξοφλεί εμένα,  βάσει των όρων των μεταξύ μας συμβάσεων και ειδικότερα μέσα σε 30 ημέρες από την έκδοση των μηνιαίων λογαριασμών που θα της απέστελνα.\r");
                 sb.Append("\tΟι παραπάνω αναφερόμενες συμβάσεις συμφωνήσαμε να διέπονται από τους ισχύοντες «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE», τους οποίους ενυπόγραφα και ανεπιφύλακτα αποδέχθηκε η καθής κατά την υπογραφή της, καθώς και από τους «Ειδικούς Όρους Εταιρικών Πελατών», τους οποίους επίσης η καθής ενυπόγραφα και ανεπιφύλακτα αποδέχθηκε. \r");
@@ -284,7 +296,7 @@ namespace RTFGeneratorWinForms.Models
         public static string AddBillsInformationSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
-
+            // need improvment.
             // we need to check the lawyer also. and add the bills dates.
             if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
             {
@@ -294,11 +306,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("ο καθού έκανε χρήση των ως άνω συνδέσεων και επειδή για την παροχή των υπηρεσιών μου αυτών εξέδωσα και του απέστειλα, στην από αυτόν δηλωθείσα στην ανωτέρω σύμβαση διεύθυνση, τους από 18/8/2021 μέχρι 18/11/2021 μηνιαίους λογαριασμούς - τιμολόγια, με ανάλυση των μηνιαίων πάγιων τελών και των παρασχεθεισών από εμένα υπηρεσιών.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone  && true)
             {
                 sb.Append("η καθής έκανε χρήση της ως άνω σύνδεσης και επειδή για την παροχή των υπηρεσιών μου αυτών εξέδωσα και της απέστειλα, στην από αυτήν δηλωθείσα στην ανωτέρω σύμβαση διεύθυνση, τους από 10/3/2021 μέχρι 10/7/2021 μηνιαίους λογαριασμούς - τιμολόγια, με ανάλυση των μηνιαίων πάγιων τελών και των παρασχεθεισών από εμένα υπηρεσιών.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("η καθής έκανε χρήση των ως άνω συνδέσεων και επειδή για την παροχή των υπηρεσιών μου αυτών εξέδωσα και της απέστειλα, στην από αυτήν δηλωθείσα στην ανωτέρω σύμβαση διεύθυνση, τους από 1/12/2021 μέχρι 1/3/2022 μηνιαίους λογαριασμούς - τιμολόγια, με ανάλυση των μηνιαίων πάγιων τελών και των παρασχεθεισών από εμένα υπηρεσιών.");
             }
@@ -306,7 +318,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("ο καθού έκανε χρήση των ως άνω συνδέσεων και επειδή για την παροχή των υπηρεσιών μου αυτών εξέδωσα και του απέστειλα, στην από αυτόν δηλωθείσα στις ανωτέρω συμβάσεις διεύθυνση, τους από 27/07/2019 μέχρι 26/12/2019 μηνιαίους λογαριασμούς - τιμολόγια, με ανάλυση των μηνιαίων πάγιων τελών και των παρασχεθεισών από εμένα υπηρεσιών.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts ||  RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("η καθής έκανε χρήση των ως άνω συνδέσεων και επειδή για την παροχή των υπηρεσιών μου αυτών εξέδωσα και της απέστειλα, στην από αυτήν δηλωθείσα στις ανωτέρω συμβάσεις διεύθυνση, τους από 14/1/2021 μέχρι 14/5/2021 μηνιαίους λογαριασμούς - τιμολόγια, με ανάλυση των μηνιαίων πάγιων τελών και των παρασχεθεισών από εμένα υπηρεσιών.");
             }
@@ -318,7 +330,7 @@ namespace RTFGeneratorWinForms.Models
         public static string AddDebtSectionPart1(Person person)
         {
             StringBuilder sb = new StringBuilder();
-
+            // need improvment.
             // we need to check the lawyer also. and add the bills dates.
             if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone)
             {
@@ -328,11 +340,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("από τους ως άνω μηνιαίους λογαριασμούς – τιμολόγια που εκδόθηκαν στα πλαίσια της πιο πάνω σύμβασης και έχουν εξαχθεί από τα νόμιμα εμπορικά βιβλία μου, προκύπτει ότι ο καθού δεν μου έχει καταβάλει και μου οφείλει από τις 18/8/2021 έως και τις 18/11/2021 το συνολικό ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone)
             {
                 sb.Append("από τους ως άνω μηνιαίους λογαριασμούς – τιμολόγια που εκδόθηκαν στα πλαίσια της πιο πάνω σύμβασης και έχουν εξαχθεί από τα νόμιμα εμπορικά βιβλία μου, προκύπτει ότι η καθής δεν μου έχει καταβάλει και μου οφείλει από τις 10/3/2021 έως και τις 10/7/2021 το συνολικό ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones)
             {
                 sb.Append("από τους ως άνω μηνιαίους λογαριασμούς – τιμολόγια που εκδόθηκαν στα πλαίσια της πιο πάνω σύμβασης και έχουν εξαχθεί από τα νόμιμα εμπορικά βιβλία μου, προκύπτει ότι η καθής δεν μου έχει καταβάλει και μου οφείλει από τις 1/12/2021 έως και τις 1/3/2022 το συνολικό ");
             }
@@ -340,7 +352,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("από τους ως άνω μηνιαίους λογαριασμούς – τιμολόγια που εκδόθηκαν στα πλαίσια των πιο πάνω συμβάσεων και έχουν εξαχθεί από τα νόμιμα εμπορικά βιβλία μου, προκύπτει ότι ο καθού δεν μου έχει καταβάλει και μου οφείλει από τις 27/07/2019 έως και τις 26/12/2019 το συνολικό ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts)
             {
                 sb.Append("από τους ως άνω μηνιαίους λογαριασμούς – τιμολόγια που εκδόθηκαν στα πλαίσια των πιο πάνω συμβάσεων και έχουν εξαχθεί από τα νόμιμα εμπορικά βιβλία μου, προκύπτει ότι η καθής δεν μου έχει καταβάλει και μου οφείλει από τις 14/1/2021 έως και τις 14/5/2021 το συνολικό ");
             }
@@ -351,7 +363,7 @@ namespace RTFGeneratorWinForms.Models
         public static string AddDebtSectionPart2(Person person)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("ποσό των ευρώ 374,70 € (τριακόσια εβδομήντα τέσσερα ευρώ και εβδομήντα λεπτά)");
+            sb.Append($"ποσό των ευρώ {person.orderforPayment.Debt.ToString()} € ({RTFGen.NumberToText(person.orderforPayment.Debt)})");
             return sb.ToString();
         }
 
@@ -359,40 +371,15 @@ namespace RTFGeneratorWinForms.Models
         {
             StringBuilder sb = new StringBuilder();
 
-            // move this back to the template.
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
-            {
-                sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones)
-            {
-                sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
-            {
-                sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
-            {
-                sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
-            {
-                sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
-            }
-            
-
+            sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
+         
             return sb.ToString();
         }
 
         public static string AddBillIssueAndPaymentAgreementSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
-
+            // need improvment.
             // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
             if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
             {
@@ -402,11 +389,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("μεταξύ εμού και του καθού έχει συμφωνηθεί δήλη ημέρα πληρωμής των λογαριασμών που εκδίδω, δεδομένου ότι, σύμφωνα με το άρθρο 8.3 των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», οι λογαριασμοί εκδίδονται κάθε μήνα και πρέπει να εξοφλούνται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή τους, σε περίπτωση δε που ο συνδρομητής δεν τους εξοφλήσει μέσα στη προθεσμία αυτή, θα επιβαρύνεται με το νόμιμο τόκο υπερημερίας, χωρίς άλλη όχληση.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone && true)
             {
                 sb.Append("μεταξύ εμού και της καθής έχει συμφωνηθεί δήλη ημέρα πληρωμής των λογαριασμών που εκδίδω, δεδομένου ότι, σύμφωνα με το άρθρο 8.3 των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», οι λογαριασμοί εκδίδονται κάθε μήνα και πρέπει να εξοφλούνται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή τους, σε περίπτωση δε που ο συνδρομητής δεν τους εξοφλήσει μέσα στη προθεσμία αυτή, θα επιβαρύνεται με το νόμιμο τόκο υπερημερίας, χωρίς άλλη όχληση.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("μεταξύ εμού και της καθής έχει συμφωνηθεί δήλη ημέρα πληρωμής των λογαριασμών που εκδίδω, δεδομένου ότι, σύμφωνα με το άρθρο 8.3 των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», οι λογαριασμοί εκδίδονται κάθε μήνα και πρέπει να εξοφλούνται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή τους, σε περίπτωση δε που ο συνδρομητής δεν τους εξοφλήσει μέσα στη προθεσμία αυτή, θα επιβαρύνεται με το νόμιμο τόκο υπερημερίας, χωρίς άλλη όχληση.");
             }
@@ -414,7 +401,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("μεταξύ εμού και του καθού έχει συμφωνηθεί δήλη ημέρα πληρωμής των λογαριασμών που εκδίδω, δεδομένου ότι, σύμφωνα με το άρθρο 8.3 των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», οι λογαριασμοί εκδίδονται κάθε μήνα και πρέπει να εξοφλούνται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή τους, σε περίπτωση δε που ο συνδρομητής δεν τους εξοφλήσει μέσα στη προθεσμία αυτή, θα επιβαρύνεται με το νόμιμο τόκο υπερημερίας, χωρίς άλλη όχληση.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("μεταξύ εμού και της καθής έχει συμφωνηθεί δήλη ημέρα πληρωμής των λογαριασμών που εκδίδω, δεδομένου ότι, σύμφωνα με το άρθρο 8.3 των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», οι λογαριασμοί εκδίδονται κάθε μήνα και πρέπει να εξοφλούνται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή τους, σε περίπτωση δε που ο συνδρομητής δεν τους εξοφλήσει μέσα στη προθεσμία αυτή, θα επιβαρύνεται με το νόμιμο τόκο υπερημερίας, χωρίς άλλη όχληση.");
             }
@@ -425,7 +412,7 @@ namespace RTFGeneratorWinForms.Models
         public static string AddPrivouseUnpaidDeptSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
-
+            // need improvment.
             // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
             if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
             {
@@ -435,11 +422,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("με τους λογαριασμούς που απέστελνα στον καθού τους προηγούμενους μήνες, τον είχα και εγγράφως ειδοποιήσει για το προαναφερόμενο ανεξόφλητο υπόλοιπό του, το οποίο είχε καταστεί ληξιπρόθεσμο και απαιτητό και επειδή κατόπιν τούτου αναγκάσθηκα να καταγγείλω την ανωτέρω σύμβαση και να προβώ σε διακοπή των άνω αναφερόμενων συνδέσεων για το λόγο ότι αυτός ηρνείτο να συμμορφωθεί στις συμβατικές υποχρεώσεις του και δεν μου κατέβαλλε τα οφειλόμενα.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone && true)
             {
                 sb.Append("με τους λογαριασμούς που απέστελνα στην καθής τους προηγούμενους μήνες, την είχα και εγγράφως ειδοποιήσει για το προαναφερόμενο ανεξόφλητο υπόλοιπό της, το οποίο είχε καταστεί ληξιπρόθεσμο και απαιτητό και επειδή κατόπιν τούτου αναγκάσθηκα να καταγγείλω την ανωτέρω σύμβαση και να προβώ σε διακοπή της άνω αναφερόμενης σύνδεσης για το λόγο ότι αυτή ηρνείτο να συμμορφωθεί στις συμβατικές υποχρεώσεις της και δεν μου κατέβαλλε τα οφειλόμενα.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("με τους λογαριασμούς που απέστελνα στην καθής τους προηγούμενους μήνες, την είχα και εγγράφως ειδοποιήσει για το προαναφερόμενο ανεξόφλητο υπόλοιπό της, το οποίο είχε καταστεί ληξιπρόθεσμο και απαιτητό και επειδή κατόπιν τούτου αναγκάσθηκα να καταγγείλω την ανωτέρω σύμβαση και να προβώ σε διακοπή των άνω αναφερόμενων συνδέσεων για το λόγο ότι αυτή ηρνείτο να συμμορφωθεί στις συμβατικές υποχρεώσεις της και δεν μου κατέβαλλε τα οφειλόμενα.");
             }
@@ -447,7 +434,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("με τους λογαριασμούς που απέστελνα στον καθού τους προηγούμενους μήνες, τον είχα και εγγράφως ειδοποιήσει για το προαναφερόμενο ανεξόφλητο υπόλοιπό του, το οποίο είχε καταστεί ληξιπρόθεσμο και απαιτητό και επειδή κατόπιν τούτου αναγκάσθηκα να καταγγείλω τις ανωτέρω συμβάσεις και να προβώ σε διακοπή των άνω αναφερόμενων συνδέσεων για το λόγο ότι αυτός ηρνείτο να συμμορφωθεί στις συμβατικές υποχρεώσεις του και δεν μου κατέβαλλε τα οφειλόμενα.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("με τους λογαριασμούς που απέστελνα στην καθής τους προηγούμενους μήνες, την είχα και εγγράφως ειδοποιήσει για το προαναφερόμενο ανεξόφλητο υπόλοιπό της, το οποίο είχε καταστεί ληξιπρόθεσμο και απαιτητό και επειδή κατόπιν τούτου αναγκάσθηκα να καταγγείλω τις ανωτέρω συμβάσεις και να προβώ σε διακοπή των άνω αναφερόμενων συνδέσεων για το λόγο ότι αυτή ηρνείτο να συμμορφωθεί στις συμβατικές υποχρεώσεις της και δεν μου κατέβαλλε τα οφειλόμενα.");
             }
@@ -458,7 +445,7 @@ namespace RTFGeneratorWinForms.Models
         public static string AddServiceProvidedasPerContractSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
-
+            // need improvment.
             // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
             if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
             {
@@ -468,11 +455,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("εγώ η αιτούσα, από την υπογραφή της άνω σύμβασης και την ενεργοποίηση των σχετικών συνδέσεων, παρείχα προς τον καθού ακώλυτη χρήση τηλεπικοινωνιακών υπηρεσιών, τηρώντας τους όρους της μεταξύ μας σύμβασης, αλλά και τις υποχρεώσεις μου, που πηγάζουν από τις σχετικές άδειες παροχής τηλεπικοινωνιακών υπηρεσιών.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone && true)
             {
                 sb.Append("εγώ η αιτούσα, από την υπογραφή της άνω σύμβασης και την ενεργοποίηση της σχετικής σύνδεσης, παρείχα προς την καθής ακώλυτη χρήση τηλεπικοινωνιακών υπηρεσιών, τηρώντας τους όρους της μεταξύ μας σύμβασης, αλλά και τις υποχρεώσεις μου, που πηγάζουν από τις σχετικές άδειες παροχής τηλεπικοινωνιακών υπηρεσιών.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("εγώ η αιτούσα, από την υπογραφή της άνω σύμβασης και την ενεργοποίηση των σχετικών συνδέσεων, παρείχα προς την καθής ακώλυτη χρήση τηλεπικοινωνιακών υπηρεσιών, τηρώντας τους όρους της μεταξύ μας σύμβασης, αλλά και τις υποχρεώσεις μου, που πηγάζουν από τις σχετικές άδειες παροχής τηλεπικοινωνιακών υπηρεσιών.");
             }
@@ -480,7 +467,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("εγώ η αιτούσα, από την υπογραφή των άνω συμβάσεων και την ενεργοποίηση των σχετικών συνδέσεων, παρείχα προς τον καθού ακώλυτη χρήση τηλεπικοινωνιακών υπηρεσιών, τηρώντας τους όρους των μεταξύ μας συμβάσεων, αλλά και τις υποχρεώσεις μου, που πηγάζουν από τις σχετικές άδειες παροχής τηλεπικοινωνιακών υπηρεσιών.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts  && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("εγώ η αιτούσα, από την υπογραφή των άνω συμβάσεων και την ενεργοποίηση των σχετικών συνδέσεων, παρείχα προς την καθής ακώλυτη χρήση τηλεπικοινωνιακών υπηρεσιών, τηρώντας τους όρους των μεταξύ μας συμβάσεων, αλλά και τις υποχρεώσεις μου, που πηγάζουν από τις σχετικές άδειες παροχής τηλεπικοινωνιακών υπηρεσιών.");
             }
@@ -502,11 +489,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("ο καθού αποδέχθηκε ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους αμφισβήτησε εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 της μεταξύ μας σύμβασης, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone && true)
             {
                 sb.Append("η καθής αποδέχθηκε ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους αμφισβήτησε εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 της μεταξύ μας σύμβασης, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("η καθής αποδέχθηκε ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους αμφισβήτησε εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 της μεταξύ μας σύμβασης, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
@@ -514,7 +501,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("ο καθού αποδέχθηκε ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους αμφισβήτησε εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 των μεταξύ μας συμβάσεων, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("η καθής αποδέχθηκε ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους αμφισβήτησε εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 των μεταξύ μας συμβάσεων, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
@@ -524,66 +511,20 @@ namespace RTFGeneratorWinForms.Models
 
         public static string AddCompanyConditionChangedSection(Person person)
         {
+            // we can move this to the template.
             StringBuilder sb = new StringBuilder();
 
-            // move this back to the template.
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
-            {
-                sb.Append("μετά από τροποποίηση του καταστατικού μου, η οποία νομίμως καταχωρίσθηκε στις 30-06-2021, με κωδικό αριθμό καταχώρισης 2573048, στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, έχω καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχω μετονομασθεί από ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("μετά από τροποποίηση του καταστατικού μου, η οποία νομίμως καταχωρίσθηκε στις 30-06-2021, με κωδικό αριθμό καταχώρισης 2573048, στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, έχω καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχω μετονομασθεί από ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
-            {
-                sb.Append("μετά από τροποποίηση του καταστατικού μου, η οποία νομίμως καταχωρίσθηκε στις 30-06-2021, με κωδικό αριθμό καταχώρισης 2573048, στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, έχω καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχω μετονομασθεί από ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("μετά από τροποποίηση του καταστατικού μου, η οποία νομίμως καταχωρίσθηκε στις 30-06-2021, με κωδικό αριθμό καταχώρισης 2573048, στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, έχω καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχω μετονομασθεί από ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append("μετά από τροποποίηση του καταστατικού μου, η οποία νομίμως καταχωρίσθηκε στις 30-06-2021, με κωδικό αριθμό καταχώρισης 2573048, στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, έχω καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχω μετονομασθεί από ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
-            {
-                sb.Append("μετά από τροποποίηση του καταστατικού μου, η οποία νομίμως καταχωρίσθηκε στις 30-06-2021, με κωδικό αριθμό καταχώρισης 2573048, στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, έχω καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχω μετονομασθεί από ");
-            }
+            sb.Append("μετά από τροποποίηση του καταστατικού μου, η οποία νομίμως καταχωρίσθηκε στις 30-06-2021, με κωδικό αριθμό καταχώρισης 2573048, στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, έχω καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχω μετονομασθεί από ");
 
             return sb.ToString();
         }
 
         public static string AddCorrespondingCourtBasedOnBillingAddressSection(Person person)
         {
+            // we can move this back to the template.
             StringBuilder sb = new StringBuilder();
 
-            // move this back to template.
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
-            {
-                sb.Append("το δικαστήριό Σας είναι καθ’ ύλην και κατά τόπον αρμόδιο για την έκδοση της διαταγής πληρωμής, με την οποία πρέπει να μου επιδικασθούν οι παραπάνω αναφερόμενοι λογαριασμοί, που έχουν καταστεί ληξιπρόθεσμοι και απαιτητοί.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("το δικαστήριό Σας είναι καθ’ ύλην και κατά τόπον αρμόδιο για την έκδοση της διαταγής πληρωμής, με την οποία πρέπει να μου επιδικασθούν οι παραπάνω αναφερόμενοι λογαριασμοί, που έχουν καταστεί ληξιπρόθεσμοι και απαιτητοί.");
-            }
-            else if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
-            {
-                sb.Append("το δικαστήριό Σας είναι καθ’ ύλην και κατά τόπον αρμόδιο για την έκδοση της διαταγής πληρωμής, με την οποία πρέπει να μου επιδικασθούν οι παραπάνω αναφερόμενοι λογαριασμοί, που έχουν καταστεί ληξιπρόθεσμοι και απαιτητοί.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("το δικαστήριό Σας είναι καθ’ ύλην και κατά τόπον αρμόδιο για την έκδοση της διαταγής πληρωμής, με την οποία πρέπει να μου επιδικασθούν οι παραπάνω αναφερόμενοι λογαριασμοί, που έχουν καταστεί ληξιπρόθεσμοι και απαιτητοί.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append("το δικαστήριό Σας είναι καθ’ ύλην και κατά τόπον αρμόδιο για την έκδοση της διαταγής πληρωμής, με την οποία πρέπει να μου επιδικασθούν οι παραπάνω αναφερόμενοι λογαριασμοί, που έχουν καταστεί ληξιπρόθεσμοι και απαιτητοί.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
-            {
-                sb.Append("το δικαστήριό Σας είναι καθ’ ύλην και κατά τόπον αρμόδιο για την έκδοση της διαταγής πληρωμής, με την οποία πρέπει να μου επιδικασθούν οι παραπάνω αναφερόμενοι λογαριασμοί, που έχουν καταστεί ληξιπρόθεσμοι και απαιτητοί.");
-            }
+            sb.Append("το δικαστήριό Σας είναι καθ’ ύλην και κατά τόπον αρμόδιο για την έκδοση της διαταγής πληρωμής, με την οποία πρέπει να μου επιδικασθούν οι παραπάνω αναφερόμενοι λογαριασμοί, που έχουν καταστεί ληξιπρόθεσμοι και απαιτητοί.");
 
             return sb.ToString();
         }
@@ -591,9 +532,10 @@ namespace RTFGeneratorWinForms.Models
         //   ΕΔΩ ΕΙΝΑΙ ΤΑ ΣΧΕΤΙΚΑ.
         public static string AddAppendices(Person person)
         {
+            // fix this.
             StringBuilder sb = new();
             // Change this for multiple contracts.
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone)
+            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone)
             {
                 sb.Append("\t1) Την ένδικη σύμβασή μου με την καθής, περί παροχής σε αυτήν της ένδικης σύνδεσης κινητής τηλεφωνίας στο δίκτυο της COSMOTE, καθώς και τους συνημμένους σε αυτήν «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE» και τους «Ειδικούς Όρους Εταιρικών Πελατών» (ΣΧΕΤΙΚΟ 1).\r");
                 sb.Append("\t2) Όλα τα αντίγραφα των παραπάνω αναφερόμενων ένδικων λογαριασμών-τιμολογίων τελών κινητής τηλεφωνίας του ένδικου λογαριασμού της καθής, εξηγμένα από τα νόμιμα εμπορικά μου βιβλία, νομίμως επικυρωμένα (ΣΧΕΤΙΚΟ 2).\r");
@@ -608,7 +550,7 @@ namespace RTFGeneratorWinForms.Models
                 sb.Append("\t1) Την ένδικη σύμβασή μου με τον καθού, περί παροχής σε αυτόν των ένδικων συνδέσεων κινητής τηλεφωνίας στο δίκτυο της COSMOTE, καθώς και τους συνημμένους σε αυτήν «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE» και τους «Ειδικούς Όρους Εταιρικών Πελατών» (ΣΧΕΤΙΚΟ 1).\r");
                 sb.Append("\t2) Όλα τα αντίγραφα των παραπάνω αναφερόμενων ένδικων λογαριασμών-τιμολογίων τελών κινητής τηλεφωνίας του ένδικου λογαριασμού του καθού, εξηγμένα από τα νόμιμα εμπορικά μου βιβλία, νομίμως επικυρωμένα (ΣΧΕΤΙΚΟ 2).\r");
             }
-            else if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones)
+            else if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones)
             {
                 sb.Append("\t1) Την ένδικη σύμβασή μου με την καθής, περί παροχής σε αυτήν των ένδικων συνδέσεων κινητής τηλεφωνίας στο δίκτυο της COSMOTE, καθώς και τους συνημμένους σε αυτήν «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE» και τους «Ειδικούς Όρους Εταιρικών Πελατών» (ΣΧΕΤΙΚΟ 1).\r");
                 sb.Append("\t2) Όλα τα αντίγραφα των παραπάνω αναφερόμενων ένδικων λογαριασμών-τιμολογίων τελών κινητής τηλεφωνίας του ένδικου λογαριασμού της καθής, εξηγμένα από τα νόμιμα εμπορικά μου βιβλία, νομίμως επικυρωμένα (ΣΧΕΤΙΚΟ 2).\r");
@@ -618,7 +560,7 @@ namespace RTFGeneratorWinForms.Models
                 sb.Append("\t1) Τις ένδικες συμβάσεις μου με τον καθού, περί παροχής σε αυτόν των ένδικων συνδέσεων κινητής τηλεφωνίας στο δίκτυο της COSMOTE, καθώς και τους συνημμένους σε αυτές «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE» και τους «Ειδικούς Όρους Εταιρικών Πελατών» (ΣΧΕΤΙΚΟ 1).\r");
                 sb.Append("\t2) Όλα τα αντίγραφα των παραπάνω αναφερόμενων ένδικων λογαριασμών-τιμολογίων τελών κινητής τηλεφωνίας του ένδικου λογαριασμού του καθού, εξηγμένα από τα νόμιμα εμπορικά μου βιβλία, νομίμως επικυρωμένα (ΣΧΕΤΙΚΟ 2).\r");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts)
             {
                 sb.Append("\t1) Τις ένδικες συμβάσεις μου με την καθής, περί παροχής σε αυτήν των ένδικων συνδέσεων κινητής τηλεφωνίας στο δίκτυο της COSMOTE, καθώς και τους συνημμένους σε αυτές «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE» και τους «Ειδικούς Όρους Εταιρικών Πελατών» (ΣΧΕΤΙΚΟ 1).\r");
                 sb.Append("\t2) Όλα τα αντίγραφα των παραπάνω αναφερόμενων ένδικων λογαριασμών-τιμολογίων τελών κινητής τηλεφωνίας του ένδικου λογαριασμού της καθής, εξηγμένα από τα νόμιμα εμπορικά μου βιβλία, νομίμως επικυρωμένα (ΣΧΕΤΙΚΟ 2).\r");
@@ -634,34 +576,33 @@ namespace RTFGeneratorWinForms.Models
         public static string AddPaymentRequestFromClientSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
+            
+            sb.Append("\tΝα υποχρεωθεί ");
+            
+            if(person.Gender == gender.Male)
+            {
+                sb.Append("ο καθού, ");
+            }
+            else if(person.Gender == gender.Female || person.Gender == gender.Company)
+            {
+                sb.Append("η καθής, ");
+            }
 
-            // we need to check the lawyer also.
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
+            sb.Append("με διαταγή προς πληρωμή που θα εκδώσετε εις βάρος ");
+
+            if (person.Gender == gender.Male)
             {
-                sb.Append("\tΝα υποχρεωθεί ο καθού, με διαταγή προς πληρωμή που θα εκδώσετε εις βάρος του, να μου καταβάλει το ποσό των ");
+                sb.Append("του, ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones && true)
+            else if (person.Gender == gender.Female || person.Gender == gender.Company)
             {
-                sb.Append("\tΝα υποχρεωθεί ο καθού, με διαταγή προς πληρωμή που θα εκδώσετε εις βάρος του, να μου καταβάλει το ποσό των ");
+                sb.Append("της, ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
-            {
-                sb.Append("\tΝα υποχρεωθεί η καθής, με διαταγή προς πληρωμή που θα εκδώσετε εις βάρος της, να μου καταβάλει το ποσό των ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("\tΝα υποχρεωθεί η καθής, με διαταγή προς πληρωμή που θα εκδώσετε εις βάρος της, να μου καταβάλει το ποσό των ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append("\tΝα υποχρεωθεί ο καθού, με διαταγή προς πληρωμή που θα εκδώσετε εις βάρος του, να μου καταβάλει το ποσό των ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
-            {
-                sb.Append("\tΝα υποχρεωθεί η καθής, με διαταγή προς πληρωμή που θα εκδώσετε εις βάρος της, να μου καταβάλει το ποσό των ");
-            }
+
+            sb.Append("να μου καταβάλει το ποσό των ");
 
             return sb.ToString();
+
         }
 
         public static string AddAmountOfPaymentRequestedSection(Person person)
@@ -669,7 +610,7 @@ namespace RTFGeneratorWinForms.Models
             StringBuilder sb = new StringBuilder();
 
             // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
-            sb.Append("ευρώ 374,70 € (τριακόσια εβδομήντα τέσσερα ευρώ και εβδομήντα λεπτά),");
+            sb.Append($"ευρώ {person.orderforPayment.Debt.ToString()} € ({RTFGen.NumberToText(person.orderforPayment.Debt)}),");
 
             return sb.ToString();
         }
@@ -678,34 +619,25 @@ namespace RTFGeneratorWinForms.Models
         {
             StringBuilder sb = new StringBuilder();
 
-            // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
+            if(person.Gender == gender.Male)
             {
-                sb.Append("\tΝα καταδικασθεί ο καθού στη δικαστική μου δαπάνη, καθώς και στην αμοιβή της πληρεξούσιας μου δικηγόρου.");
+                sb.Append("\tΝα καταδικασθεί ο καθού στη δικαστική μου δαπάνη, ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones && true)
+            else if(person.Gender == gender.Female || person.Gender == gender.Company)
             {
-                sb.Append("\tΝα καταδικασθεί ο καθού στη δικαστική μου δαπάνη, καθώς και στην αμοιβή του πληρεξούσιου μου δικηγόρου.");
+                sb.Append("\tΝα καταδικασθεί η καθής στη δικαστική μου δαπάνη, ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+
+            if(person.orderforPayment.LawyerName.Gender == gender.Male)
             {
-                sb.Append("\tΝα καταδικασθεί η καθής στη δικαστική μου δαπάνη, καθώς και στην αμοιβή του πληρεξούσιου μου δικηγόρου.");
+                sb.Append("καθώς και στην αμοιβή του πληρεξούσιου μου δικηγόρου.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(person.orderforPayment.LawyerName.Gender == gender.Female)
             {
-                sb.Append("\tΝα καταδικασθεί η καθής στη δικαστική μου δαπάνη, καθώς και στην αμοιβή της πληρεξούσιας μου δικηγόρου.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append("\tΝα καταδικασθεί ο καθού στη δικαστική μου δαπάνη, καθώς και στην αμοιβή της πληρεξούσιας μου δικηγόρου.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
-            {
-                sb.Append("\tΝα καταδικασθεί η καθής στη δικαστική μου δαπάνη, καθώς και στην αμοιβή της πληρεξούσιας μου δικηγόρου.");
+                sb.Append("καθώς και στην αμοιβή της πληρεξούσιας μου δικηγόρου.");
             }
 
             return sb.ToString();
-
         }
         // Η ΑΙΤΗΣΗ ΤΕΛΕΙΩΝΕΙ ΕΔΩ.....................................................................................................................................................................
 
@@ -717,11 +649,11 @@ namespace RTFGeneratorWinForms.Models
             // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
             if(person.orderforPayment.LawyerName.Gender == gender.Male)
             {
-                sb.Append("νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της Γιώργο Κ. Αλεξανδρόπουλο.");
+                sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Show}.");
             }
             else if(person.orderforPayment.LawyerName.Gender == gender.Female)
             {
-                sb.Append("νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της Νικολέττα Α. Λυμπεροπούλου.");
+                sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Show}.");
             }
 
             return sb.ToString();
@@ -730,11 +662,11 @@ namespace RTFGeneratorWinForms.Models
         public static string AddIntroToNumbersAndContractsOrderSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
-            if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones)
+            if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones)
             {
                 sb.Append("Α) Την κάτωθι περιγραφόμενη σύμβαση");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts)
             {
                 sb.Append("Α) Τις κάτωθι περιγραφόμενες συμβάσεις");
             }
@@ -761,13 +693,13 @@ namespace RTFGeneratorWinForms.Models
                 // AITHMA AMFHSVITHSH
                 sb.Append("Τέλος, από τη σύμβαση προκύπτει ότι ο καθού είχε αποδεχθεί ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους είχε αμφισβητήσει εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 της σύμβασης, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone && true)
             {
                 sb.Append("η οποία καταρτίσθηκε ανάμεσα στην αιτούσα και στην καθής από την οποία προκύπτει ότι η πρώτη παρείχε στην δεύτερη τηλεπικοινωνιακές υπηρεσίες, αυτή δε είχε αναλάβει να εξοφλεί την αιτούσα βάσει των όρων της μεταξύ τους σύμβασης. Από την ίδια σύμβαση προκύπτει ότι η παραπάνω αναφερόμενη σύμβαση είχε συμφωνηθεί να διέπεται από τους ισχύοντες «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE», καθώς και από τους «Ειδικούς Όρους Εταιρικών Πελατών», τους οποίους η καθής ενυπόγραφα και ανεπιφύλακτα είχε αποδεχθεί. Από την ίδια σύμβαση προκύπτει ότι πλήρη απόδειξη της οφειλής της καθής προς την αιτούσα είχε συμφωνηθεί να αποτελούν τα αποσπάσματα του ένδικου λογαριασμού, που τηρούνταν στα νόμιμα εμπορικά βιβλία της αιτούσας, ότι είχε συμφωνηθεί, κατ’ άρθρο 8.3 της σύμβασης, ότι κάθε λογαριασμός – τιμολόγιο έπρεπε να εξοφλείται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή του, ήτοι κατ’ άρθρο 341 ΑΚ, σε δήλη ημέρα, καταστάντος τοιουτοτρόπως της καθής υπερήμερης με μόνη τη παρέλευση της προθεσμίας αυτής, καθώς και ότι η αιτούσα είχε συμφωνηθεί να δικαιούται να προβεί σε έγγραφη καταγγελία της σύμβασης αυτής σε περίπτωση παράβασης από την καθής οποιασδήποτε από τις συμβατικές της υποχρεώσεις, κατ’ άρθρο 13.1α των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», μία εκ των οποίων ήταν και κατ’ άρθρο 8.3, εντός 30 ημερών από την έκδοσή τους εμπρόθεσμη εξόφληση των λογαριασμών, που αυτή θα της απέστελνε. ");
                 // AITHMA AMFHSVITHSH
                 sb.Append("Τέλος, από τη σύμβαση προκύπτει ότι η καθής είχε αποδεχθεί ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους είχε αμφισβητήσει εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 της σύμβασης, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("η οποία καταρτίσθηκε ανάμεσα στην αιτούσα και στην καθής από την οποία προκύπτει ότι η πρώτη παρείχε στην δεύτερη τηλεπικοινωνιακές υπηρεσίες, αυτή δε είχε αναλάβει να εξοφλεί την αιτούσα βάσει των όρων της μεταξύ τους σύμβασης. Από την ίδια σύμβαση προκύπτει ότι η παραπάνω αναφερόμενη σύμβαση είχε συμφωνηθεί να διέπεται από τους ισχύοντες «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE», καθώς και από τους «Ειδικούς Όρους Εταιρικών Πελατών», τους οποίους η καθής ενυπόγραφα και ανεπιφύλακτα είχε αποδεχθεί. Από την ίδια σύμβαση προκύπτει ότι πλήρη απόδειξη της οφειλής της καθής προς την αιτούσα είχε συμφωνηθεί να αποτελούν τα αποσπάσματα του ένδικου λογαριασμού, που τηρούνταν στα νόμιμα εμπορικά βιβλία της αιτούσας, ότι είχε συμφωνηθεί, κατ’ άρθρο 8.3 της σύμβασης, ότι κάθε λογαριασμός – τιμολόγιο έπρεπε να εξοφλείται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή του, ήτοι κατ’ άρθρο 341 ΑΚ, σε δήλη ημέρα, καταστάντος τοιουτοτρόπως της καθής υπερήμερης με μόνη τη παρέλευση της προθεσμίας αυτής, καθώς και ότι η αιτούσα είχε συμφωνηθεί να δικαιούται να προβεί σε έγγραφη καταγγελία της σύμβασης αυτής σε περίπτωση παράβασης από την καθής οποιασδήποτε από τις συμβατικές της υποχρεώσεις, κατ’ άρθρο 13.1α των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», μία εκ των οποίων ήταν και κατ’ άρθρο 8.3, εντός 30 ημερών από την έκδοσή τους εμπρόθεσμη εξόφληση των λογαριασμών, που αυτή θα της απέστελνε. ");
                 // AITHMA AMFHSVITHSH
@@ -779,7 +711,7 @@ namespace RTFGeneratorWinForms.Models
                 // AITHMA AMFHSVITHSH
                 sb.Append("Τέλος, από τη σύμβαση προκύπτει ότι ο καθού είχε αποδεχθεί ανεπιφύλακτα τους παραπάνω λογαριασμούς – τιμολόγια, δεδομένου ότι δεν τους είχε αμφισβητήσει εγγράφως εντός της ταχθείσας, σύμφωνα με το άρθρο 8.3 της σύμβασης, αποκλειστικής προθεσμίας 45 ημερών από την έκδοσή τους.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("οι οποίες καταρτίσθηκαν ανάμεσα στην αιτούσα και στην καθής από τις οποίες προκύπτει ότι η πρώτη παρείχε στην δεύτερη τηλεπικοινωνιακές υπηρεσίες, αυτή δε είχε αναλάβει να εξοφλεί την αιτούσα βάσει των όρων των μεταξύ τους συμβάσεων. Από τις ίδιες συμβάσεις προκύπτει ότι οι παραπάνω αναφερόμενες συμβάσεις είχε συμφωνηθεί να διέπονται από τους ισχύοντες «Γενικούς Όρους Παροχής Υπηρεσιών COSMOTE», καθώς και από τους «Ειδικούς Όρους Εταιρικών Πελατών», τους οποίους η καθής ενυπόγραφα και ανεπιφύλακτα είχε αποδεχθεί. Από τις ίδιες συμβάσεις προκύπτει ότι πλήρη απόδειξη της οφειλής της καθής προς την αιτούσα είχε συμφωνηθεί να αποτελούν τα αποσπάσματα του ένδικου λογαριασμού, που τηρούνταν στα νόμιμα εμπορικά βιβλία της αιτούσας, ότι είχε συμφωνηθεί, κατ’ άρθρο 8.3 της σύμβασης, ότι κάθε λογαριασμός – τιμολόγιο έπρεπε να εξοφλείται μέσα σε προθεσμία τριάντα (30) ημερών από την έκδοσή του, ήτοι κατ’ άρθρο 341 ΑΚ, σε δήλη ημέρα, καταστάντος τοιουτοτρόπως της καθής υπερήμερης με μόνη τη παρέλευση της προθεσμίας αυτής, καθώς και ότι η αιτούσα είχε συμφωνηθεί να δικαιούται να προβεί σε έγγραφη καταγγελία των συμβάσεων αυτών σε περίπτωση παράβασης από την καθής οποιασδήποτε από τις συμβατικές της υποχρεώσεις, κατ’ άρθρο 13.1α των «Γενικών Όρων Παροχής Υπηρεσιών της COSMOTE», μία εκ των οποίων ήταν και κατ’ άρθρο 8.3, εντός 30 ημερών από την έκδοσή τους εμπρόθεσμη εξόφληση των λογαριασμών, που αυτή θα της απέστελνε. ");
                 // AITHMA AMFHSVITHSH
@@ -802,11 +734,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("Β) Τους ένδικους λογαριασμούς - τιμολόγια τελών κινητής τηλεφωνίας των ένδικων συνδέσεων του καθού, που τηρήθηκαν στα πλαίσια της πιο πάνω σύμβασης εξηγμένα από τα νόμιμα εμπορικά βιβλία της αιτούσας, νομίμως επικυρωμένα, από τα οποία προκύπτει αφενός μεν ότι το υφιστάμενο στις 18/11/2021 κατάλοιπο του λογαριασμού σε βάρος του καθού, για το χρονικό διάστημα από 18/8/2021 μέχρι 18/11/2021, ανερχόταν στο ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractSinglePhone && true)
             {
                 sb.Append("Β) Τους ένδικους λογαριασμούς - τιμολόγια τελών κινητής τηλεφωνίας της ένδικης σύνδεσης της καθής, που τηρήθηκαν στα πλαίσια της πιο πάνω σύμβασης εξηγμένα από τα νόμιμα εμπορικά βιβλία της αιτούσας, νομίμως επικυρωμένα, από τα οποία προκύπτει αφενός μεν ότι το υφιστάμενο στις 10/7/2021 κατάλοιπο του λογαριασμού σε βάρος της καθής, για το χρονικό διάστημα από 10/3/2021 μέχρι 10/7/2021, ανερχόταν στο ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanySingleContractMultiplePhones && true)
             {
                 sb.Append("Β) Τους ένδικους λογαριασμούς - τιμολόγια τελών κινητής τηλεφωνίας των ένδικων συνδέσεων της καθής, που τηρήθηκαν στα πλαίσια της πιο πάνω σύμβασης εξηγμένα από τα νόμιμα εμπορικά βιβλία της αιτούσας, νομίμως επικυρωμένα, από τα οποία προκύπτει αφενός μεν ότι το υφιστάμενο στις 1/3/2022 κατάλοιπο του λογαριασμού σε βάρος της καθής, για το χρονικό διάστημα από 1/12/2021 μέχρι 1/3/2022, ανερχόταν στο ");
             }
@@ -814,7 +746,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 sb.Append("Β) Τους ένδικους λογαριασμούς - τιμολόγια τελών κινητής τηλεφωνίας των ένδικων συνδέσεων του καθού, που τηρήθηκαν στα πλαίσια των πιο πάνω συμβάσεων εξηγμένα από τα νόμιμα εμπορικά βιβλία της αιτούσας, νομίμως επικυρωμένα, από τα οποία προκύπτει αφενός μεν ότι το υφιστάμενο στις 26/12/2019 κατάλοιπο του λογαριασμού σε βάρος του καθού, για το χρονικό διάστημα από 27/07/2019 μέχρι 26/12/2019, ανερχόταν στο");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts || RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.CompanyMultipleContracts && true)
             {
                 sb.Append("Β) Τους ένδικους λογαριασμούς - τιμολόγια τελών κινητής τηλεφωνίας των ένδικων συνδέσεων της καθής, που τηρήθηκαν στα πλαίσια των πιο πάνω συμβάσεων εξηγμένα από τα νόμιμα εμπορικά βιβλία της αιτούσας, νομίμως επικυρωμένα, από τα οποία προκύπτει αφενός μεν ότι το υφιστάμενο στις 14/5/2021 κατάλοιπο του λογαριασμού σε βάρος της καθής, για το χρονικό διάστημα από 14/1/2021 μέχρι 14/5/2021, ανερχόταν στο ");
             }
@@ -826,40 +758,19 @@ namespace RTFGeneratorWinForms.Models
         public static string AddSecondPartOfOrderSectionPart2Amount(Person person)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("ποσό των ευρώ 374,70");
+            sb.Append($"ποσό των ευρώ {person.orderforPayment.Debt.ToString()}");
             return sb.ToString();
         }
 
         public static string AddThirdPartOfOrderFirstPart(Person person)
         {
             StringBuilder sb = new StringBuilder();
-            // move this to the template.
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
-            {
-                sb.Append("Γ) Το τελευταίο κωδικοποιημένο καταστατικό της αιτούσας, το οποίο νομίμως καταχωρίσθηκε, στις 30-06-2021, με αριθμό καταχώρισης 2573048 στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, όπως προκύπτει από την υπ’ αριθμ. πρωτ. 2396295/30-06-2021 ανακοίνωση, από το οποίο προκύπτει ότι η αιτούσα έχει καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχει μετονομασθεί από");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("Γ) Το τελευταίο κωδικοποιημένο καταστατικό της αιτούσας, το οποίο νομίμως καταχωρίσθηκε, στις 30-06-2021, με αριθμό καταχώρισης 2573048 στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, όπως προκύπτει από την υπ’ αριθμ. πρωτ. 2396295/30-06-2021 ανακοίνωση, από το οποίο προκύπτει ότι η αιτούσα έχει καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχει μετονομασθεί από");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
-            {
-                sb.Append("Γ) Το τελευταίο κωδικοποιημένο καταστατικό της αιτούσας, το οποίο νομίμως καταχωρίσθηκε, στις 30-06-2021, με αριθμό καταχώρισης 2573048 στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, όπως προκύπτει από την υπ’ αριθμ. πρωτ. 2396295/30-06-2021 ανακοίνωση, από το οποίο προκύπτει ότι η αιτούσα έχει καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχει μετονομασθεί από");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("Γ) Το τελευταίο κωδικοποιημένο καταστατικό της αιτούσας, το οποίο νομίμως καταχωρίσθηκε, στις 30-06-2021, με αριθμό καταχώρισης 2573048 στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, όπως προκύπτει από την υπ’ αριθμ. πρωτ. 2396295/30-06-2021 ανακοίνωση, από το οποίο προκύπτει ότι η αιτούσα έχει καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχει μετονομασθεί από");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append("Γ) Το τελευταίο κωδικοποιημένο καταστατικό της αιτούσας, το οποίο νομίμως καταχωρίσθηκε, στις 30-06-2021, με αριθμό καταχώρισης 2573048 στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, όπως προκύπτει από την υπ’ αριθμ. πρωτ. 2396295/30-06-2021 ανακοίνωση, από το οποίο προκύπτει ότι η αιτούσα έχει καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχει μετονομασθεί από ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
-            {
-                sb.Append("Γ) Το τελευταίο κωδικοποιημένο καταστατικό της αιτούσας, το οποίο νομίμως καταχωρίσθηκε, στις 30-06-2021, με αριθμό καταχώρισης 2573048 στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, όπως προκύπτει από την υπ’ αριθμ. πρωτ. 2396295/30-06-2021 ανακοίνωση, από το οποίο προκύπτει ότι η αιτούσα έχει καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχει μετονομασθεί από ");
-            }
+            // we can move this to the template.
+
+            sb.Append("Γ) Το τελευταίο κωδικοποιημένο καταστατικό της αιτούσας, το οποίο νομίμως καταχωρίσθηκε, στις 30-06-2021, με αριθμό καταχώρισης 2573048 στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.) του Εμπορικού και Βιομηχανικού Επιμελητηρίου Αθηνών, όπως προκύπτει από την υπ’ αριθμ. πρωτ. 2396295/30-06-2021 ανακοίνωση, από το οποίο προκύπτει ότι η αιτούσα έχει καταστεί μονοπρόσωπη ανώνυμη εταιρεία και έχει μετονομασθεί από");
 
             return sb.ToString();
+
         }
 
         public static string AddCourtStamps(Person person)
@@ -874,71 +785,47 @@ namespace RTFGeneratorWinForms.Models
         {
             StringBuilder sb = new StringBuilder();
 
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
+            if(person.Gender == gender.Male)
             {
                 sb.Append("\tΔιατάσσει τον καθού η αίτηση να καταβάλει στην αιτούσα το ");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("\tΔιατάσσει τον καθού η αίτηση να καταβάλει στην αιτούσα το ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
-            {
-                sb.Append("\tΔιατάσσει την καθής η αίτηση να καταβάλει στην αιτούσα το ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("\tΔιατάσσει την καθής η αίτηση να καταβάλει στην αιτούσα το ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append("\tΔιατάσσει τον καθού η αίτηση να καταβάλει στην αιτούσα το ");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if(person.Gender == gender.Female || person.Gender == gender.Company)
             {
                 sb.Append("\tΔιατάσσει την καθής η αίτηση να καταβάλει στην αιτούσα το ");
             }
 
             return sb.ToString();
+
         }
 
         public static string AddAppealDeadLineSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
 
-            if (RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractSinglePhone && true)
+            if (person.Gender == gender.Male)
             {
                 sb.Append("\tΣημειώνεται ότι ο καθού η αίτηση έχει δικαίωμα να ασκήσει ανακοπή κατά της διαταγής αυτής μέσα σε προθεσμία (15) δέκα πέντε εργασίμων ημερών από την επίδοσή της σε αυτόν.");
             }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("\tΣημειώνεται ότι ο καθού η αίτηση έχει δικαίωμα να ασκήσει ανακοπή κατά της διαταγής αυτής μέσα σε προθεσμία (15) δέκα πέντε εργασίμων ημερών από την επίδοσή της σε αυτόν.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractSinglePhone && true)
-            {
-                sb.Append("\tΣημειώνεται ότι η καθής η αίτηση έχει δικαίωμα να ασκήσει ανακοπή κατά της διαταγής αυτής μέσα σε προθεσμία (15) δέκα πέντε εργασίμων ημερών από την επίδοσή της σε αυτήν.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleSingleContractMultiplePhones && true)
-            {
-                sb.Append("\tΣημειώνεται ότι η καθής η αίτηση έχει δικαίωμα να ασκήσει ανακοπή κατά της διαταγής αυτής μέσα σε προθεσμία (15) δέκα πέντε εργασίμων ημερών από την επίδοσή της σε αυτήν.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.MaleMultipleContracts && true)
-            {
-                sb.Append("\tΣημειώνεται ότι ο καθού η αίτηση έχει δικαίωμα να ασκήσει ανακοπή κατά της διαταγής αυτής μέσα σε προθεσμία (15) δέκα πέντε εργασίμων ημερών από την επίδοσή της σε αυτόν.");
-            }
-            else if(RTFOptions.SetRTFOptions(person) == TypeOFOrderForPayment.FemaleMultipleContracts && true)
+            else if (person.Gender == gender.Female || person.Gender == gender.Company)
             {
                 sb.Append("\tΣημειώνεται ότι η καθής η αίτηση έχει δικαίωμα να ασκήσει ανακοπή κατά της διαταγής αυτής μέσα σε προθεσμία (15) δέκα πέντε εργασίμων ημερών από την επίδοσή της σε αυτήν.");
             }
 
             return sb.ToString();
+
         }
 
         public static string AddAndAllThePublicInstrumntsSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
-            // ΑΛΛΑΖΕΙ ΑΝ ΕΠΑΡΧΙΑ 
-            sb.Append("\tΔίνεται εντολή προς κάθε δικαστικό επιμελητή να εκτελέσει την παραπάνω απόφαση όταν του ζητηθεί και προς τους εισαγγελείς να ενεργήσουν ό,τι εμπίπτει στην αρμοδιότητά τους και προς όλους τους διοικητές και τους άλλους αξιωματικούς της δημόσιας δύναμης να βοηθήσουν στην εκτέλεση της διαταγής, όταν αυτό τους ζητηθεί νόμιμα.");
+            if(person.orderforPayment.CourtName.Region == CourtRegion.ATTICA)
+            {
+                sb.Append("\tΔίνεται εντολή προς κάθε δικαστικό επιμελητή να εκτελέσει την παραπάνω απόφαση όταν του ζητηθεί και προς τους εισαγγελείς να ενεργήσουν ό,τι εμπίπτει στην αρμοδιότητά τους και προς όλους τους διοικητές και τους άλλους αξιωματικούς της δημόσιας δύναμης να βοηθήσουν στην εκτέλεση της διαταγής, όταν αυτό τους ζητηθεί νόμιμα.");
+            }
+            else if(person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION)
+            {
+                sb.Append("\tΔίνεται εντολή προς κάθε δικαστικό επιμελητή να εκτελέσει την παραπάνω απόφαση όταν του ζητηθεί και προς τους εισαγγελείς να ενεργήσουν ό,τι εμπίπτει στην αρμοδιότητά τους και προς όλους τους διοικητές και τους άλλους αξιωματικούς της δημόσιας δύναμης και όλα τα διοικητικά και δημόσια όργανα να βοηθήσουν στην εκτέλεση της διαταγής, όταν αυτό τους ζητηθεί νόμιμα.");
+            }
 
             return sb.ToString();
         }
@@ -1000,7 +887,7 @@ namespace RTFGeneratorWinForms.Models
             }
             // CHANGE THIS TO ONOMA STHN GENIKI.
             sb.Append(person.orderforPayment.CourtName.CityName.Trim());
-            sb.Append(" στις ...............................\r");
+            sb.Append(" στις ...........................\r");
             return sb.ToString();
         }
 

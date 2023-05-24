@@ -499,9 +499,11 @@ namespace RTFGeneratorWinForms
             //MessageBox.Show($"{person.orderforPayment.CompanyType} {CompanyTypeComboBox.SelectedIndex.ToString()} ");
             //MessageBox.Show(person.orderforPayment.Debt.ToString());
 
-            CreateRTF.Test(person);
+            //CreateRTF.Test(person);
 
             //MessageBox.Show(RTFGen.NumberToText(person.orderforPayment.Debt));
+
+            MessageBox.Show($"First bill: {RTFGen.FirstBill(person).IssueDate.ToShortDateString()}, Last bill: {RTFGen.LastBill(person).IssueDate.ToShortDateString()}");
 
         }
 
