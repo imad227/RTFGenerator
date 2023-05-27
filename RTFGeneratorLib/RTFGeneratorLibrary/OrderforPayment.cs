@@ -16,6 +16,7 @@ namespace RTFGeneratorLibrary
         public bool ChallengeRequest { get; set; } = false;
         public bool AthensJurisdiction { get; set; } = false;
         public bool AddressChange { get; set; } = false;
+        
         public ChangeOfAddress ChangeOfAddressApplication { get; set; }
         public List<Contract> contracts {get; set;}
         public List<Bills> bills { get; set;}
@@ -40,7 +41,6 @@ namespace RTFGeneratorLibrary
                 return str.ToString().Replace('.', ',');
             }
         }
-
 
     }
 }

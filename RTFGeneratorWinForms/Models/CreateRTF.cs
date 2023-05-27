@@ -469,6 +469,14 @@ namespace RTFGeneratorWinForms.Models
             StringBuilder sb = new StringBuilder();
 
             sb.Append(", το οποίο έχει καταστεί ληξιπρόθεσμο και απαιτητό, δεδομένου ότι έχουν παρέλθει, και μάλιστα κατά πολύ, οι 30 ημέρες από την έκδοση των αντίστοιχων λογαριασμών.");
+
+            if (RTFOptions.Remuneration(person) == true)
+            {
+                double a = RTFGen.LastBill(person).Amount - person.orderforPayment.Debt;
+                string str = String.Format("{0:0.00}", a);
+                str.ToString().Replace('.', ',');
+                sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την  ως την  το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
+            }
          
             return sb.ToString();
         }
@@ -933,10 +941,26 @@ namespace RTFGeneratorWinForms.Models
             if (person.orderforPayment.AddressChange)
             {
                 sb.Append($"Δ) Την υπ’ αριθμόν {person.orderforPayment.ChangeOfAddressApplication.ApplicationNumber.Trim()} και με ημερομηνία {person.orderforPayment.ChangeOfAddressApplication.ApplicationDate.ToShortDateString().Trim()} αίτηση αλλαγής διεύθυνσης του καθού (ΣΧΕΤΙΚΟ 4).\r");
+                
+                if (RTFOptions.Remuneration(person) == true)
+                {
+                    double a = RTFGen.LastBill(person).Amount - person.orderforPayment.Debt;
+                    string str = String.Format("{0:0.00}", a);
+                    str.ToString().Replace('.', ',');
+                    sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την  ως την  το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.\r");
+                }
                 sb.Append("\tΕπειδή όλα τα παραπάνω αναφερόμενα ποσά έχουν καταστεί ληξιπρόθεσμα και απαιτητά, δεδομένου ότι δεν έχουν εξοφληθεί αν και έχουν παρέλθει 30 ημέρες από την έκδοση των ένδικων λογαριασμών. ");
             }
             else
             {
+                if (RTFOptions.Remuneration(person) == true)
+                {
+                    double a = RTFGen.LastBill(person).Amount - person.orderforPayment.Debt;
+                    string str = String.Format("{0:0.00}", a);
+                    str.ToString().Replace('.', ',');
+                    sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την  ως την  το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.\r");
+                }
+
                 sb.Append("\tΕπειδή όλα τα παραπάνω αναφερόμενα ποσά έχουν καταστεί ληξιπρόθεσμα και απαιτητά, δεδομένου ότι δεν έχουν εξοφληθεί αν και έχουν παρέλθει 30 ημέρες από την έκδοση των ένδικων λογαριασμών. ");
             }
 

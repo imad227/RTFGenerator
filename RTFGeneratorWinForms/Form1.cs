@@ -541,7 +541,9 @@ namespace RTFGeneratorWinForms
 
             //MessageBox.Show($"First bill: {RTFGen.FirstBill(person).IssueDate.ToShortDateString()}, Last bill: {RTFGen.LastBill(person).IssueDate.ToShortDateString()}");
 
-            MessageBox.Show(person.orderforPayment.PrintDebt);
+            //MessageBox.Show(person.orderforPayment.PrintDebt);
+
+            MessageBox.Show(RTFOptions.Remuneration(person).ToString());
 
         }
 
