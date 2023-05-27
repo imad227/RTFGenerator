@@ -157,7 +157,11 @@ namespace RTFGeneratorWinForms.Models
         public static RichTextBox ReadTemplateFiel()
         {
             RichTextBox richTextBox1 = new();
-            richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
+            string path = System.Configuration.ConfigurationManager.AppSettings["TemplateFile"].ToString();
+
+            //richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
+            richTextBox1.LoadFile(path);
+
             return richTextBox1;
         }
 
@@ -187,7 +191,8 @@ namespace RTFGeneratorWinForms.Models
 
         public static List<Lawyer> LoadLawyers()
         {
-            string filePath = @"C:\Demos\DATA\LawyersDatabase.txt";
+            //string filePath = @"C:\Demos\DATA\LawyersDatabase.txt";
+            string filePath = System.Configuration.ConfigurationManager.AppSettings["LawyersDatabase"].ToString();
 
             List<Lawyer> lawyers = new();
 
@@ -218,7 +223,8 @@ namespace RTFGeneratorWinForms.Models
 
         public static List<Court> LoadCourts()
         {
-            string filePath = @"C:\Demos\DATA\CourtsDatabase.txt";
+            //string filePath = @"C:\Demos\DATA\CourtsDatabase.txt";
+            string filePath = System.Configuration.ConfigurationManager.AppSettings["CourtsDatabase"].ToString();
 
             List<Court> courts = new();
 
@@ -256,7 +262,7 @@ namespace RTFGeneratorWinForms.Models
         // TODO: FIX THIS, FIND A BETTER METHOD THAN THE IF ELSE METHOD.
         public static void SaveCourts(List<Court> courts)
         {
-            string filePath = @"C:\Demos\DATA\CourtsDatabase.txt";
+            string filePath = System.Configuration.ConfigurationManager.AppSettings["CourtsDatabase"].ToString();
 
             List<string> output = new List<string>();
 
@@ -300,7 +306,7 @@ namespace RTFGeneratorWinForms.Models
 
         public static void SaveLawyers(List<Lawyer> lawyers)
         {
-            string filePath = @"C:\Demos\DATA\LawyersDatabase.txt";
+            string filePath = System.Configuration.ConfigurationManager.AppSettings["LawyersDatabase"].ToString();
             List<string> output = new List<string>();
 
             foreach (Lawyer lawyer in lawyers)
@@ -321,7 +327,7 @@ namespace RTFGeneratorWinForms.Models
 
         public static List<string> LoadContractsDuration()
         {
-            string filepath = @"C:\Demos\DATA\ContractDuration.txt";
+            string filepath = System.Configuration.ConfigurationManager.AppSettings["ContractDuration"].ToString();
 
             List<string> lines = File.ReadAllLines(filepath).ToList();
             return lines;
@@ -329,7 +335,7 @@ namespace RTFGeneratorWinForms.Models
 
         public static List<string> LoadCompaniesTypes()
         {
-            string filepath = @"C:\Demos\DATA\TypesOfCompanies.txt";
+            string filepath = System.Configuration.ConfigurationManager.AppSettings["TypesOfCompanies"].ToString();
 
             List<string> lines = File.ReadAllLines(filepath).ToList();
             return lines;
