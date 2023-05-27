@@ -18,9 +18,22 @@ namespace RTFGeneratorLibrary
 
 
 
-        public string Show
+        public string Print
         {
             get 
+            {
+                if (Gender == gender.Female)
+                    return $"{FirstName} {Prfix} {LastName}";
+                else if (Gender == gender.Male)
+                    return $"{FirstName} {Prfix} {LastName}";
+                else
+                    return "";
+            }
+        }
+
+        public string Show
+        {
+            get
             {
                 if (Gender == gender.Female)
                     return $"H {FirstName} {Prfix} {LastName} ({AMDSA})";

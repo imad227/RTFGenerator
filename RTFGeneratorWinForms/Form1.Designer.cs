@@ -98,9 +98,21 @@ namespace RTFGeneratorWinForms
             oteRadioButton = new RadioButton();
             cosmoteRadioButton = new RadioButton();
             advancedOptionsGroupBox = new GroupBox();
+            addressChangeGroupBox = new GroupBox();
+            addressChangeApplicationDateTextBox = new TextBox();
+            addressChangeApplicationDateLabel = new Label();
+            addressChangeApplicationNumberTextBox = new TextBox();
+            addressChangeApplicationNumberLabel = new Label();
+            AddressChangeCheckBox = new CheckBox();
+            challengeRequestCheckBox = new CheckBox();
+            athensJurisdictionCheckBox = new CheckBox();
             totalAmountTextBox = new TextBox();
             totalAmountLabel = new Label();
             testButton = new Button();
+            promissoryNoteTextBox = new TextBox();
+            promissoryNoteLabel = new Label();
+            judicialStampTextBox = new TextBox();
+            judicialStampLabel = new Label();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
@@ -108,6 +120,8 @@ namespace RTFGeneratorWinForms
             contractsGroupBox.SuspendLayout();
             billsGroupBox.SuspendLayout();
             typeGroupBox.SuspendLayout();
+            advancedOptionsGroupBox.SuspendLayout();
+            addressChangeGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -744,12 +758,96 @@ namespace RTFGeneratorWinForms
             // 
             // advancedOptionsGroupBox
             // 
+            advancedOptionsGroupBox.Controls.Add(addressChangeGroupBox);
+            advancedOptionsGroupBox.Controls.Add(challengeRequestCheckBox);
+            advancedOptionsGroupBox.Controls.Add(athensJurisdictionCheckBox);
             advancedOptionsGroupBox.Location = new Point(307, 140);
             advancedOptionsGroupBox.Name = "advancedOptionsGroupBox";
-            advancedOptionsGroupBox.Size = new Size(665, 285);
+            advancedOptionsGroupBox.Size = new Size(665, 261);
             advancedOptionsGroupBox.TabIndex = 204;
             advancedOptionsGroupBox.TabStop = false;
             advancedOptionsGroupBox.Text = "Advanced Options";
+            // 
+            // addressChangeGroupBox
+            // 
+            addressChangeGroupBox.Controls.Add(addressChangeApplicationDateTextBox);
+            addressChangeGroupBox.Controls.Add(addressChangeApplicationDateLabel);
+            addressChangeGroupBox.Controls.Add(addressChangeApplicationNumberTextBox);
+            addressChangeGroupBox.Controls.Add(addressChangeApplicationNumberLabel);
+            addressChangeGroupBox.Controls.Add(AddressChangeCheckBox);
+            addressChangeGroupBox.Location = new Point(480, 16);
+            addressChangeGroupBox.Name = "addressChangeGroupBox";
+            addressChangeGroupBox.Size = new Size(179, 229);
+            addressChangeGroupBox.TabIndex = 205;
+            addressChangeGroupBox.TabStop = false;
+            addressChangeGroupBox.Text = "Address Change";
+            // 
+            // addressChangeApplicationDateTextBox
+            // 
+            addressChangeApplicationDateTextBox.Location = new Point(14, 184);
+            addressChangeApplicationDateTextBox.Name = "addressChangeApplicationDateTextBox";
+            addressChangeApplicationDateTextBox.Size = new Size(159, 27);
+            addressChangeApplicationDateTextBox.TabIndex = 11;
+            addressChangeApplicationDateTextBox.TextChanged += addressChangeApplicationDateTextBox_TextChanged;
+            // 
+            // addressChangeApplicationDateLabel
+            // 
+            addressChangeApplicationDateLabel.AutoSize = true;
+            addressChangeApplicationDateLabel.Location = new Point(14, 146);
+            addressChangeApplicationDateLabel.Name = "addressChangeApplicationDateLabel";
+            addressChangeApplicationDateLabel.Size = new Size(122, 20);
+            addressChangeApplicationDateLabel.TabIndex = 10;
+            addressChangeApplicationDateLabel.Text = "Application Date";
+            // 
+            // addressChangeApplicationNumberTextBox
+            // 
+            addressChangeApplicationNumberTextBox.Location = new Point(14, 107);
+            addressChangeApplicationNumberTextBox.Name = "addressChangeApplicationNumberTextBox";
+            addressChangeApplicationNumberTextBox.Size = new Size(159, 27);
+            addressChangeApplicationNumberTextBox.TabIndex = 9;
+            addressChangeApplicationNumberTextBox.TextChanged += addressChangeApplicationNumberTextBox_TextChanged;
+            // 
+            // addressChangeApplicationNumberLabel
+            // 
+            addressChangeApplicationNumberLabel.AutoSize = true;
+            addressChangeApplicationNumberLabel.Location = new Point(14, 74);
+            addressChangeApplicationNumberLabel.Name = "addressChangeApplicationNumberLabel";
+            addressChangeApplicationNumberLabel.Size = new Size(144, 20);
+            addressChangeApplicationNumberLabel.TabIndex = 1;
+            addressChangeApplicationNumberLabel.Text = "Application Number";
+            // 
+            // AddressChangeCheckBox
+            // 
+            AddressChangeCheckBox.AutoSize = true;
+            AddressChangeCheckBox.Location = new Point(14, 36);
+            AddressChangeCheckBox.Name = "AddressChangeCheckBox";
+            AddressChangeCheckBox.Size = new Size(135, 24);
+            AddressChangeCheckBox.TabIndex = 0;
+            AddressChangeCheckBox.Text = "Address Change";
+            AddressChangeCheckBox.UseVisualStyleBackColor = true;
+            AddressChangeCheckBox.CheckedChanged += AddressChangeCheckBox_CheckedChanged;
+            // 
+            // challengeRequestCheckBox
+            // 
+            challengeRequestCheckBox.AutoSize = true;
+            challengeRequestCheckBox.Location = new Point(14, 66);
+            challengeRequestCheckBox.Name = "challengeRequestCheckBox";
+            challengeRequestCheckBox.Size = new Size(151, 24);
+            challengeRequestCheckBox.TabIndex = 1;
+            challengeRequestCheckBox.Text = "Challenge Request";
+            challengeRequestCheckBox.UseVisualStyleBackColor = true;
+            challengeRequestCheckBox.CheckedChanged += challengeRequestCheckBox_CheckedChanged;
+            // 
+            // athensJurisdictionCheckBox
+            // 
+            athensJurisdictionCheckBox.AutoSize = true;
+            athensJurisdictionCheckBox.Location = new Point(14, 36);
+            athensJurisdictionCheckBox.Name = "athensJurisdictionCheckBox";
+            athensJurisdictionCheckBox.Size = new Size(151, 24);
+            athensJurisdictionCheckBox.TabIndex = 0;
+            athensJurisdictionCheckBox.Text = "Athens Jurisdiction";
+            athensJurisdictionCheckBox.UseVisualStyleBackColor = true;
+            athensJurisdictionCheckBox.CheckedChanged += athensJurisdictionCheckBox_CheckedChanged;
             // 
             // totalAmountTextBox
             // 
@@ -778,13 +876,51 @@ namespace RTFGeneratorWinForms
             testButton.UseVisualStyleBackColor = true;
             testButton.Click += testButton_Click;
             // 
+            // promissoryNoteTextBox
+            // 
+            promissoryNoteTextBox.Location = new Point(737, 478);
+            promissoryNoteTextBox.Name = "promissoryNoteTextBox";
+            promissoryNoteTextBox.Size = new Size(229, 27);
+            promissoryNoteTextBox.TabIndex = 12;
+            promissoryNoteTextBox.TextChanged += promissoryNoteTextBox_TextChanged;
+            // 
+            // promissoryNoteLabel
+            // 
+            promissoryNoteLabel.AutoSize = true;
+            promissoryNoteLabel.Location = new Point(617, 481);
+            promissoryNoteLabel.Name = "promissoryNoteLabel";
+            promissoryNoteLabel.Size = new Size(118, 20);
+            promissoryNoteLabel.TabIndex = 9;
+            promissoryNoteLabel.Text = "Promissory Note";
+            // 
+            // judicialStampTextBox
+            // 
+            judicialStampTextBox.Location = new Point(737, 445);
+            judicialStampTextBox.Name = "judicialStampTextBox";
+            judicialStampTextBox.Size = new Size(229, 27);
+            judicialStampTextBox.TabIndex = 11;
+            judicialStampTextBox.TextChanged += judicialStampTextBox_TextChanged;
+            // 
+            // judicialStampLabel
+            // 
+            judicialStampLabel.AutoSize = true;
+            judicialStampLabel.Location = new Point(617, 448);
+            judicialStampLabel.Name = "judicialStampLabel";
+            judicialStampLabel.Size = new Size(105, 20);
+            judicialStampLabel.TabIndex = 10;
+            judicialStampLabel.Text = "Judicial Stamp";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 814);
+            Controls.Add(promissoryNoteTextBox);
+            Controls.Add(promissoryNoteLabel);
             Controls.Add(testButton);
+            Controls.Add(judicialStampTextBox);
             Controls.Add(totalAmountTextBox);
+            Controls.Add(judicialStampLabel);
             Controls.Add(totalAmountLabel);
             Controls.Add(advancedOptionsGroupBox);
             Controls.Add(typeGroupBox);
@@ -816,6 +952,10 @@ namespace RTFGeneratorWinForms
             billsGroupBox.PerformLayout();
             typeGroupBox.ResumeLayout(false);
             typeGroupBox.PerformLayout();
+            advancedOptionsGroupBox.ResumeLayout(false);
+            advancedOptionsGroupBox.PerformLayout();
+            addressChangeGroupBox.ResumeLayout(false);
+            addressChangeGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -893,5 +1033,17 @@ namespace RTFGeneratorWinForms
         private Button testButton;
         private Label companyTitelLabel;
         private TextBox companyTitelTextBox;
+        private CheckBox athensJurisdictionCheckBox;
+        private CheckBox challengeRequestCheckBox;
+        private TextBox promissoryNoteTextBox;
+        private Label promissoryNoteLabel;
+        private TextBox judicialStampTextBox;
+        private Label judicialStampLabel;
+        private GroupBox addressChangeGroupBox;
+        private TextBox addressChangeApplicationNumberTextBox;
+        private Label addressChangeApplicationNumberLabel;
+        private CheckBox AddressChangeCheckBox;
+        private TextBox addressChangeApplicationDateTextBox;
+        private Label addressChangeApplicationDateLabel;
     }
 }

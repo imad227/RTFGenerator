@@ -44,6 +44,8 @@
             courtRegionGroupBox = new GroupBox();
             otherRegionadioButton = new RadioButton();
             AttikaRadioButton = new RadioButton();
+            inCityTextBox = new TextBox();
+            inCityLabel = new Label();
             ArticlesgroupBox.SuspendLayout();
             courtRegionGroupBox.SuspendLayout();
             SuspendLayout();
@@ -60,7 +62,7 @@
             // courtNameCapitalLabel
             // 
             courtNameCapitalLabel.AutoSize = true;
-            courtNameCapitalLabel.Location = new Point(12, 91);
+            courtNameCapitalLabel.Location = new Point(12, 62);
             courtNameCapitalLabel.Name = "courtNameCapitalLabel";
             courtNameCapitalLabel.Size = new Size(150, 20);
             courtNameCapitalLabel.TabIndex = 1;
@@ -68,7 +70,7 @@
             // 
             // courtNameCapitalTextBox
             // 
-            courtNameCapitalTextBox.Location = new Point(168, 88);
+            courtNameCapitalTextBox.Location = new Point(168, 59);
             courtNameCapitalTextBox.Margin = new Padding(3, 4, 3, 4);
             courtNameCapitalTextBox.Name = "courtNameCapitalTextBox";
             courtNameCapitalTextBox.Size = new Size(164, 27);
@@ -77,7 +79,7 @@
             // 
             // courtNameSmallTextBox
             // 
-            courtNameSmallTextBox.Location = new Point(168, 134);
+            courtNameSmallTextBox.Location = new Point(168, 94);
             courtNameSmallTextBox.Margin = new Padding(3, 4, 3, 4);
             courtNameSmallTextBox.Name = "courtNameSmallTextBox";
             courtNameSmallTextBox.Size = new Size(164, 27);
@@ -87,7 +89,7 @@
             // courtNameSmallLabel
             // 
             courtNameSmallLabel.AutoSize = true;
-            courtNameSmallLabel.Location = new Point(12, 137);
+            courtNameSmallLabel.Location = new Point(12, 97);
             courtNameSmallLabel.Name = "courtNameSmallLabel";
             courtNameSmallLabel.Size = new Size(140, 20);
             courtNameSmallLabel.TabIndex = 3;
@@ -95,7 +97,7 @@
             // 
             // cityNameSmallTextBox
             // 
-            cityNameSmallTextBox.Location = new Point(168, 184);
+            cityNameSmallTextBox.Location = new Point(168, 155);
             cityNameSmallTextBox.Margin = new Padding(3, 4, 3, 4);
             cityNameSmallTextBox.Name = "cityNameSmallTextBox";
             cityNameSmallTextBox.Size = new Size(164, 27);
@@ -105,7 +107,7 @@
             // cityNameLabel
             // 
             cityNameLabel.AutoSize = true;
-            cityNameLabel.Location = new Point(12, 187);
+            cityNameLabel.Location = new Point(12, 158);
             cityNameLabel.Name = "cityNameLabel";
             cityNameLabel.Size = new Size(129, 20);
             cityNameLabel.TabIndex = 5;
@@ -214,11 +216,31 @@
             AttikaRadioButton.UseVisualStyleBackColor = true;
             AttikaRadioButton.CheckedChanged += AttikaRadioButton_CheckedChanged;
             // 
+            // inCityTextBox
+            // 
+            inCityTextBox.Location = new Point(168, 190);
+            inCityTextBox.Margin = new Padding(3, 4, 3, 4);
+            inCityTextBox.Name = "inCityTextBox";
+            inCityTextBox.Size = new Size(164, 27);
+            inCityTextBox.TabIndex = 11;
+            inCityTextBox.TextChanged += inCityTextBox_TextChanged;
+            // 
+            // inCityLabel
+            // 
+            inCityLabel.AutoSize = true;
+            inCityLabel.Location = new Point(12, 193);
+            inCityLabel.Name = "inCityLabel";
+            inCityLabel.Size = new Size(105, 20);
+            inCityLabel.TabIndex = 10;
+            inCityLabel.Text = "In City  (Small)";
+            // 
             // AddCourt
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(357, 492);
+            Controls.Add(inCityTextBox);
+            Controls.Add(inCityLabel);
             Controls.Add(courtRegionGroupBox);
             Controls.Add(saveButton);
             Controls.Add(exitButton);
@@ -260,5 +282,7 @@
         private GroupBox courtRegionGroupBox;
         private RadioButton otherRegionadioButton;
         private RadioButton AttikaRadioButton;
+        private TextBox inCityTextBox;
+        private Label inCityLabel;
     }
 }

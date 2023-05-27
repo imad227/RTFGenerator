@@ -1,6 +1,7 @@
 ﻿using RTFGeneratorLibrary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -86,15 +87,15 @@ namespace RTFGeneratorWinForms.Models
 
                 if (fractionalPart == 1)
                 {
-                    return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτό";
+                    return $"{SplitNumber(intPart)} ευρώ και {SplitNumber(fractionalPart)} λεπτό";
                 }
                 else
                 {
-                    return $"{SplitNumber(intPart)} Ευρώ και {SplitNumber(fractionalPart)} λεπτά";
+                    return $"{SplitNumber(intPart)} ευρώ και {SplitNumber(fractionalPart)} λεπτά";
                 }
 
             }
-            return $"{SplitNumber(intPart)} Ευρώ";
+            return $"{SplitNumber(intPart)} ευρώ";
 
             //return $"{intPart.ToString()} and {fractionalPart.ToString()}";
         }
@@ -145,7 +146,6 @@ namespace RTFGeneratorWinForms.Models
                 return str.ToString();
             }
 
-            return str.ToString();
         }
 
 
@@ -163,12 +163,26 @@ namespace RTFGeneratorWinForms.Models
 
 
         /// <summary>
-        /// temporary function to save RTF file.
+        /// Save File function. 
         /// </summary>
-        /// <param name="richTextBox1"></param>
-        public static void SaveTemplateFile(RichTextBox richTextBox1)
+        /// <param name="richTextBox1"> RTF file target</param>
+        /// <param name="person"> Person parameter to save the file with the client information as default value.</param>
+        public static void SaveTemplateFile(RichTextBox richTextBox1, Person person)
         {
-            richTextBox1.SaveFile(@"C:\Demos\DATA\output.rtf");
+            
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+            saveFileDialog1.FileName = $"{person.LastName} {person.FirstName} {person.FatherName}.rtf";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName.Length > 0)
+            {
+                // Save the contents of the RichTextBox into the file.
+                //richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.UnicodePlainText);
+                richTextBox1.SaveFile(saveFileDialog1.FileName);
+            }
         }
 
         public static List<Lawyer> LoadLawyers()
@@ -190,9 +204,9 @@ namespace RTFGeneratorWinForms.Models
                     Prfix = entries[2],
                     LastName = entries[3]
                 };
-                if (entries[4] == "F")
+                if (entries[4].Trim() == "F")
                     newLawyer.Gender = gender.Female;
-                else if (entries[4] == "M")
+                else if (entries[4].Trim() == "M")
                     newLawyer.Gender = gender.Male;
 
                     lawyers.Add(newLawyer);
@@ -219,17 +233,18 @@ namespace RTFGeneratorWinForms.Models
                     CapitalName = entries[0],
                     SmallName = entries[1],
                     CityName = entries[2],
+                    InCity = entries[3],
                 };
-                if (entries[3] == "F")
+                if (entries[4] == "F")
                     newLCourt.Gender = gender.Female;
-                else if (entries[3] == "M")
+                else if (entries[4] == "M")
                     newLCourt.Gender = gender.Male;
-                else if (entries[3] == "N")
+                else if (entries[4] == "N")
                     newLCourt.Gender = gender.Neutral;
 
-                if (entries[4] == "A")
+                if (entries[5] == "A")
                     newLCourt.Region = CourtRegion.ATTICA;
-                else if (entries[4] == "O")
+                else if (entries[5] == "E")
                     newLCourt.Region = CourtRegion.OTHERREGION;
 
                 courts.Add(newLCourt);
@@ -251,30 +266,30 @@ namespace RTFGeneratorWinForms.Models
                 {
                     if(court.Gender == gender.Female)
                     {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},F,A");
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},F,A");
                     }
                     else if(court.Gender == gender.Male)
                     {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},M,A");
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},M,A");
                     }
                     else if(court.Gender== gender.Neutral)
                     {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},N,A");
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},N,A");
                     }
                 }
                 else if(court.Region== CourtRegion.OTHERREGION)
                 {
                     if (court.Gender == gender.Female)
                     {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},F,E");
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},F,E");
                     }
                     else if (court.Gender == gender.Male)
                     {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},M,E");
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},M,E");
                     }
                     else if (court.Gender == gender.Neutral)
                     {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},N,E");
+                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},N,E");
                     }
                 }
             }
@@ -292,11 +307,11 @@ namespace RTFGeneratorWinForms.Models
             {
                 if(lawyer.Gender == gender.Male)
                 {
-                    output.Add($"{lawyer.AMDSA.ToString()},{lawyer.FirstName},{lawyer.Prfix},{lawyer.LastName},M");
+                    output.Add($"{lawyer.AMDSA},{lawyer.FirstName},{lawyer.Prfix},{lawyer.LastName},M");
                 }
                 else if( lawyer.Gender == gender.Female)
                 {
-                    output.Add($"{lawyer.AMDSA.ToString()},{lawyer.FirstName},{lawyer.Prfix},{lawyer.LastName},F");
+                    output.Add($"{lawyer.AMDSA},{lawyer.FirstName},{lawyer.Prfix},{lawyer.LastName},F");
                 }
             }
             File.WriteAllLines(filePath, output);

@@ -128,6 +128,42 @@ namespace RTFGeneratorWinForms
             person.Title = companyTitelTextBox.Text;
         }
 
+        private void judicialStampTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //ΤΝ, ΤΠΔΑ, ΤΑΧΔΙΚ(Α264794) και γραμμάτιο προείσπραξης Δ.Σ.Α. (Π4350411).
+            person.orderforPayment.TAXDIK = judicialStampTextBox.Text;
+        }
+
+        private void promissoryNoteTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //ΤΝ, ΤΠΔΑ, ΤΑΧΔΙΚ(Α264794) και γραμμάτιο προείσπραξης Δ.Σ.Α. (Π4350411).
+            person.orderforPayment.DSA = promissoryNoteTextBox.Text;
+        }
+
+        private void athensJurisdictionCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (athensJurisdictionCheckBox.Checked)
+            {
+                person.orderforPayment.AthensJurisdiction = true;
+            }
+            else if (!athensJurisdictionCheckBox.Checked)
+            {
+                person.orderforPayment.AthensJurisdiction = false;
+            }
+        }
+
+        private void challengeRequestCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (challengeRequestCheckBox.Checked)
+            {
+                person.orderforPayment.ChallengeRequest = true;
+            }
+            else if (!challengeRequestCheckBox.Checked)
+            {
+                person.orderforPayment.ChallengeRequest = false;
+            }
+        }
+
         private void courtSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Add the selected court to the person.orderforPayment class to the Court name memeber.
@@ -139,7 +175,7 @@ namespace RTFGeneratorWinForms
 
         private void lawyerSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(lawyerSelectionComboBox.SelectedIndex != -1)
+            if (lawyerSelectionComboBox.SelectedIndex != -1)
             {
                 person.orderforPayment.LawyerName = LawyersList[lawyerSelectionComboBox.SelectedIndex];
             }
@@ -503,7 +539,9 @@ namespace RTFGeneratorWinForms
 
             //MessageBox.Show(RTFGen.NumberToText(person.orderforPayment.Debt));
 
-            MessageBox.Show($"First bill: {RTFGen.FirstBill(person).IssueDate.ToShortDateString()}, Last bill: {RTFGen.LastBill(person).IssueDate.ToShortDateString()}");
+            //MessageBox.Show($"First bill: {RTFGen.FirstBill(person).IssueDate.ToShortDateString()}, Last bill: {RTFGen.LastBill(person).IssueDate.ToShortDateString()}");
+
+            MessageBox.Show(person.orderforPayment.PrintDebt);
 
         }
 
@@ -555,6 +593,38 @@ namespace RTFGeneratorWinForms
             }
         }
 
+        // Change of Address Application
+        private void AddressChangeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AddressChangeCheckBox.Checked)
+            {
+                person.orderforPayment.AddressChange = true;
+            }
+            else if (!AddressChangeCheckBox.Checked)
+            {
+                person.orderforPayment.AddressChange = false;
+            }
+        }
+
+        private void addressChangeApplicationNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            person.orderforPayment.ChangeOfAddressApplication.ApplicationNumber = addressChangeApplicationNumberTextBox.Text;
+        }
+
+        private void addressChangeApplicationDateTextBox_TextChanged(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.MinValue;
+            bool parseResult = DateTime.TryParse(addressChangeApplicationDateTextBox.Text, out date);
+            if (parseResult)
+            {
+                //parse was successful, continue
+                person.orderforPayment.ChangeOfAddressApplication.ApplicationDate = date;
+            }
+            else
+            {
+                MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }

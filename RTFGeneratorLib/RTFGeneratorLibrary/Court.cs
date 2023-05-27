@@ -11,6 +11,7 @@ namespace RTFGeneratorLibrary
         public string CapitalName { get; set; } = string.Empty;
         public string SmallName { get; set; } = string.Empty;
         public string CityName { get; set; } = string.Empty;
+        public string InCity { get; set; } = string.Empty;
         public gender Gender { get; set; }
         public CourtRegion Region { get; set; }
 
@@ -20,11 +21,11 @@ namespace RTFGeneratorLibrary
             get
             {
                 if (Gender == gender.Female)
-                    return $"H {CityName} ,ΕΙΡΗΝΟΚΙΚΕΙΟ {CapitalName}";
+                    return $"ΕΙΡΗΝΟΚΙΚΕΙΟ {CapitalName}";
                 else if (Gender == gender.Male)
-                    return $"O {CityName} ,ΕΙΡΗΝΟΚΙΚΕΙΟ {CapitalName}";
+                    return $"ΕΙΡΗΝΟΚΙΚΕΙΟ {CapitalName}";
                 else if (Gender == gender.Neutral)
-                    return $"ΤΟ{ CityName} ,ΕΙΡΗΝΟΚΙΚΕΙΟ { CapitalName}";
+                    return $"ΕΙΡΗΝΟΚΙΚΕΙΟ { CapitalName}";
                 else
                     return "";
             }

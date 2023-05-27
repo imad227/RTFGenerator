@@ -61,6 +61,11 @@ namespace RTFGeneratorWinForms
             newCourt.Region = CourtRegion.OTHERREGION;
         }
 
+        private void inCityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            newCourt.InCity = inCityTextBox.Text;
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             // TODO - Implement Save here.
