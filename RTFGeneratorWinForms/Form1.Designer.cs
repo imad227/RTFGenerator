@@ -232,6 +232,7 @@ namespace RTFGeneratorWinForms
             userInfoGroupBox.Controls.Add(lasNameLabel);
             userInfoGroupBox.Controls.Add(firstNameTextBox);
             userInfoGroupBox.Controls.Add(firstNameLabel);
+            userInfoGroupBox.ForeColor = SystemColors.ControlText;
             userInfoGroupBox.Location = new Point(8, 31);
             userInfoGroupBox.Name = "userInfoGroupBox";
             userInfoGroupBox.Size = new Size(278, 280);
@@ -594,6 +595,7 @@ namespace RTFGeneratorWinForms
             // 
             // billsGroupBox
             // 
+            billsGroupBox.BackColor = SystemColors.Control;
             billsGroupBox.Controls.Add(billAmountTextBox);
             billsGroupBox.Controls.Add(billAmountLabel);
             billsGroupBox.Controls.Add(billsListBox);

@@ -24,6 +24,27 @@ namespace RTFGeneratorWinForms.Models
             Type = new TypeOFOrderForPayment();
         }
 
+        public static bool Remuneration(Person person) 
+        {
+            Bills bill = new Bills();
+            bill = RTFGen.LastBill(person);
+            if(bill.Amount > 0)
+            {
+                if(bill.Amount <= person.orderforPayment.Debt)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static TypeOFOrderForPayment SetRTFOptions(Person person)
         {
             // Temp section 
