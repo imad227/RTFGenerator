@@ -61,6 +61,9 @@ namespace RTFGeneratorWinForms
 
             CompanyTypeComboBox.DataSource = CompaniesTypes;
             CompanyTypeComboBox.SelectedIndex = -1;
+
+            toolStripStatusLabel.Text = "Ready . . .";
+            toolStripProgressBar.Value = 0;
         }
 
         //private void courtSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,72 +79,134 @@ namespace RTFGeneratorWinForms
         /// 
         private void firstNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if(toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.FirstName = firstNameTextBox.Text;
         }
 
         private void lastNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.LastName = lastNameTextBox.Text;
         }
 
         private void fatherNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.FatherName = fatherNameTextBox.Text;
         }
 
         private void taxNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.TaxNumber = taxNumberTextBox.Text;
         }
 
         private void streetTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.FirstAddress.Street = streetTextBox.Text;
         }
 
         private void streetNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.FirstAddress.StrNumber = streetNumberTextBox.Text;
         }
 
         private void streetNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.FirstAddress.City = streetNameTextBox.Text;
         }
 
         private void zipCodeTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.FirstAddress.PostalCode = zipCodeTextBox.Text;
         }
 
         private void companyTitelTextBox_TextChanged(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Registring User information . . .";
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.Title = companyTitelTextBox.Text;
         }
 
         private void judicialStampTextBox_TextChanged(object sender, EventArgs e)
         {
             //ΤΝ, ΤΠΔΑ, ΤΑΧΔΙΚ(Α264794) και γραμμάτιο προείσπραξης Δ.Σ.Α. (Π4350411).
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Modifying the Order For Payment oprions . . .";
+                toolStripProgressBar.Value += 2;
+            }
             person.orderforPayment.TAXDIK = judicialStampTextBox.Text;
         }
 
         private void promissoryNoteTextBox_TextChanged(object sender, EventArgs e)
         {
             //ΤΝ, ΤΠΔΑ, ΤΑΧΔΙΚ(Α264794) και γραμμάτιο προείσπραξης Δ.Σ.Α. (Π4350411).
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Modifying the Order For Payment oprions . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.orderforPayment.DSA = promissoryNoteTextBox.Text;
         }
 
         private void athensJurisdictionCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Modifying the Order For Payment oprions . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             if (athensJurisdictionCheckBox.Checked)
             {
                 person.orderforPayment.AthensJurisdiction = true;
@@ -154,6 +219,12 @@ namespace RTFGeneratorWinForms
 
         private void challengeRequestCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Modifying the Order For Payment oprions . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             if (challengeRequestCheckBox.Checked)
             {
                 person.orderforPayment.ChallengeRequest = true;
@@ -166,6 +237,11 @@ namespace RTFGeneratorWinForms
 
         private void courtSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Selecting Court . . .";
+                toolStripProgressBar.Value += 2;
+            }
             //Add the selected court to the person.orderforPayment class to the Court name memeber.
             if (courtSelectionComboBox.SelectedIndex != -1)
             {
@@ -175,6 +251,12 @@ namespace RTFGeneratorWinForms
 
         private void lawyerSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Selecting Lawyer . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             if (lawyerSelectionComboBox.SelectedIndex != -1)
             {
                 person.orderforPayment.LawyerName = LawyersList[lawyerSelectionComboBox.SelectedIndex];
@@ -183,8 +265,12 @@ namespace RTFGeneratorWinForms
 
         private void totalAmountTextBox_TextChanged(object sender, EventArgs e)
         {
-            // TODO
-            // Fix the comma seperation issue.
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Adding the Dept amount . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             double amount = new();
             string str = new(totalAmountTextBox.Text.Replace(',', '.'));
             bool amountParseResult = double.TryParse(str, out amount);
@@ -201,6 +287,11 @@ namespace RTFGeneratorWinForms
 
         private void CompanyTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Selecting Company Type . . .";
+                toolStripProgressBar.Value += 2;
+            }
             // Fix this later if we need the company prefix. Otherwise remove the prefix from the file.
             if (companyRadioButton.Checked)
             {
@@ -212,62 +303,18 @@ namespace RTFGeneratorWinForms
 
         }
 
-        //private void searchCourtTextBox_TextChanged(object sender, EventArgs e)
-        //{
-
-        //    // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
-        //    var v = CourtsList.Find(r => r.CapitalName == searchCourtTextBox.Text);
-        //    int index = new();
-        //    if (v != null)
-        //    {
-        //        int loopIndex = 0;
-        //        foreach (var entry in CourtsList)
-        //        {
-        //            if (v.CapitalName == entry.CapitalName)
-        //            {
-        //                index = loopIndex; break;
-        //            }
-        //            loopIndex++;
-        //        }
-        //        courtSelectionComboBox.SelectedIndex = index;
-        //    }
-        //    else
-        //    {
-        //        courtSelectionComboBox.SelectedIndex = -1;
-        //    }
-
-        //}
-
-        //private void searchLawyerTextBox_TextChanged(object sender, EventArgs e)
-        //{
-        //    // TODO - FIX THIS: works only when typing the full name, I want it to start finding as soon as users types the info.
-        //    var v = Lawyers.Find(r => r.LastName == searchLawyerTextBox.Text);
-        //    int index = new();
-        //    if (v != null)
-        //    {
-        //        int loopIndex = 0;
-        //        foreach (var entry in Lawyers)
-        //        {
-        //            if (v.LastName == entry.LastName)
-        //            {
-        //                index = loopIndex; break;
-        //            }
-        //            loopIndex++;
-        //        }
-        //        lawyerSelectionComboBox.SelectedIndex = index;
-        //    }
-        //    else
-        //    {
-        //        lawyerSelectionComboBox.SelectedIndex = -1;
-        //    }
-        //}
-
         /// <summary>
         /// Add user Gender or Company type.
         /// </summary>
         /// 
         private void maleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.Gender = gender.Male;
             //CompanyTypeComboBox.Items.Clear();
             //CompanyTypeComboBox.Items.Add("");
@@ -280,6 +327,12 @@ namespace RTFGeneratorWinForms
 
         private void femaleRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.Gender = gender.Female;
             //CompanyTypeComboBox.Items.Clear();
             //CompanyTypeComboBox.Items.Add("");
@@ -292,6 +345,12 @@ namespace RTFGeneratorWinForms
 
         private void companyRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             person.Gender = gender.Company;
 
             // TODO (Enable ComboBox here, and disable elsewhere.
@@ -318,6 +377,12 @@ namespace RTFGeneratorWinForms
             }
             else
             {
+                if (toolStripProgressBar.Value < 100)
+                {
+                    toolStripStatusLabel.Text = "Adding New Contract . . .";
+                    toolStripProgressBar.Value += 2;
+                }
+
                 Contract cont = new()
                 {
                     PhoneNumber = phoneNumberContractTextBox.Text,
@@ -368,6 +433,12 @@ namespace RTFGeneratorWinForms
             }
             else
             {
+                if (toolStripProgressBar.Value < 100)
+                {
+                    toolStripStatusLabel.Text = "Removing Contract . . .";
+                    toolStripProgressBar.Value += 2;
+                }
+
                 var toRemove = person.orderforPayment.contracts.RemoveAll(r => r.PhoneNumber == phoneNumberContractTextBox.Text);
             }
 
@@ -399,6 +470,12 @@ namespace RTFGeneratorWinForms
             }
             else
             {
+                if (toolStripProgressBar.Value < 100)
+                {
+                    toolStripStatusLabel.Text = "Adding New Bill . . .";
+                    toolStripProgressBar.Value += 2;
+                }
+
                 Bills cont = new();
                 DateTime date = DateTime.MinValue;
                 bool parseResult = DateTime.TryParse(billDateTextBox.Text, out date);
@@ -455,6 +532,12 @@ namespace RTFGeneratorWinForms
             }
             else
             {
+                if (toolStripProgressBar.Value < 100)
+                {
+                    toolStripStatusLabel.Text = "Removing New Bill . . .";
+                    toolStripProgressBar.Value += 2;
+                }
+
                 DateTime date = DateTime.MinValue;
                 bool parseResult = DateTime.TryParse(billDateTextBox.Text, out date);
                 if (parseResult)
@@ -486,6 +569,11 @@ namespace RTFGeneratorWinForms
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Exiting Application . . .";
+                toolStripProgressBar.Value = 0;
+            }
             if (MessageBox.Show("Are you sure you want to close", "Leave Program?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 this.Close();
@@ -501,13 +589,15 @@ namespace RTFGeneratorWinForms
 
         private void GeneratePaymenOrderBbutton_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Ready . . .";
+            //toolStripStatusLabel.Text = "Ready . . .";
             // Generate Payment Order Here.
-            //MessageBox.Show("Generate Not implemented yet.", "Generate RTF not avaliable", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            MessageBox.Show(CreateRTF.ClientData(person));
+            toolStripStatusLabel.Text = "Generating OFP . . .";
+
 
             CreateRTF.MaleSingelContract(person);
             //MessageBox.Show($"Test if person info is passed: ({person.FirstName} Postal Code: {person.FirstAddress.PostalCode})");
+            toolStripStatusLabel.Text = "Done . . .";
+            toolStripProgressBar.Value = 100;
         }
 
 
@@ -543,7 +633,10 @@ namespace RTFGeneratorWinForms
 
             //MessageBox.Show(person.orderforPayment.PrintDebt);
 
-            MessageBox.Show(RTFOptions.Remuneration(person).ToString());
+            //MessageBox.Show(RTFOptions.Remuneration(person).ToString());
+
+            //MessageBox.Show("Generate Not implemented yet.", "Generate RTF not avaliable", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show(CreateRTF.ClientData(person));
 
         }
 
@@ -598,6 +691,12 @@ namespace RTFGeneratorWinForms
         // Change of Address Application
         private void AddressChangeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Modifying Court Options . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
             if (AddressChangeCheckBox.Checked)
             {
                 person.orderforPayment.AddressChange = true;
