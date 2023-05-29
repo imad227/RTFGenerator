@@ -499,14 +499,18 @@ namespace RTFGeneratorWinForms
 
                         // TODO
                         // Fix the comma seperation issue.
-                        double amount = new();
-                        string str = new(billAmountTextBox.Text.Replace(',', '.'));
-                        bool amountParseResult = double.TryParse(str, out amount);
+                        double amount;
+                        string str = string.Empty;
+                        //bool amountParseResult = double.TryParse(str, out amount);
+                        bool amountParseResult = double.TryParse(str, NumberStyles.Currency, CultureInfo.GetCultureInfo("el-GR"), out amount);
                         if (amountParseResult)
                         {
                             cont.IssueDate = date;
                             cont.Amount = amount;
                             person.orderforPayment.bills.Add(cont);
+
+                            // SHOW THE REMUNERATION GROUP IF AN AMOUNT WAS PROVIDED.
+                            remunerationGroupBox.Visible = true;
                         }
                         //else
                         //{
@@ -529,7 +533,8 @@ namespace RTFGeneratorWinForms
                 billAmountTextBox.Text = null;
 
                 // show remunerationGroupBox if the user give amount.
-                remunerationGroupBox.Visible = true;
+
+
             }
         }
 

@@ -200,6 +200,17 @@ namespace RTFGeneratorWinForms.Models
                     sb.Append("νόμιμα  εκπροσωπούμενης");
                 }
             }
+            else if (person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION)
+            {
+                if (person.orderforPayment.LawyerName.Gender == gender.Male)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print}");
+                }
+                else if (person.orderforPayment.LawyerName.Gender == gender.Female)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print}");
+                }
+            }
             // Only Thessaloniki, not other regions.
             //else if(person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION)
             //{
@@ -477,7 +488,7 @@ namespace RTFGeneratorWinForms.Models
                 double a = RTFGen.LastBill(person).Amount - person.orderforPayment.Debt;
                 string str = String.Format("{0:0.00}", a);
                 str.ToString().Replace('.', ',');
-                sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person)} ως την {RTFGen.RemunerationLastBill(person)} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
+                sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person).IssueDate.ToShortDateString()} ως την {RTFGen.RemunerationLastBill(person).IssueDate.ToShortDateString()} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
             }
          
             return sb.ToString();
