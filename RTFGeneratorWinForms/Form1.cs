@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Drawing;
 using static System.Net.Mime.MediaTypeNames;
+using System.Globalization;
 
 namespace RTFGeneratorWinForms
 {
@@ -265,18 +266,26 @@ namespace RTFGeneratorWinForms
 
         private void totalAmountTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (toolStripProgressBar.Value < 100)
-            {
-                toolStripStatusLabel.Text = "Adding the Dept amount . . .";
-                toolStripProgressBar.Value += 2;
-            }
 
             double amount = new();
-            string str = new(totalAmountTextBox.Text.Replace(',', '.'));
-            bool amountParseResult = double.TryParse(str, out amount);
+            string str1 = new(totalAmountTextBox.Text);
+
+            //string str = new(totalAmountTextBox.Text.Replace(',', '.'));
+            //string str2 = str1.Replace(',','.');
+            //str1 = str2.Replace(",",".");
+
+
+            //bool amountParseResult = double.TryParse(str1, out amount);
+            bool amountParseResult = double.TryParse(str1, NumberStyles.Currency, CultureInfo.GetCultureInfo("el-GR"), out amount);
             if (amountParseResult)
             {
                 person.orderforPayment.Debt = amount;
+
+                if (toolStripProgressBar.Value < 100)
+                {
+                    toolStripStatusLabel.Text = "Adding the Dept amount . . .";
+                    toolStripProgressBar.Value += 2;
+                }
             }
             else
             {
