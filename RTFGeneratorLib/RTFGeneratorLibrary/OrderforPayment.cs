@@ -16,6 +16,7 @@ namespace RTFGeneratorLibrary
         public bool ChallengeRequest { get; set; } = false;
         public bool AthensJurisdiction { get; set; } = false;
         public bool AddressChange { get; set; } = false;
+        public bool IdChange { get; set; } = false;
         
         public ChangeOfAddress ChangeOfAddressApplication { get; set; }
         public List<Contract> contracts {get; set;}

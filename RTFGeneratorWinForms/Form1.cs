@@ -80,7 +80,7 @@ namespace RTFGeneratorWinForms
         /// 
         private void firstNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            if(toolStripProgressBar.Value < 100)
+            if (toolStripProgressBar.Value < 100)
             {
                 toolStripStatusLabel.Text = "Registring User information . . .";
                 toolStripProgressBar.Value += 2;
@@ -287,10 +287,10 @@ namespace RTFGeneratorWinForms
                     toolStripProgressBar.Value += 2;
                 }
             }
-            else
-            {
-                MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //else
+            //{
+            //    MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
 
         }
 
@@ -325,8 +325,7 @@ namespace RTFGeneratorWinForms
             }
 
             person.Gender = gender.Male;
-            //CompanyTypeComboBox.Items.Clear();
-            //CompanyTypeComboBox.Items.Add("");
+
             CompanyTypeComboBox.SelectedIndex = -1;
 
             companyTitelLabel.Hide();
@@ -343,8 +342,7 @@ namespace RTFGeneratorWinForms
             }
 
             person.Gender = gender.Female;
-            //CompanyTypeComboBox.Items.Clear();
-            //CompanyTypeComboBox.Items.Add("");
+
             CompanyTypeComboBox.SelectedIndex = -1;
 
             companyTitelLabel.Hide();
@@ -409,10 +407,10 @@ namespace RTFGeneratorWinForms
                     //parse was successful, continue
                     cont.Date = date;
                 }
-                else
-                {
-                    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                //else
+                //{
+                //    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
 
                 person.orderforPayment.contracts.Add(cont);
 
@@ -510,10 +508,10 @@ namespace RTFGeneratorWinForms
                             cont.Amount = amount;
                             person.orderforPayment.bills.Add(cont);
                         }
-                        else
-                        {
-                            MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        //else
+                        //{
+                        //    MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //}
                     }
                 }
                 else
@@ -554,10 +552,10 @@ namespace RTFGeneratorWinForms
                     //parse was successful, continue
                     var toRemove = person.orderforPayment.bills.RemoveAll(r => r.IssueDate == date);
                 }
-                else
-                {
-                    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                //else
+                //{
+                //    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
 
                 billsListBox.Items.Clear();
                 foreach (Bills b in person.orderforPayment.bills)
@@ -716,6 +714,24 @@ namespace RTFGeneratorWinForms
             }
         }
 
+        private void IdChangeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Modifying Court Options . . .";
+                toolStripProgressBar.Value += 2;
+            }
+
+            if (IdChangeCheckBox.Checked)
+            {
+                person.orderforPayment.IdChange = true;
+            }
+            else if (!IdChangeCheckBox.Checked)
+            {
+                person.orderforPayment.IdChange = false;
+            }
+        }
+
         private void addressChangeApplicationNumberTextBox_TextChanged(object sender, EventArgs e)
         {
             person.orderforPayment.ChangeOfAddressApplication.ApplicationNumber = addressChangeApplicationNumberTextBox.Text;
@@ -730,11 +746,13 @@ namespace RTFGeneratorWinForms
                 //parse was successful, continue
                 person.orderforPayment.ChangeOfAddressApplication.ApplicationDate = date;
             }
-            else
-            {
-                MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //else
+            //{
+            //    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
+
+
     }
 
 }
