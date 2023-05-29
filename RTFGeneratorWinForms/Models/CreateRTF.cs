@@ -477,7 +477,7 @@ namespace RTFGeneratorWinForms.Models
                 double a = RTFGen.LastBill(person).Amount - person.orderforPayment.Debt;
                 string str = String.Format("{0:0.00}", a);
                 str.ToString().Replace('.', ',');
-                sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την  ως την  το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
+                sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person)} ως την {RTFGen.RemunerationLastBill(person)} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
             }
          
             return sb.ToString();

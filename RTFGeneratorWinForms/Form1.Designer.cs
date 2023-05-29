@@ -114,6 +114,11 @@ namespace RTFGeneratorWinForms
             promissoryNoteLabel = new Label();
             judicialStampTextBox = new TextBox();
             judicialStampLabel = new Label();
+            remunerationGroupBox = new GroupBox();
+            remunerationToTextBox = new TextBox();
+            remunerationToLabel = new Label();
+            remunerationFromTextBox = new TextBox();
+            remunerationFromLabel = new Label();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
@@ -123,6 +128,7 @@ namespace RTFGeneratorWinForms
             typeGroupBox.SuspendLayout();
             advancedOptionsGroupBox.SuspendLayout();
             addressChangeGroupBox.SuspendLayout();
+            remunerationGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -925,11 +931,61 @@ namespace RTFGeneratorWinForms
             judicialStampLabel.TabIndex = 10;
             judicialStampLabel.Text = "ΕΝΣΗΜΟ:";
             // 
+            // remunerationGroupBox
+            // 
+            remunerationGroupBox.BackColor = SystemColors.Control;
+            remunerationGroupBox.Controls.Add(remunerationToTextBox);
+            remunerationGroupBox.Controls.Add(remunerationToLabel);
+            remunerationGroupBox.Controls.Add(remunerationFromTextBox);
+            remunerationGroupBox.Controls.Add(remunerationFromLabel);
+            remunerationGroupBox.Location = new Point(617, 522);
+            remunerationGroupBox.Name = "remunerationGroupBox";
+            remunerationGroupBox.Size = new Size(150, 106);
+            remunerationGroupBox.TabIndex = 207;
+            remunerationGroupBox.TabStop = false;
+            remunerationGroupBox.Text = "ΕΝΑΝΤΙ";
+            remunerationGroupBox.Visible = false;
+            // 
+            // remunerationToTextBox
+            // 
+            remunerationToTextBox.Location = new Point(51, 60);
+            remunerationToTextBox.Name = "remunerationToTextBox";
+            remunerationToTextBox.Size = new Size(92, 27);
+            remunerationToTextBox.TabIndex = 21;
+            remunerationToTextBox.TextChanged += remunerationToTextBox_TextChanged;
+            // 
+            // remunerationToLabel
+            // 
+            remunerationToLabel.AutoSize = true;
+            remunerationToLabel.Location = new Point(1, 60);
+            remunerationToLabel.Name = "remunerationToLabel";
+            remunerationToLabel.Size = new Size(39, 20);
+            remunerationToLabel.TabIndex = 206;
+            remunerationToLabel.Text = "ΕΩΣ:";
+            // 
+            // remunerationFromTextBox
+            // 
+            remunerationFromTextBox.Location = new Point(51, 26);
+            remunerationFromTextBox.Name = "remunerationFromTextBox";
+            remunerationFromTextBox.Size = new Size(92, 27);
+            remunerationFromTextBox.TabIndex = 20;
+            remunerationFromTextBox.TextChanged += remunerationFromTextBox_TextChanged;
+            // 
+            // remunerationFromLabel
+            // 
+            remunerationFromLabel.AutoSize = true;
+            remunerationFromLabel.Location = new Point(1, 29);
+            remunerationFromLabel.Name = "remunerationFromLabel";
+            remunerationFromLabel.Size = new Size(44, 20);
+            remunerationFromLabel.TabIndex = 204;
+            remunerationFromLabel.Text = "ΑΠΟ:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 814);
+            Controls.Add(remunerationGroupBox);
             Controls.Add(promissoryNoteTextBox);
             Controls.Add(promissoryNoteLabel);
             Controls.Add(testButton);
@@ -971,6 +1027,8 @@ namespace RTFGeneratorWinForms
             advancedOptionsGroupBox.PerformLayout();
             addressChangeGroupBox.ResumeLayout(false);
             addressChangeGroupBox.PerformLayout();
+            remunerationGroupBox.ResumeLayout(false);
+            remunerationGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1061,5 +1119,10 @@ namespace RTFGeneratorWinForms
         private TextBox addressChangeApplicationDateTextBox;
         private Label addressChangeApplicationDateLabel;
         private CheckBox IdChangeCheckBox;
+        private GroupBox remunerationGroupBox;
+        private TextBox remunerationToTextBox;
+        private Label remunerationToLabel;
+        private TextBox remunerationFromTextBox;
+        private Label remunerationFromLabel;
     }
 }

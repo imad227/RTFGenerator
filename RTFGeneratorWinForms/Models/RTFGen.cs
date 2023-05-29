@@ -62,6 +62,51 @@ namespace RTFGeneratorWinForms.Models
             }
         }
 
+        public static Bills RemunerationFirstBill(Person person)
+        {
+            Bills bill = new Bills();
+            if (person.orderforPayment.RemunerationDate.Count > 0)
+            {
+                bill = person.orderforPayment.RemunerationDate[0];
+                foreach (var t in person.orderforPayment.RemunerationDate)
+                {
+                    if (DateTime.Compare(t.IssueDate, bill.IssueDate) < 0)
+                    {
+                        bill = t;
+                    }
+                }
+                return bill;
+            }
+            else
+            {
+                bill.IssueDate = DateTime.MinValue;
+                return bill;
+            }
+
+        }
+
+        public static Bills RemunerationLastBill(Person person)
+        {
+            Bills bill = new Bills();
+            if (person.orderforPayment.RemunerationDate.Count > 0)
+            {
+                bill = person.orderforPayment.RemunerationDate[0];
+                foreach (var t in person.orderforPayment.RemunerationDate)
+                {
+                    if (DateTime.Compare(t.IssueDate, bill.IssueDate) > 0)
+                    {
+                        bill = t;
+                    }
+                }
+                return bill;
+            }
+            else
+            {
+                bill.IssueDate = DateTime.MaxValue;
+                return bill;
+            }
+        }
+
         /// <summary>
         /// Takes the total amount and return the amount verbaly in a string.
         /// </summary>

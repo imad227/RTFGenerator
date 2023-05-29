@@ -9,7 +9,7 @@
   <Identity
     Name="04c9802e-5a85-4020-a67a-959ca3a0537e"
     Publisher="CN=Hamid Omar"
-    Version="1.0.1.0" />
+    Version="1.0.2.0" />
 
   <Properties>
     <DisplayName>RTF Reporter App</DisplayName>

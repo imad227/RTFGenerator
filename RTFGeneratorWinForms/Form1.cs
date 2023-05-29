@@ -528,6 +528,8 @@ namespace RTFGeneratorWinForms
                 billDateTextBox.Text = null;
                 billAmountTextBox.Text = null;
 
+                // show remunerationGroupBox if the user give amount.
+                remunerationGroupBox.Visible = true;
             }
         }
 
@@ -752,7 +754,29 @@ namespace RTFGeneratorWinForms
             //}
         }
 
+        private void remunerationFromTextBox_TextChanged(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.MinValue;
+            Bills bill = new Bills();
+            bool parseResult = DateTime.TryParse(remunerationFromTextBox.Text, out date);
+            if (parseResult)
+            {
+                bill.IssueDate = date;
+                person.orderforPayment.RemunerationDate.Add(bill);
+            }
+        }
 
+        private void remunerationToTextBox_TextChanged(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.MinValue;
+            Bills bill = new Bills();
+            bool parseResult = DateTime.TryParse(remunerationToTextBox.Text, out date);
+            if (parseResult)
+            {
+                bill.IssueDate = date;
+                person.orderforPayment.RemunerationDate.Add(bill);
+            }
+        }
     }
 
 }
