@@ -119,6 +119,8 @@ namespace RTFGeneratorWinForms
             remunerationToLabel = new Label();
             remunerationFromTextBox = new TextBox();
             remunerationFromLabel = new Label();
+            contractTypeTextBox = new TextBox();
+            contractTypeLabel = new Label();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
@@ -483,6 +485,8 @@ namespace RTFGeneratorWinForms
             // 
             // contractsGroupBox
             // 
+            contractsGroupBox.Controls.Add(contractTypeTextBox);
+            contractsGroupBox.Controls.Add(contractTypeLabel);
             contractsGroupBox.Controls.Add(contractDurationComboBox);
             contractsGroupBox.Controls.Add(addSimNumberButton);
             contractsGroupBox.Controls.Add(phoneContractsListBox);
@@ -520,14 +524,15 @@ namespace RTFGeneratorWinForms
             addSimNumberButton.TabIndex = 19;
             addSimNumberButton.Text = "SIM";
             addSimNumberButton.UseVisualStyleBackColor = true;
+            addSimNumberButton.Click += addSimNumberButton_Click;
             // 
             // phoneContractsListBox
             // 
             phoneContractsListBox.FormattingEnabled = true;
             phoneContractsListBox.ItemHeight = 20;
-            phoneContractsListBox.Location = new Point(9, 121);
+            phoneContractsListBox.Location = new Point(9, 161);
             phoneContractsListBox.Name = "phoneContractsListBox";
-            phoneContractsListBox.Size = new Size(414, 184);
+            phoneContractsListBox.Size = new Size(414, 144);
             phoneContractsListBox.TabIndex = 202;
             // 
             // removeContractButton
@@ -710,9 +715,9 @@ namespace RTFGeneratorWinForms
             selectLawyerLabel.AutoSize = true;
             selectLawyerLabel.Location = new Point(150, 62);
             selectLawyerLabel.Name = "selectLawyerLabel";
-            selectLawyerLabel.Size = new Size(184, 20);
+            selectLawyerLabel.Size = new Size(156, 20);
             selectLawyerLabel.TabIndex = 28;
-            selectLawyerLabel.Text = "ΕΠΙΛΟΓΗ ΕΙΡΗΝΟΔΙΚΕΙΟΥ:";
+            selectLawyerLabel.Text = "ΕΠΙΛΟΓΗ ΔΙΚΗΓΟΡΟΥ:";
             // 
             // lawyerSelectionComboBox
             // 
@@ -728,11 +733,11 @@ namespace RTFGeneratorWinForms
             // selectCourtLabel
             // 
             selectCourtLabel.AutoSize = true;
-            selectCourtLabel.Location = new Point(178, 22);
+            selectCourtLabel.Location = new Point(150, 22);
             selectCourtLabel.Name = "selectCourtLabel";
-            selectCourtLabel.Size = new Size(156, 20);
+            selectCourtLabel.Size = new Size(184, 20);
             selectCourtLabel.TabIndex = 9;
-            selectCourtLabel.Text = "ΕΠΙΛΟΓΗ ΔΙΚΗΓΟΡΟΥ:";
+            selectCourtLabel.Text = "ΕΠΙΛΟΓΗ ΕΙΡΗΝΟΔΙΚΕΙΟΥ:";
             // 
             // courtSelectionComboBox
             // 
@@ -980,6 +985,22 @@ namespace RTFGeneratorWinForms
             remunerationFromLabel.TabIndex = 204;
             remunerationFromLabel.Text = "ΑΠΟ:";
             // 
+            // contractTypeTextBox
+            // 
+            contractTypeTextBox.Location = new Point(136, 120);
+            contractTypeTextBox.Name = "contractTypeTextBox";
+            contractTypeTextBox.Size = new Size(287, 27);
+            contractTypeTextBox.TabIndex = 205;
+            // 
+            // contractTypeLabel
+            // 
+            contractTypeLabel.AutoSize = true;
+            contractTypeLabel.Location = new Point(9, 123);
+            contractTypeLabel.Name = "contractTypeLabel";
+            contractTypeLabel.Size = new Size(92, 20);
+            contractTypeLabel.TabIndex = 204;
+            contractTypeLabel.Text = "ΣΥΜΒΟΛΑΙΟ";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1124,5 +1145,7 @@ namespace RTFGeneratorWinForms
         private Label remunerationToLabel;
         private TextBox remunerationFromTextBox;
         private Label remunerationFromLabel;
+        private TextBox contractTypeTextBox;
+        private Label contractTypeLabel;
     }
 }

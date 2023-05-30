@@ -193,22 +193,22 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (person.orderforPayment.LawyerName.Gender == gender.Male)
                 {
-                    sb.Append("νόμιμα  εκπροσωπούμενης");
+                    sb.Append("νόμιμα εκπροσωπούμενης");
                 }
                 else if (person.orderforPayment.LawyerName.Gender == gender.Female)
                 {
-                    sb.Append("νόμιμα  εκπροσωπούμενης");
+                    sb.Append("νόμιμα εκπροσωπούμενης");
                 }
             }
             else if (person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION)
             {
                 if (person.orderforPayment.LawyerName.Gender == gender.Male)
                 {
-                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print}");
+                    sb.Append($"νόμιμα εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print}");
                 }
                 else if (person.orderforPayment.LawyerName.Gender == gender.Female)
                 {
-                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print}");
+                    sb.Append($"νόμιμα εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print}");
                 }
             }
             // Only Thessaloniki, not other regions.
@@ -488,7 +488,15 @@ namespace RTFGeneratorWinForms.Models
                 double a = RTFGen.LastBill(person).Amount - person.orderforPayment.Debt;
                 string str = String.Format("{0:0.00}", a);
                 str.ToString().Replace('.', ',');
-                sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person).IssueDate.ToShortDateString()} ως την {RTFGen.RemunerationLastBill(person).IssueDate.ToShortDateString()} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
+                if(person.Gender == gender.Male)
+                {
+                    sb.Append($"\r\tΕπειδή ο καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person).IssueDate.ToShortDateString()} ως την {RTFGen.RemunerationLastBill(person).IssueDate.ToShortDateString()} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
+                }
+                else if(person.Gender == gender.Female || person.Gender == gender.Company)
+                {
+                    sb.Append($"\r\tΕπειδή η καθής έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person).IssueDate.ToShortDateString()} ως την {RTFGen.RemunerationLastBill(person).IssueDate.ToShortDateString()} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.");
+                }
+                
             }
          
             return sb.ToString();
@@ -1017,7 +1025,14 @@ namespace RTFGeneratorWinForms.Models
                     double a = RTFGen.LastBill(person).Amount - person.orderforPayment.Debt;
                     string str = String.Format("{0:0.00}", a);
                     str.ToString().Replace('.', ',');
-                    sb.Append($"\r\tΕπειδή  καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την  ως την  το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.\r");
+                    if (person.Gender == gender.Male)
+                    {
+                        sb.Append($"\r\tΕπειδή ο καθού έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person).IssueDate.ToShortDateString()} ως την {RTFGen.RemunerationLastBill(person).IssueDate.ToShortDateString()} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.\r");
+                    }
+                    else if (person.Gender == gender.Female || person.Gender== gender.Company)
+                    {
+                        sb.Append($"\r\tΕπειδή η καθής έναντι της ως άνω οφειλής του μου κατέβαλε σταδιακά από την {RTFGen.RemunerationFirstBill(person).IssueDate.ToShortDateString()} ως την {RTFGen.RemunerationLastBill(person).IssueDate.ToShortDateString()} το συνολικό ποσό των ευρώ {str} €, αυτή ανέρχεται μέχρι σήμερα σε ευρώ {person.orderforPayment.PrintDebt} €.\r");
+                    }
                 }
 
                 sb.Append("\tΕπειδή όλα τα παραπάνω αναφερόμενα ποσά έχουν καταστεί ληξιπρόθεσμα και απαιτητά, δεδομένου ότι δεν έχουν εξοφληθεί αν και έχουν παρέλθει 30 ημέρες από την έκδοση των ένδικων λογαριασμών. ");
@@ -1092,35 +1107,72 @@ namespace RTFGeneratorWinForms.Models
 
             foreach (var v in person.orderforPayment.contracts)
             {
-                sb.Append("\tτην ");
-                sb.Append(v.Date.ToShortDateString().Trim());
-                sb.Append(" η υπ' αριθμόν ");
-                sb.Append(v.Number.Trim());
-                // Change this if sim number and add type of contract.
-                sb.Append(", για τη σύνδεση με αριθμό ");
-                sb.Append(v.PhoneNumber.Trim());
-                // removed Elaxistis if the durration is more than 24 months.
-                if(v.Durration == "αορίστου χρόνου")
+                if (v.ContractType == string.Empty)
                 {
-                    sb.Append(" διάρκειας ");
-                }
-                else
-                {
-                    sb.Append(" ελάχιστης διάρκειας ");
-                }
-                
-                sb.Append(v.Durration.Trim());
-                if (person.orderforPayment.contracts.Last() == v)
-                {
-                    sb.Append(". ");
-                }
-                else
-                {
-                    sb.Append(",\r");
-                }
+                    sb.Append("\tτην ");
+                    sb.Append(v.Date.ToShortDateString().Trim());
+                    sb.Append(" η υπ' αριθμόν ");
+                    sb.Append(v.Number.Trim());
+                    // Change this if sim number and add type of contract.
+                    sb.Append(", για τη σύνδεση με αριθμό ");
+                    sb.Append(v.PhoneNumber.Trim());
+                    // removed Elaxistis if the durration is more than 24 months.
+                    if (v.Durration == "αορίστου χρόνου")
+                    {
+                        sb.Append(" διάρκειας ");
+                    }
+                    else
+                    {
+                        sb.Append(" ελάχιστης διάρκειας ");
+                    }
 
+                    sb.Append(v.Durration.Trim());
+                    if (person.orderforPayment.contracts.Last() == v)
+                    {
+                        sb.Append(". ");
+                    }
+                    else
+                    {
+                        sb.Append(",\r");
+                    }
+
+                }
+                else
+                {
+                    sb.Append("\tτην ");
+                    sb.Append(v.Date.ToShortDateString().Trim());
+                    sb.Append(" η υπ' αριθμόν ");
+                    sb.Append(v.Number.Trim());
+                    // Change this if sim number and add type of contract.
+                    sb.Append(", για τη σύνδεση με αριθμό SIM ");
+                    sb.Append(v.PhoneNumber.Trim());
+                    sb.Append(" και Πρόγραμμα ");
+                    sb.Append(v.ContractType.Trim());
+                    // removed Elaxistis if the durration is more than 24 months.
+                    if (v.Durration == "αορίστου χρόνου")
+                    {
+                        sb.Append(" διάρκειας ");
+                    }
+                    else
+                    {
+                        sb.Append(" ελάχιστης διάρκειας ");
+                    }
+
+                    sb.Append(v.Durration.Trim());
+                    if (person.orderforPayment.contracts.Last() == v)
+                    {
+                        sb.Append(". ");
+                    }
+                    else
+                    {
+                        sb.Append(",\r");
+                    }
+
+                }
             }
+
             return sb.ToString();
+
         }
 
         public static string PlaceOfIssuingTheOrder(Person person)

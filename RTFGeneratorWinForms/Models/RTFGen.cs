@@ -115,20 +115,27 @@ namespace RTFGeneratorWinForms.Models
         public static string NumberToText(double number)
         {
             //throw new NotImplementedException();
-            string str = number.ToString();
-            string[] parts = str.Split('.');
+            //string str = number.ToString();
+            //string[] parts = str.Split('.');
             int? intPart = null;
             int? fractionalPart = null;
 
-            intPart = int.Parse(parts[0]);
+            // double num = 129.548962;
+            // long part1 = (long)Math.Truncate(num);
+            // long part2 = (long)((num - part1) * 10000 + 0.5);
 
-            if(parts.Length > 1 )
+            intPart = (int)Math.Truncate(number);
+            fractionalPart = (int)((number - intPart) * 100 + 0.5);
+
+            //intPart = int.Parse(parts[0]);
+
+            if (fractionalPart != 0 )
             {
-                fractionalPart = int.Parse(parts[1]);
-                if(parts[1].Length < 2)
-                {
-                    fractionalPart *= 10;
-                }
+                //fractionalPart = int.Parse(parts[1]);
+                //if(parts[1].Length < 2)
+                //{
+                //    fractionalPart *= 10;
+                //}
 
                 if (fractionalPart == 1)
                 {
@@ -164,7 +171,7 @@ namespace RTFGeneratorWinForms.Models
             }
             if(num >= 10)
             {
-                if (num <= 21 && num >= 11)
+                if (num < 20 && num >= 11)
                 {
                     str.Append(NumberInVerbal(num, 10));
                     str.Append(' ');
