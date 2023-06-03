@@ -183,15 +183,31 @@ namespace RTFGeneratorWinForms.Models
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public static RichTextBox ReadTemplateFiel()
+        public static RichTextBox ReadTemplateFiel(TemplateType template)
         {
             RichTextBox richTextBox1 = new();
-            string path = System.Configuration.ConfigurationManager.AppSettings["TemplateFile"].ToString();
 
-            //richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
-            richTextBox1.LoadFile(path);
+            if (template == TemplateType.CosmoteOFP)
+            {
+                string path = System.Configuration.ConfigurationManager.AppSettings["TemplateFileCMS"].ToString();
 
-            return richTextBox1;
+                //richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
+                richTextBox1.LoadFile(path);
+
+                return richTextBox1;
+            }
+            else if(template == TemplateType.OTEOFP)
+            {
+                string path = System.Configuration.ConfigurationManager.AppSettings["TemplateFileOTE"].ToString();
+
+                //richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
+                richTextBox1.LoadFile(path);
+                return richTextBox1;
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

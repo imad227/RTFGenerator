@@ -73,10 +73,7 @@ namespace RTFGeneratorWinForms
 
 
 
-        /// <summary>
-        /// Add User Information
-        /// </summary>
-        /// 
+        #region Add User Information.
         private void firstNameTextBox_TextChanged(object sender, EventArgs e)
         {
             person.FirstName = firstNameTextBox.Text;
@@ -168,7 +165,54 @@ namespace RTFGeneratorWinForms
                 toolStripProgressBar.Value += 1;
             }
         }
+        private void maleRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 1;
+            }
+            person.Gender = gender.Male;
 
+            CompanyTypeComboBox.SelectedIndex = -1;
+
+            companyTitelLabel.Hide();
+            companyTitelTextBox.Hide();
+            companyTitelTextBox.Text = "";
+        }
+
+        private void femaleRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripProgressBar.Value += 1;
+            }
+            person.Gender = gender.Female;
+
+            CompanyTypeComboBox.SelectedIndex = -1;
+
+            companyTitelLabel.Hide();
+            companyTitelTextBox.Hide();
+            companyTitelTextBox.Text = "";
+        }
+
+        private void companyRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            person.Gender = gender.Company;
+
+            if (toolStripProgressBar.Value < 100)
+            {
+                toolStripStatusLabel.Text = "Registring User Company Information . . .";
+                toolStripProgressBar.Value += 1;
+            }
+
+            companyTitelLabel.Show();
+            companyTitelTextBox.Show();
+        }
+        #endregion Add User Information.
+
+        #region Order For Payment Advanced Options.
         private void judicialStampTextBox_TextChanged(object sender, EventArgs e)
         {
             //ΤΝ, ΤΠΔΑ, ΤΑΧΔΙΚ(Α264794) και γραμμάτιο προείσπραξης Δ.Σ.Α. (Π4350411).
@@ -294,61 +338,86 @@ namespace RTFGeneratorWinForms
 
         }
 
-        /// <summary>
-        /// Add user Gender or Company type.
-        /// </summary>
-        /// 
-        private void maleRadioButton_CheckedChanged(object sender, EventArgs e)
+        // Change of Address Application
+        private void AddressChangeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (toolStripProgressBar.Value < 100)
             {
-                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripStatusLabel.Text = "Modifying Court Options . . .";
                 toolStripProgressBar.Value += 1;
             }
-            person.Gender = gender.Male;
 
-            CompanyTypeComboBox.SelectedIndex = -1;
-
-            companyTitelLabel.Hide();
-            companyTitelTextBox.Hide();
-            companyTitelTextBox.Text = "";
+            if (AddressChangeCheckBox.Checked)
+            {
+                person.orderforPayment.AddressChange = true;
+            }
+            else if (!AddressChangeCheckBox.Checked)
+            {
+                person.orderforPayment.AddressChange = false;
+            }
         }
 
-        private void femaleRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void IdChangeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (toolStripProgressBar.Value < 100)
             {
-                toolStripStatusLabel.Text = "Registring User information . . .";
+                toolStripStatusLabel.Text = "Modifying Court Options . . .";
                 toolStripProgressBar.Value += 1;
             }
-            person.Gender = gender.Female;
 
-            CompanyTypeComboBox.SelectedIndex = -1;
-
-            companyTitelLabel.Hide();
-            companyTitelTextBox.Hide();
-            companyTitelTextBox.Text = "";
-        }
-
-        private void companyRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            person.Gender = gender.Company;
-
-            if (toolStripProgressBar.Value < 100)
+            if (IdChangeCheckBox.Checked)
             {
-                toolStripStatusLabel.Text = "Registring User Company Information . . .";
-                toolStripProgressBar.Value += 1;
+                person.orderforPayment.IdChange = true;
             }
-
-            companyTitelLabel.Show();
-            companyTitelTextBox.Show();
+            else if (!IdChangeCheckBox.Checked)
+            {
+                person.orderforPayment.IdChange = false;
+            }
         }
 
+        private void addressChangeApplicationNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            person.orderforPayment.ChangeOfAddressApplication.ApplicationNumber = addressChangeApplicationNumberTextBox.Text;
+        }
 
-        /// <summary>
-        /// Add user Contracts.
-        /// </summary>
-        /// 
+        private void addressChangeApplicationDateTextBox_TextChanged(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.MinValue;
+            bool parseResult = DateTime.TryParse(addressChangeApplicationDateTextBox.Text, out date);
+            if (parseResult)
+            {
+                //parse was successful, continue
+                person.orderforPayment.ChangeOfAddressApplication.ApplicationDate = date;
+            }
+        }
+
+        private void remunerationFromTextBox_TextChanged(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.MinValue;
+            Bills bill = new Bills();
+            bool parseResult = DateTime.TryParse(remunerationFromTextBox.Text, out date);
+            if (parseResult)
+            {
+                bill.IssueDate = date;
+                person.orderforPayment.RemunerationDate.Add(bill);
+            }
+        }
+
+        private void remunerationToTextBox_TextChanged(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.MinValue;
+            Bills bill = new Bills();
+            bool parseResult = DateTime.TryParse(remunerationToTextBox.Text, out date);
+            if (parseResult)
+            {
+                bill.IssueDate = date;
+                person.orderforPayment.RemunerationDate.Add(bill);
+            }
+        }
+
+        #endregion Order For Payment Advanced Options.
+
+        #region Modify Contracts.
         private void addContractButton_Click(object sender, EventArgs e)
         {
             if (phoneNumberContractTextBox.Text == "" || contractNumberTextBox.Text == "" || contractDateTextBox.Text == "" || contractDurationComboBox.SelectedIndex == -1)
@@ -476,12 +545,9 @@ namespace RTFGeneratorWinForms
             contractNumberTextBox.Text = null;
             contractDateTextBox.Text = null;
         }
+        #endregion Modify Contracts.
 
-        /// <summary>
-        /// Add User Bills
-        /// </summary>
-        /// 
-
+        #region Modify Bills.
         private void addBillButton_Click(object sender, EventArgs e)
         {
             if (billDateTextBox.Text == "")
@@ -576,12 +642,15 @@ namespace RTFGeneratorWinForms
 
             }
         }
+        private void addSimNumberButton_Click(object sender, EventArgs e)
+        {
+            contractTypeLabel.Visible = true;
+            contractTypeTextBox.Visible = true;
+        }
 
-        /// <summary>
-        /// Menu Strip options.
-        /// </summary>
-        /// 
+        #endregion Modify Bills.
 
+        #region Menu Bar.
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (toolStripProgressBar.Value < 100)
@@ -595,26 +664,79 @@ namespace RTFGeneratorWinForms
             }
         }
 
-
-
-        /// <summary>
-        /// Buttons 
-        /// </summary>
-        /// 
-
-        private void GeneratePaymenOrderBbutton_Click(object sender, EventArgs e)
+        private void addCourtToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //toolStripStatusLabel.Text = "Ready . . .";
-            // Generate Payment Order Here.
-            toolStripStatusLabel.Text = "Generating OFP . . .";
+            AddCourt addcourt = new AddCourt();
+            this.Hide();
+            addcourt.ShowDialog();
+            this.Show();
+            if (addcourt.newCourt != null)
+            {
+                CourtsList.Add(addcourt.newCourt);
+                RTFGen.SaveCourts(CourtsList);
+                CourtsList.Clear();
+                CourtsList = RTFGen.LoadCourts();
+
+                courtSelectionComboBox.DataSource = CourtsList;
+                courtSelectionComboBox.SelectedIndex = -1;
+
+            }
 
 
-            CreateRTF.MaleSingelContract(person);
-            //MessageBox.Show($"Test if person info is passed: ({person.FirstName} Postal Code: {person.FirstAddress.PostalCode})");
-            toolStripStatusLabel.Text = "Done . . .";
-            toolStripProgressBar.Value = 100;
+            addcourt.Dispose();
         }
 
+        private void addLawyerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddLawyer addlawyer = new AddLawyer();
+            this.Hide();
+            addlawyer.ShowDialog();
+            this.Show();
+            if (addlawyer.newLawyer != null)
+            {
+                LawyersList.Add(addlawyer.newLawyer);
+                RTFGen.SaveLawyers(LawyersList);
+                LawyersList = RTFGen.LoadLawyers();
+
+                lawyerSelectionComboBox.DataSource = LawyersList;
+                lawyerSelectionComboBox.SelectedIndex = -1;
+            }
+        }
+
+        #endregion Menu Bar.
+
+        #region Buttons.
+        private void GeneratePaymenOrderBbutton_Click(object sender, EventArgs e)
+        {
+            if(cosmoteRadioButton.Checked)
+            {
+                //toolStripStatusLabel.Text = "Ready . . .";
+                // Generate Payment Order Here.
+                toolStripStatusLabel.Text = "Generating Cosmote OFP . . .";
+
+
+                CreateRTFCMS.Generate(person);
+                //MessageBox.Show($"Test if person info is passed: ({person.FirstName} Postal Code: {person.FirstAddress.PostalCode})");
+                toolStripStatusLabel.Text = "Done . . .";
+                toolStripProgressBar.Value = 100;
+            }
+            else if(oteRadioButton.Checked)
+            {
+                //toolStripStatusLabel.Text = "Ready . . .";
+                // Generate Payment Order Here.
+                toolStripStatusLabel.Text = "Generating OTE OFP . . .";
+
+
+                CreateRTFOTE.Generate(person);
+                //MessageBox.Show($"Test if person info is passed: ({person.FirstName} Postal Code: {person.FirstAddress.PostalCode})");
+                toolStripStatusLabel.Text = "Done . . .";
+                toolStripProgressBar.Value = 100;
+            }
+            else
+            {
+                MessageBox.Show("You must Select the Order Type (Cosmote or OTE)!", "OFP type not selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
         private void clearAllButton_Click(object sender, EventArgs e)
         {
@@ -674,132 +796,7 @@ namespace RTFGeneratorWinForms
             MessageBox.Show(person.Print(), "User Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
-
-        /// <summary>
-        /// Menu Bar Items.
-        /// </summary>
-        /// 
-        private void addCourtToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddCourt addcourt = new AddCourt();
-            this.Hide();
-            addcourt.ShowDialog();
-            this.Show();
-            if (addcourt.newCourt != null)
-            {
-                CourtsList.Add(addcourt.newCourt);
-                RTFGen.SaveCourts(CourtsList);
-                CourtsList.Clear();
-                CourtsList = RTFGen.LoadCourts();
-
-                courtSelectionComboBox.DataSource = CourtsList;
-                courtSelectionComboBox.SelectedIndex = -1;
-
-            }
-
-
-            addcourt.Dispose();
-        }
-
-        private void addLawyerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddLawyer addlawyer = new AddLawyer();
-            this.Hide();
-            addlawyer.ShowDialog();
-            this.Show();
-            if (addlawyer.newLawyer != null)
-            {
-                LawyersList.Add(addlawyer.newLawyer);
-                RTFGen.SaveLawyers(LawyersList);
-                LawyersList = RTFGen.LoadLawyers();
-
-                lawyerSelectionComboBox.DataSource = LawyersList;
-                lawyerSelectionComboBox.SelectedIndex = -1;
-            }
-        }
-
-        // Change of Address Application
-        private void AddressChangeCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (toolStripProgressBar.Value < 100)
-            {
-                toolStripStatusLabel.Text = "Modifying Court Options . . .";
-                toolStripProgressBar.Value += 1;
-            }
-
-            if (AddressChangeCheckBox.Checked)
-            {
-                person.orderforPayment.AddressChange = true;
-            }
-            else if (!AddressChangeCheckBox.Checked)
-            {
-                person.orderforPayment.AddressChange = false;
-            }
-        }
-
-        private void IdChangeCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (toolStripProgressBar.Value < 100)
-            {
-                toolStripStatusLabel.Text = "Modifying Court Options . . .";
-                toolStripProgressBar.Value += 1;
-            }
-
-            if (IdChangeCheckBox.Checked)
-            {
-                person.orderforPayment.IdChange = true;
-            }
-            else if (!IdChangeCheckBox.Checked)
-            {
-                person.orderforPayment.IdChange = false;
-            }
-        }
-
-        private void addressChangeApplicationNumberTextBox_TextChanged(object sender, EventArgs e)
-        {
-            person.orderforPayment.ChangeOfAddressApplication.ApplicationNumber = addressChangeApplicationNumberTextBox.Text;
-        }
-
-        private void addressChangeApplicationDateTextBox_TextChanged(object sender, EventArgs e)
-        {
-            DateTime date = DateTime.MinValue;
-            bool parseResult = DateTime.TryParse(addressChangeApplicationDateTextBox.Text, out date);
-            if (parseResult)
-            {
-                //parse was successful, continue
-                person.orderforPayment.ChangeOfAddressApplication.ApplicationDate = date;
-            }
-        }
-
-        private void remunerationFromTextBox_TextChanged(object sender, EventArgs e)
-        {
-            DateTime date = DateTime.MinValue;
-            Bills bill = new Bills();
-            bool parseResult = DateTime.TryParse(remunerationFromTextBox.Text, out date);
-            if (parseResult)
-            {
-                bill.IssueDate = date;
-                person.orderforPayment.RemunerationDate.Add(bill);
-            }
-        }
-
-        private void remunerationToTextBox_TextChanged(object sender, EventArgs e)
-        {
-            DateTime date = DateTime.MinValue;
-            Bills bill = new Bills();
-            bool parseResult = DateTime.TryParse(remunerationToTextBox.Text, out date);
-            if (parseResult)
-            {
-                bill.IssueDate = date;
-                person.orderforPayment.RemunerationDate.Add(bill);
-            }
-        }
-
-        private void addSimNumberButton_Click(object sender, EventArgs e)
-        {
-            contractTypeLabel.Visible = true;
-            contractTypeTextBox.Visible = true;
-        }
+        #endregion Buttons.
 
 
         private void removeCourtButton_Click(object sender, EventArgs e)
