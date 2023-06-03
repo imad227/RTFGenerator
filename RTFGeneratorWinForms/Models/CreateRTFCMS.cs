@@ -177,7 +177,7 @@ namespace RTFGeneratorWinForms.Models
                 sb.Append("\tΤης ");
             }
 
-            sb.Append(person.FirstName.Trim() + "  " + person.LastName.Trim());
+            sb.Append(person.FirstName.Trim() + " " + person.LastName.Trim());
             if (person.FatherName != string.Empty)
             {
                 sb.Append(" του " + person.FatherName.Trim());

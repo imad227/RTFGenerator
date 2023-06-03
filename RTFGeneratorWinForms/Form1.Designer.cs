@@ -35,6 +35,7 @@ namespace RTFGeneratorWinForms
             toolStripStatusLabel = new ToolStripStatusLabel();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
+            loadFromFileToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
             addCourtToolStripMenuItem = new ToolStripMenuItem();
@@ -93,6 +94,8 @@ namespace RTFGeneratorWinForms
             billDateLabel = new Label();
             clearAllButton = new Button();
             typeGroupBox = new GroupBox();
+            removeLawyerButton = new Button();
+            removeCourtButton = new Button();
             selectLawyerLabel = new Label();
             lawyerSelectionComboBox = new ComboBox();
             selectCourtLabel = new Label();
@@ -121,8 +124,10 @@ namespace RTFGeneratorWinForms
             remunerationToLabel = new Label();
             remunerationFromTextBox = new TextBox();
             remunerationFromLabel = new Label();
-            removeCourtButton = new Button();
-            removeLawyerButton = new Button();
+            searchGroupBox = new GroupBox();
+            searchButton = new Button();
+            caseNumberTextBox = new TextBox();
+            caseNumberLabel = new Label();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
@@ -133,14 +138,15 @@ namespace RTFGeneratorWinForms
             advancedOptionsGroupBox.SuspendLayout();
             addressChangeGroupBox.SuspendLayout();
             remunerationGroupBox.SuspendLayout();
+            searchGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripProgressBar, toolStripStatusLabel });
-            statusStrip1.Location = new Point(0, 792);
+            statusStrip1.Location = new Point(0, 937);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(984, 22);
+            statusStrip1.Size = new Size(1081, 22);
             statusStrip1.TabIndex = 0;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -160,21 +166,28 @@ namespace RTFGeneratorWinForms
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(984, 24);
+            menuStrip1.Size = new Size(1081, 24);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { loadFromFileToolStripMenuItem, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "&File";
             // 
+            // loadFromFileToolStripMenuItem
+            // 
+            loadFromFileToolStripMenuItem.Name = "loadFromFileToolStripMenuItem";
+            loadFromFileToolStripMenuItem.Size = new Size(150, 22);
+            loadFromFileToolStripMenuItem.Text = "&Load from File";
+            loadFromFileToolStripMenuItem.Click += loadFromFileToolStripMenuItem_Click;
+            // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(93, 22);
+            exitToolStripMenuItem.Size = new Size(150, 22);
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -244,19 +257,19 @@ namespace RTFGeneratorWinForms
             userInfoGroupBox.Controls.Add(firstNameTextBox);
             userInfoGroupBox.Controls.Add(firstNameLabel);
             userInfoGroupBox.ForeColor = SystemColors.ControlText;
-            userInfoGroupBox.Location = new Point(8, 31);
+            userInfoGroupBox.Location = new Point(8, 45);
             userInfoGroupBox.Name = "userInfoGroupBox";
-            userInfoGroupBox.Size = new Size(278, 280);
+            userInfoGroupBox.Size = new Size(293, 291);
             userInfoGroupBox.TabIndex = 0;
             userInfoGroupBox.TabStop = false;
             userInfoGroupBox.Text = "ΣΤΟΙΧΕΙΑ ΟΦΕΙΛΕΤΗ";
             // 
             // zipCodeTextBox
             // 
-            zipCodeTextBox.Location = new Point(201, 245);
+            zipCodeTextBox.Location = new Point(210, 245);
             zipCodeTextBox.Name = "zipCodeTextBox";
-            zipCodeTextBox.Size = new Size(69, 27);
-            zipCodeTextBox.TabIndex = 8;
+            zipCodeTextBox.Size = new Size(77, 27);
+            zipCodeTextBox.TabIndex = 9;
             zipCodeTextBox.TextChanged += zipCodeTextBox_TextChanged;
             // 
             // zipCodeLabel
@@ -273,7 +286,7 @@ namespace RTFGeneratorWinForms
             streetNameTextBox.Location = new Point(48, 245);
             streetNameTextBox.Name = "streetNameTextBox";
             streetNameTextBox.Size = new Size(114, 27);
-            streetNameTextBox.TabIndex = 7;
+            streetNameTextBox.TabIndex = 8;
             streetNameTextBox.TextChanged += streetNameTextBox_TextChanged;
             // 
             // CityNameLabel
@@ -281,16 +294,16 @@ namespace RTFGeneratorWinForms
             CityNameLabel.AutoSize = true;
             CityNameLabel.Location = new Point(4, 248);
             CityNameLabel.Name = "CityNameLabel";
-            CityNameLabel.Size = new Size(34, 20);
+            CityNameLabel.Size = new Size(51, 20);
             CityNameLabel.TabIndex = 0;
-            CityNameLabel.Text = "City";
+            CityNameLabel.Text = "ΠΟΛΗ";
             // 
             // streetNumberTextBox
             // 
-            streetNumberTextBox.Location = new Point(201, 212);
+            streetNumberTextBox.Location = new Point(210, 212);
             streetNumberTextBox.Name = "streetNumberTextBox";
-            streetNumberTextBox.Size = new Size(69, 27);
-            streetNumberTextBox.TabIndex = 6;
+            streetNumberTextBox.Size = new Size(77, 27);
+            streetNumberTextBox.TabIndex = 7;
             streetNumberTextBox.TextChanged += streetNumberTextBox_TextChanged;
             // 
             // streetNumberLabel
@@ -307,7 +320,7 @@ namespace RTFGeneratorWinForms
             streetTextBox.Location = new Point(48, 212);
             streetTextBox.Name = "streetTextBox";
             streetTextBox.Size = new Size(114, 27);
-            streetTextBox.TabIndex = 5;
+            streetTextBox.TabIndex = 6;
             streetTextBox.TextChanged += streetTextBox_TextChanged;
             // 
             // streetLabel
@@ -332,8 +345,8 @@ namespace RTFGeneratorWinForms
             // 
             taxNumberTextBox.Location = new Point(98, 148);
             taxNumberTextBox.Name = "taxNumberTextBox";
-            taxNumberTextBox.Size = new Size(172, 27);
-            taxNumberTextBox.TabIndex = 4;
+            taxNumberTextBox.Size = new Size(189, 27);
+            taxNumberTextBox.TabIndex = 10;
             taxNumberTextBox.TextChanged += taxNumberTextBox_TextChanged;
             // 
             // taxNumberLabel
@@ -349,8 +362,8 @@ namespace RTFGeneratorWinForms
             // 
             fatherNameTextBox.Location = new Point(98, 92);
             fatherNameTextBox.Name = "fatherNameTextBox";
-            fatherNameTextBox.Size = new Size(172, 27);
-            fatherNameTextBox.TabIndex = 3;
+            fatherNameTextBox.Size = new Size(189, 27);
+            fatherNameTextBox.TabIndex = 5;
             fatherNameTextBox.TextChanged += fatherNameTextBox_TextChanged;
             // 
             // fatherNameLabel
@@ -366,8 +379,8 @@ namespace RTFGeneratorWinForms
             // 
             lastNameTextBox.Location = new Point(98, 59);
             lastNameTextBox.Name = "lastNameTextBox";
-            lastNameTextBox.Size = new Size(172, 27);
-            lastNameTextBox.TabIndex = 2;
+            lastNameTextBox.Size = new Size(189, 27);
+            lastNameTextBox.TabIndex = 4;
             lastNameTextBox.TextChanged += lastNameTextBox_TextChanged;
             // 
             // lasNameLabel
@@ -383,8 +396,8 @@ namespace RTFGeneratorWinForms
             // 
             firstNameTextBox.Location = new Point(98, 26);
             firstNameTextBox.Name = "firstNameTextBox";
-            firstNameTextBox.Size = new Size(172, 27);
-            firstNameTextBox.TabIndex = 1;
+            firstNameTextBox.Size = new Size(189, 27);
+            firstNameTextBox.TabIndex = 3;
             firstNameTextBox.TextChanged += firstNameTextBox_TextChanged;
             // 
             // firstNameLabel
@@ -398,10 +411,10 @@ namespace RTFGeneratorWinForms
             // 
             // GeneratePaymenOrderBbutton
             // 
-            GeneratePaymenOrderBbutton.Location = new Point(865, 744);
+            GeneratePaymenOrderBbutton.Location = new Point(941, 875);
             GeneratePaymenOrderBbutton.Name = "GeneratePaymenOrderBbutton";
             GeneratePaymenOrderBbutton.Size = new Size(107, 45);
-            GeneratePaymenOrderBbutton.TabIndex = 200;
+            GeneratePaymenOrderBbutton.TabIndex = 43;
             GeneratePaymenOrderBbutton.Text = "Generate";
             GeneratePaymenOrderBbutton.UseVisualStyleBackColor = true;
             GeneratePaymenOrderBbutton.Click += GeneratePaymenOrderBbutton_Click;
@@ -414,9 +427,9 @@ namespace RTFGeneratorWinForms
             genderGroupBox.Controls.Add(companyRadioButton);
             genderGroupBox.Controls.Add(femaleRadioButton);
             genderGroupBox.Controls.Add(maleRadioButton);
-            genderGroupBox.Location = new Point(8, 317);
+            genderGroupBox.Location = new Point(8, 342);
             genderGroupBox.Name = "genderGroupBox";
-            genderGroupBox.Size = new Size(278, 155);
+            genderGroupBox.Size = new Size(293, 171);
             genderGroupBox.TabIndex = 0;
             genderGroupBox.TabStop = false;
             genderGroupBox.Text = "Gender";
@@ -435,7 +448,7 @@ namespace RTFGeneratorWinForms
             companyTitelTextBox.Location = new Point(10, 122);
             companyTitelTextBox.Name = "companyTitelTextBox";
             companyTitelTextBox.Size = new Size(260, 27);
-            companyTitelTextBox.TabIndex = 210;
+            companyTitelTextBox.TabIndex = 15;
             companyTitelTextBox.TextChanged += companyTitelTextBox_TextChanged;
             // 
             // CompanyTypeComboBox
@@ -446,7 +459,7 @@ namespace RTFGeneratorWinForms
             CompanyTypeComboBox.Location = new Point(10, 56);
             CompanyTypeComboBox.Name = "CompanyTypeComboBox";
             CompanyTypeComboBox.Size = new Size(260, 28);
-            CompanyTypeComboBox.TabIndex = 12;
+            CompanyTypeComboBox.TabIndex = 14;
             CompanyTypeComboBox.SelectedIndexChanged += CompanyTypeComboBox_SelectedIndexChanged;
             // 
             // companyRadioButton
@@ -455,7 +468,7 @@ namespace RTFGeneratorWinForms
             companyRadioButton.Location = new Point(182, 26);
             companyRadioButton.Name = "companyRadioButton";
             companyRadioButton.Size = new Size(87, 24);
-            companyRadioButton.TabIndex = 11;
+            companyRadioButton.TabIndex = 13;
             companyRadioButton.TabStop = true;
             companyRadioButton.Text = "ΕΤΑΙΡΕΙΑ";
             companyRadioButton.UseVisualStyleBackColor = true;
@@ -467,7 +480,7 @@ namespace RTFGeneratorWinForms
             femaleRadioButton.Location = new Point(84, 26);
             femaleRadioButton.Name = "femaleRadioButton";
             femaleRadioButton.Size = new Size(70, 24);
-            femaleRadioButton.TabIndex = 10;
+            femaleRadioButton.TabIndex = 12;
             femaleRadioButton.TabStop = true;
             femaleRadioButton.Text = "ΘΗΛΉ";
             femaleRadioButton.UseVisualStyleBackColor = true;
@@ -479,7 +492,7 @@ namespace RTFGeneratorWinForms
             maleRadioButton.Location = new Point(6, 26);
             maleRadioButton.Name = "maleRadioButton";
             maleRadioButton.Size = new Size(72, 24);
-            maleRadioButton.TabIndex = 9;
+            maleRadioButton.TabIndex = 11;
             maleRadioButton.TabStop = true;
             maleRadioButton.Text = "ΑΡΡΕΝ";
             maleRadioButton.UseVisualStyleBackColor = true;
@@ -500,9 +513,9 @@ namespace RTFGeneratorWinForms
             contractsGroupBox.Controls.Add(phnoeNumberLabel);
             contractsGroupBox.Controls.Add(contractNumberTextBox);
             contractsGroupBox.Controls.Add(contractNumberLabel);
-            contractsGroupBox.Location = new Point(12, 478);
+            contractsGroupBox.Location = new Point(12, 534);
             contractsGroupBox.Name = "contractsGroupBox";
-            contractsGroupBox.Size = new Size(429, 311);
+            contractsGroupBox.Size = new Size(437, 386);
             contractsGroupBox.TabIndex = 201;
             contractsGroupBox.TabStop = false;
             contractsGroupBox.Text = "ΣΥΜΒΑΣΕΙΣ";
@@ -511,8 +524,8 @@ namespace RTFGeneratorWinForms
             // 
             contractTypeTextBox.Location = new Point(136, 120);
             contractTypeTextBox.Name = "contractTypeTextBox";
-            contractTypeTextBox.Size = new Size(287, 27);
-            contractTypeTextBox.TabIndex = 205;
+            contractTypeTextBox.Size = new Size(271, 27);
+            contractTypeTextBox.TabIndex = 23;
             // 
             // contractTypeLabel
             // 
@@ -530,16 +543,16 @@ namespace RTFGeneratorWinForms
             contractDurationComboBox.FormattingEnabled = true;
             contractDurationComboBox.Location = new Point(9, 86);
             contractDurationComboBox.Name = "contractDurationComboBox";
-            contractDurationComboBox.Size = new Size(283, 28);
-            contractDurationComboBox.TabIndex = 16;
+            contractDurationComboBox.Size = new Size(246, 28);
+            contractDurationComboBox.TabIndex = 19;
             // 
             // addSimNumberButton
             // 
             addSimNumberButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            addSimNumberButton.Location = new Point(298, 89);
+            addSimNumberButton.Location = new Point(261, 86);
             addSimNumberButton.Name = "addSimNumberButton";
             addSimNumberButton.Size = new Size(55, 25);
-            addSimNumberButton.TabIndex = 19;
+            addSimNumberButton.TabIndex = 22;
             addSimNumberButton.Text = "SIM";
             addSimNumberButton.UseVisualStyleBackColor = true;
             addSimNumberButton.Click += addSimNumberButton_Click;
@@ -550,16 +563,16 @@ namespace RTFGeneratorWinForms
             phoneContractsListBox.ItemHeight = 20;
             phoneContractsListBox.Location = new Point(9, 161);
             phoneContractsListBox.Name = "phoneContractsListBox";
-            phoneContractsListBox.Size = new Size(414, 144);
+            phoneContractsListBox.Size = new Size(398, 204);
             phoneContractsListBox.TabIndex = 202;
             // 
             // removeContractButton
             // 
             removeContractButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            removeContractButton.Location = new Point(359, 89);
+            removeContractButton.Location = new Point(329, 87);
             removeContractButton.Name = "removeContractButton";
             removeContractButton.Size = new Size(29, 25);
-            removeContractButton.TabIndex = 18;
+            removeContractButton.TabIndex = 21;
             removeContractButton.Text = "-";
             removeContractButton.UseVisualStyleBackColor = true;
             removeContractButton.Click += removeContractButton_Click;
@@ -567,10 +580,10 @@ namespace RTFGeneratorWinForms
             // addContractButton
             // 
             addContractButton.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            addContractButton.Location = new Point(394, 89);
+            addContractButton.Location = new Point(378, 87);
             addContractButton.Name = "addContractButton";
             addContractButton.Size = new Size(29, 25);
-            addContractButton.TabIndex = 17;
+            addContractButton.TabIndex = 20;
             addContractButton.Text = "+";
             addContractButton.UseVisualStyleBackColor = true;
             addContractButton.Click += addContractButton_Click;
@@ -579,15 +592,15 @@ namespace RTFGeneratorWinForms
             // 
             contractDateTextBox.Location = new Point(321, 56);
             contractDateTextBox.Name = "contractDateTextBox";
-            contractDateTextBox.Size = new Size(102, 27);
-            contractDateTextBox.TabIndex = 15;
+            contractDateTextBox.Size = new Size(86, 27);
+            contractDateTextBox.TabIndex = 18;
             // 
             // phoneNumberContractTextBox
             // 
             phoneNumberContractTextBox.Location = new Point(136, 21);
             phoneNumberContractTextBox.Name = "phoneNumberContractTextBox";
-            phoneNumberContractTextBox.Size = new Size(287, 27);
-            phoneNumberContractTextBox.TabIndex = 13;
+            phoneNumberContractTextBox.Size = new Size(271, 27);
+            phoneNumberContractTextBox.TabIndex = 16;
             // 
             // ContractDateLabel
             // 
@@ -612,7 +625,7 @@ namespace RTFGeneratorWinForms
             contractNumberTextBox.Location = new Point(133, 56);
             contractNumberTextBox.Name = "contractNumberTextBox";
             contractNumberTextBox.Size = new Size(122, 27);
-            contractNumberTextBox.TabIndex = 14;
+            contractNumberTextBox.TabIndex = 17;
             // 
             // contractNumberLabel
             // 
@@ -633,9 +646,9 @@ namespace RTFGeneratorWinForms
             billsGroupBox.Controls.Add(billDateTextBox);
             billsGroupBox.Controls.Add(addBillButton);
             billsGroupBox.Controls.Add(billDateLabel);
-            billsGroupBox.Location = new Point(447, 478);
+            billsGroupBox.Location = new Point(455, 534);
             billsGroupBox.Name = "billsGroupBox";
-            billsGroupBox.Size = new Size(150, 311);
+            billsGroupBox.Size = new Size(207, 386);
             billsGroupBox.TabIndex = 0;
             billsGroupBox.TabStop = false;
             billsGroupBox.Text = "ΤΙΜΟΛΟΓΙΑ";
@@ -644,8 +657,8 @@ namespace RTFGeneratorWinForms
             // 
             billAmountTextBox.Location = new Point(51, 59);
             billAmountTextBox.Name = "billAmountTextBox";
-            billAmountTextBox.Size = new Size(92, 27);
-            billAmountTextBox.TabIndex = 21;
+            billAmountTextBox.Size = new Size(139, 27);
+            billAmountTextBox.TabIndex = 25;
             // 
             // billAmountLabel
             // 
@@ -660,18 +673,18 @@ namespace RTFGeneratorWinForms
             // 
             billsListBox.FormattingEnabled = true;
             billsListBox.ItemHeight = 20;
-            billsListBox.Location = new Point(10, 121);
+            billsListBox.Location = new Point(10, 161);
             billsListBox.Name = "billsListBox";
-            billsListBox.Size = new Size(134, 184);
+            billsListBox.Size = new Size(180, 204);
             billsListBox.TabIndex = 204;
             // 
             // removeBillButton
             // 
             removeBillButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            removeBillButton.Location = new Point(6, 90);
+            removeBillButton.Location = new Point(51, 92);
             removeBillButton.Name = "removeBillButton";
-            removeBillButton.Size = new Size(57, 29);
-            removeBillButton.TabIndex = 23;
+            removeBillButton.Size = new Size(59, 29);
+            removeBillButton.TabIndex = 27;
             removeBillButton.Text = "-";
             removeBillButton.UseVisualStyleBackColor = true;
             removeBillButton.Click += removeBillButton_Click;
@@ -680,16 +693,16 @@ namespace RTFGeneratorWinForms
             // 
             billDateTextBox.Location = new Point(51, 26);
             billDateTextBox.Name = "billDateTextBox";
-            billDateTextBox.Size = new Size(92, 27);
-            billDateTextBox.TabIndex = 20;
+            billDateTextBox.Size = new Size(139, 27);
+            billDateTextBox.TabIndex = 24;
             // 
             // addBillButton
             // 
             addBillButton.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            addBillButton.Location = new Point(69, 90);
+            addBillButton.Location = new Point(116, 92);
             addBillButton.Name = "addBillButton";
             addBillButton.Size = new Size(74, 30);
-            addBillButton.TabIndex = 22;
+            addBillButton.TabIndex = 26;
             addBillButton.Text = "+";
             addBillButton.UseVisualStyleBackColor = true;
             addBillButton.Click += addBillButton_Click;
@@ -705,10 +718,10 @@ namespace RTFGeneratorWinForms
             // 
             // clearAllButton
             // 
-            clearAllButton.Location = new Point(737, 744);
+            clearAllButton.Location = new Point(813, 875);
             clearAllButton.Name = "clearAllButton";
             clearAllButton.Size = new Size(107, 45);
-            clearAllButton.TabIndex = 202;
+            clearAllButton.TabIndex = 44;
             clearAllButton.Text = "Clear All";
             clearAllButton.UseVisualStyleBackColor = true;
             clearAllButton.Click += clearAllButton_Click;
@@ -723,17 +736,39 @@ namespace RTFGeneratorWinForms
             typeGroupBox.Controls.Add(courtSelectionComboBox);
             typeGroupBox.Controls.Add(oteRadioButton);
             typeGroupBox.Controls.Add(cosmoteRadioButton);
-            typeGroupBox.Location = new Point(307, 31);
+            typeGroupBox.Location = new Point(307, 126);
             typeGroupBox.Name = "typeGroupBox";
-            typeGroupBox.Size = new Size(665, 103);
+            typeGroupBox.Size = new Size(738, 114);
             typeGroupBox.TabIndex = 203;
             typeGroupBox.TabStop = false;
             typeGroupBox.Text = "ΕΙΔΟΣ ΔΙΑΤΑΓΗΣ";
             // 
+            // removeLawyerButton
+            // 
+            removeLawyerButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            removeLawyerButton.Location = new Point(694, 58);
+            removeLawyerButton.Name = "removeLawyerButton";
+            removeLawyerButton.Size = new Size(38, 30);
+            removeLawyerButton.TabIndex = 207;
+            removeLawyerButton.Text = "-";
+            removeLawyerButton.UseVisualStyleBackColor = true;
+            removeLawyerButton.Click += removeLawyerButton_Click;
+            // 
+            // removeCourtButton
+            // 
+            removeCourtButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            removeCourtButton.Location = new Point(694, 20);
+            removeCourtButton.Name = "removeCourtButton";
+            removeCourtButton.Size = new Size(38, 29);
+            removeCourtButton.TabIndex = 206;
+            removeCourtButton.Text = "-";
+            removeCourtButton.UseVisualStyleBackColor = true;
+            removeCourtButton.Click += removeCourtButton_Click;
+            // 
             // selectLawyerLabel
             // 
             selectLawyerLabel.AutoSize = true;
-            selectLawyerLabel.Location = new Point(122, 63);
+            selectLawyerLabel.Location = new Point(182, 64);
             selectLawyerLabel.Name = "selectLawyerLabel";
             selectLawyerLabel.Size = new Size(156, 20);
             selectLawyerLabel.TabIndex = 28;
@@ -744,16 +779,16 @@ namespace RTFGeneratorWinForms
             lawyerSelectionComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             lawyerSelectionComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             lawyerSelectionComboBox.FormattingEnabled = true;
-            lawyerSelectionComboBox.Location = new Point(321, 60);
+            lawyerSelectionComboBox.Location = new Point(374, 60);
             lawyerSelectionComboBox.Name = "lawyerSelectionComboBox";
-            lawyerSelectionComboBox.Size = new Size(310, 28);
-            lawyerSelectionComboBox.TabIndex = 30;
+            lawyerSelectionComboBox.Size = new Size(302, 28);
+            lawyerSelectionComboBox.TabIndex = 42;
             lawyerSelectionComboBox.SelectedIndexChanged += lawyerSelectionComboBox_SelectedIndexChanged;
             // 
             // selectCourtLabel
             // 
             selectCourtLabel.AutoSize = true;
-            selectCourtLabel.Location = new Point(122, 23);
+            selectCourtLabel.Location = new Point(182, 25);
             selectCourtLabel.Name = "selectCourtLabel";
             selectCourtLabel.Size = new Size(184, 20);
             selectCourtLabel.TabIndex = 9;
@@ -762,10 +797,10 @@ namespace RTFGeneratorWinForms
             // courtSelectionComboBox
             // 
             courtSelectionComboBox.FormattingEnabled = true;
-            courtSelectionComboBox.Location = new Point(321, 20);
+            courtSelectionComboBox.Location = new Point(374, 20);
             courtSelectionComboBox.Name = "courtSelectionComboBox";
-            courtSelectionComboBox.Size = new Size(310, 28);
-            courtSelectionComboBox.TabIndex = 27;
+            courtSelectionComboBox.Size = new Size(302, 28);
+            courtSelectionComboBox.TabIndex = 41;
             courtSelectionComboBox.SelectedIndexChanged += courtSelectionComboBox_SelectedIndexChanged;
             // 
             // oteRadioButton
@@ -774,7 +809,7 @@ namespace RTFGeneratorWinForms
             oteRadioButton.Location = new Point(10, 58);
             oteRadioButton.Name = "oteRadioButton";
             oteRadioButton.Size = new Size(53, 24);
-            oteRadioButton.TabIndex = 25;
+            oteRadioButton.TabIndex = 40;
             oteRadioButton.TabStop = true;
             oteRadioButton.Text = "OTE";
             oteRadioButton.UseVisualStyleBackColor = true;
@@ -785,7 +820,7 @@ namespace RTFGeneratorWinForms
             cosmoteRadioButton.Location = new Point(10, 23);
             cosmoteRadioButton.Name = "cosmoteRadioButton";
             cosmoteRadioButton.Size = new Size(86, 24);
-            cosmoteRadioButton.TabIndex = 24;
+            cosmoteRadioButton.TabIndex = 39;
             cosmoteRadioButton.TabStop = true;
             cosmoteRadioButton.Text = "Cosomte";
             cosmoteRadioButton.UseVisualStyleBackColor = true;
@@ -795,9 +830,9 @@ namespace RTFGeneratorWinForms
             advancedOptionsGroupBox.Controls.Add(addressChangeGroupBox);
             advancedOptionsGroupBox.Controls.Add(challengeRequestCheckBox);
             advancedOptionsGroupBox.Controls.Add(athensJurisdictionCheckBox);
-            advancedOptionsGroupBox.Location = new Point(307, 140);
+            advancedOptionsGroupBox.Location = new Point(307, 246);
             advancedOptionsGroupBox.Name = "advancedOptionsGroupBox";
-            advancedOptionsGroupBox.Size = new Size(665, 261);
+            advancedOptionsGroupBox.Size = new Size(738, 267);
             advancedOptionsGroupBox.TabIndex = 204;
             advancedOptionsGroupBox.TabStop = false;
             advancedOptionsGroupBox.Text = "Advanced Options";
@@ -812,7 +847,7 @@ namespace RTFGeneratorWinForms
             addressChangeGroupBox.Controls.Add(AddressChangeCheckBox);
             addressChangeGroupBox.Location = new Point(480, 16);
             addressChangeGroupBox.Name = "addressChangeGroupBox";
-            addressChangeGroupBox.Size = new Size(179, 229);
+            addressChangeGroupBox.Size = new Size(241, 245);
             addressChangeGroupBox.TabIndex = 205;
             addressChangeGroupBox.TabStop = false;
             addressChangeGroupBox.Text = "ΣΧΕΤΙΚΟ 4";
@@ -823,7 +858,7 @@ namespace RTFGeneratorWinForms
             IdChangeCheckBox.Location = new Point(8, 64);
             IdChangeCheckBox.Name = "IdChangeCheckBox";
             IdChangeCheckBox.Size = new Size(178, 24);
-            IdChangeCheckBox.TabIndex = 12;
+            IdChangeCheckBox.TabIndex = 34;
             IdChangeCheckBox.Text = "ΑΛΛΑΓΗ ΤΑΥΤΟΤΗΤΑΣ";
             IdChangeCheckBox.UseVisualStyleBackColor = true;
             IdChangeCheckBox.CheckedChanged += IdChangeCheckBox_CheckedChanged;
@@ -832,8 +867,8 @@ namespace RTFGeneratorWinForms
             // 
             addressChangeApplicationDateTextBox.Location = new Point(14, 196);
             addressChangeApplicationDateTextBox.Name = "addressChangeApplicationDateTextBox";
-            addressChangeApplicationDateTextBox.Size = new Size(159, 27);
-            addressChangeApplicationDateTextBox.TabIndex = 11;
+            addressChangeApplicationDateTextBox.Size = new Size(221, 27);
+            addressChangeApplicationDateTextBox.TabIndex = 36;
             addressChangeApplicationDateTextBox.TextChanged += addressChangeApplicationDateTextBox_TextChanged;
             // 
             // addressChangeApplicationDateLabel
@@ -849,8 +884,8 @@ namespace RTFGeneratorWinForms
             // 
             addressChangeApplicationNumberTextBox.Location = new Point(14, 128);
             addressChangeApplicationNumberTextBox.Name = "addressChangeApplicationNumberTextBox";
-            addressChangeApplicationNumberTextBox.Size = new Size(159, 27);
-            addressChangeApplicationNumberTextBox.TabIndex = 9;
+            addressChangeApplicationNumberTextBox.Size = new Size(221, 27);
+            addressChangeApplicationNumberTextBox.TabIndex = 35;
             addressChangeApplicationNumberTextBox.TextChanged += addressChangeApplicationNumberTextBox_TextChanged;
             // 
             // addressChangeApplicationNumberLabel
@@ -868,7 +903,7 @@ namespace RTFGeneratorWinForms
             AddressChangeCheckBox.Location = new Point(8, 32);
             AddressChangeCheckBox.Name = "AddressChangeCheckBox";
             AddressChangeCheckBox.Size = new Size(175, 24);
-            AddressChangeCheckBox.TabIndex = 0;
+            AddressChangeCheckBox.TabIndex = 33;
             AddressChangeCheckBox.Text = "ΑΛΛΑΓΗ ΔΙΕΥΘΥΝΣΗΣ";
             AddressChangeCheckBox.UseVisualStyleBackColor = true;
             AddressChangeCheckBox.CheckedChanged += AddressChangeCheckBox_CheckedChanged;
@@ -879,7 +914,7 @@ namespace RTFGeneratorWinForms
             challengeRequestCheckBox.Location = new Point(14, 66);
             challengeRequestCheckBox.Name = "challengeRequestCheckBox";
             challengeRequestCheckBox.Size = new Size(200, 24);
-            challengeRequestCheckBox.TabIndex = 1;
+            challengeRequestCheckBox.TabIndex = 38;
             challengeRequestCheckBox.Text = "ΑΙΤΗΜΑ ΑΜΦΙΣΒΗΤΗΣΗΣ";
             challengeRequestCheckBox.UseVisualStyleBackColor = true;
             challengeRequestCheckBox.CheckedChanged += challengeRequestCheckBox_CheckedChanged;
@@ -890,23 +925,23 @@ namespace RTFGeneratorWinForms
             athensJurisdictionCheckBox.Location = new Point(14, 36);
             athensJurisdictionCheckBox.Name = "athensJurisdictionCheckBox";
             athensJurisdictionCheckBox.Size = new Size(136, 24);
-            athensJurisdictionCheckBox.TabIndex = 0;
+            athensJurisdictionCheckBox.TabIndex = 37;
             athensJurisdictionCheckBox.Text = "ΜΕ ΠΑΡΕΚΤΑΣΗ";
             athensJurisdictionCheckBox.UseVisualStyleBackColor = true;
             athensJurisdictionCheckBox.CheckedChanged += athensJurisdictionCheckBox_CheckedChanged;
             // 
             // totalAmountTextBox
             // 
-            totalAmountTextBox.Location = new Point(406, 439);
+            totalAmountTextBox.Location = new Point(795, 560);
             totalAmountTextBox.Name = "totalAmountTextBox";
-            totalAmountTextBox.Size = new Size(184, 27);
-            totalAmountTextBox.TabIndex = 207;
+            totalAmountTextBox.Size = new Size(255, 27);
+            totalAmountTextBox.TabIndex = 30;
             totalAmountTextBox.TextChanged += totalAmountTextBox_TextChanged;
             // 
             // totalAmountLabel
             // 
             totalAmountLabel.AutoSize = true;
-            totalAmountLabel.Location = new Point(292, 442);
+            totalAmountLabel.Location = new Point(673, 563);
             totalAmountLabel.Name = "totalAmountLabel";
             totalAmountLabel.Size = new Size(116, 20);
             totalAmountLabel.TabIndex = 208;
@@ -914,26 +949,26 @@ namespace RTFGeneratorWinForms
             // 
             // testButton
             // 
-            testButton.Location = new Point(617, 744);
+            testButton.Location = new Point(693, 875);
             testButton.Name = "testButton";
             testButton.Size = new Size(107, 45);
-            testButton.TabIndex = 209;
+            testButton.TabIndex = 45;
             testButton.Text = "TEST";
             testButton.UseVisualStyleBackColor = true;
             testButton.Click += testButton_Click;
             // 
             // promissoryNoteTextBox
             // 
-            promissoryNoteTextBox.Location = new Point(711, 478);
+            promissoryNoteTextBox.Location = new Point(795, 654);
             promissoryNoteTextBox.Name = "promissoryNoteTextBox";
             promissoryNoteTextBox.Size = new Size(255, 27);
-            promissoryNoteTextBox.TabIndex = 12;
+            promissoryNoteTextBox.TabIndex = 32;
             promissoryNoteTextBox.TextChanged += promissoryNoteTextBox_TextChanged;
             // 
             // promissoryNoteLabel
             // 
             promissoryNoteLabel.AutoSize = true;
-            promissoryNoteLabel.Location = new Point(617, 481);
+            promissoryNoteLabel.Location = new Point(701, 657);
             promissoryNoteLabel.Name = "promissoryNoteLabel";
             promissoryNoteLabel.Size = new Size(96, 20);
             promissoryNoteLabel.TabIndex = 9;
@@ -941,16 +976,16 @@ namespace RTFGeneratorWinForms
             // 
             // judicialStampTextBox
             // 
-            judicialStampTextBox.Location = new Point(711, 445);
+            judicialStampTextBox.Location = new Point(795, 621);
             judicialStampTextBox.Name = "judicialStampTextBox";
             judicialStampTextBox.Size = new Size(255, 27);
-            judicialStampTextBox.TabIndex = 11;
+            judicialStampTextBox.TabIndex = 31;
             judicialStampTextBox.TextChanged += judicialStampTextBox_TextChanged;
             // 
             // judicialStampLabel
             // 
             judicialStampLabel.AutoSize = true;
-            judicialStampLabel.Location = new Point(617, 448);
+            judicialStampLabel.Location = new Point(701, 624);
             judicialStampLabel.Name = "judicialStampLabel";
             judicialStampLabel.Size = new Size(74, 20);
             judicialStampLabel.TabIndex = 10;
@@ -963,9 +998,9 @@ namespace RTFGeneratorWinForms
             remunerationGroupBox.Controls.Add(remunerationToLabel);
             remunerationGroupBox.Controls.Add(remunerationFromTextBox);
             remunerationGroupBox.Controls.Add(remunerationFromLabel);
-            remunerationGroupBox.Location = new Point(617, 522);
+            remunerationGroupBox.Location = new Point(681, 758);
             remunerationGroupBox.Name = "remunerationGroupBox";
-            remunerationGroupBox.Size = new Size(150, 106);
+            remunerationGroupBox.Size = new Size(367, 66);
             remunerationGroupBox.TabIndex = 207;
             remunerationGroupBox.TabStop = false;
             remunerationGroupBox.Text = "ΕΝΑΝΤΙ";
@@ -973,16 +1008,16 @@ namespace RTFGeneratorWinForms
             // 
             // remunerationToTextBox
             // 
-            remunerationToTextBox.Location = new Point(51, 60);
+            remunerationToTextBox.Location = new Point(243, 26);
             remunerationToTextBox.Name = "remunerationToTextBox";
             remunerationToTextBox.Size = new Size(92, 27);
-            remunerationToTextBox.TabIndex = 21;
+            remunerationToTextBox.TabIndex = 29;
             remunerationToTextBox.TextChanged += remunerationToTextBox_TextChanged;
             // 
             // remunerationToLabel
             // 
             remunerationToLabel.AutoSize = true;
-            remunerationToLabel.Location = new Point(1, 60);
+            remunerationToLabel.Location = new Point(193, 26);
             remunerationToLabel.Name = "remunerationToLabel";
             remunerationToLabel.Size = new Size(39, 20);
             remunerationToLabel.TabIndex = 206;
@@ -990,10 +1025,10 @@ namespace RTFGeneratorWinForms
             // 
             // remunerationFromTextBox
             // 
-            remunerationFromTextBox.Location = new Point(51, 26);
+            remunerationFromTextBox.Location = new Point(52, 26);
             remunerationFromTextBox.Name = "remunerationFromTextBox";
             remunerationFromTextBox.Size = new Size(92, 27);
-            remunerationFromTextBox.TabIndex = 20;
+            remunerationFromTextBox.TabIndex = 28;
             remunerationFromTextBox.TextChanged += remunerationFromTextBox_TextChanged;
             // 
             // remunerationFromLabel
@@ -1005,33 +1040,50 @@ namespace RTFGeneratorWinForms
             remunerationFromLabel.TabIndex = 204;
             remunerationFromLabel.Text = "ΑΠΟ:";
             // 
-            // removeCourtButton
+            // searchGroupBox
             // 
-            removeCourtButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            removeCourtButton.Location = new Point(634, 20);
-            removeCourtButton.Name = "removeCourtButton";
-            removeCourtButton.Size = new Size(29, 29);
-            removeCourtButton.TabIndex = 206;
-            removeCourtButton.Text = "-";
-            removeCourtButton.UseVisualStyleBackColor = true;
-            removeCourtButton.Click += removeCourtButton_Click;
+            searchGroupBox.Controls.Add(searchButton);
+            searchGroupBox.Controls.Add(caseNumberTextBox);
+            searchGroupBox.Controls.Add(caseNumberLabel);
+            searchGroupBox.ForeColor = SystemColors.MenuHighlight;
+            searchGroupBox.Location = new Point(307, 45);
+            searchGroupBox.Name = "searchGroupBox";
+            searchGroupBox.Size = new Size(738, 72);
+            searchGroupBox.TabIndex = 210;
+            searchGroupBox.TabStop = false;
+            searchGroupBox.Text = "Search";
             // 
-            // removeLawyerButton
+            // searchButton
             // 
-            removeLawyerButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            removeLawyerButton.Location = new Point(634, 58);
-            removeLawyerButton.Name = "removeLawyerButton";
-            removeLawyerButton.Size = new Size(29, 30);
-            removeLawyerButton.TabIndex = 207;
-            removeLawyerButton.Text = "-";
-            removeLawyerButton.UseVisualStyleBackColor = true;
-            removeLawyerButton.Click += removeLawyerButton_Click;
+            searchButton.Location = new Point(403, 29);
+            searchButton.Name = "searchButton";
+            searchButton.Size = new Size(75, 27);
+            searchButton.TabIndex = 2;
+            searchButton.Text = "Search";
+            searchButton.UseVisualStyleBackColor = true;
+            // 
+            // caseNumberTextBox
+            // 
+            caseNumberTextBox.Location = new Point(236, 29);
+            caseNumberTextBox.Name = "caseNumberTextBox";
+            caseNumberTextBox.Size = new Size(161, 27);
+            caseNumberTextBox.TabIndex = 1;
+            // 
+            // caseNumberLabel
+            // 
+            caseNumberLabel.AutoSize = true;
+            caseNumberLabel.Location = new Point(129, 32);
+            caseNumberLabel.Name = "caseNumberLabel";
+            caseNumberLabel.Size = new Size(101, 20);
+            caseNumberLabel.TabIndex = 9;
+            caseNumberLabel.Text = "Case Number:";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(984, 814);
+            ClientSize = new Size(1081, 959);
+            Controls.Add(searchGroupBox);
             Controls.Add(remunerationGroupBox);
             Controls.Add(promissoryNoteTextBox);
             Controls.Add(promissoryNoteLabel);
@@ -1076,6 +1128,8 @@ namespace RTFGeneratorWinForms
             addressChangeGroupBox.PerformLayout();
             remunerationGroupBox.ResumeLayout(false);
             remunerationGroupBox.PerformLayout();
+            searchGroupBox.ResumeLayout(false);
+            searchGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1175,5 +1229,10 @@ namespace RTFGeneratorWinForms
         private Label contractTypeLabel;
         private Button removeLawyerButton;
         private Button removeCourtButton;
+        private ToolStripMenuItem loadFromFileToolStripMenuItem;
+        private GroupBox searchGroupBox;
+        private TextBox caseNumberTextBox;
+        private Label caseNumberLabel;
+        private Button searchButton;
     }
 }

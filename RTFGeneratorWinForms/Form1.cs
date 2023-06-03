@@ -703,12 +703,17 @@ namespace RTFGeneratorWinForms
             }
         }
 
+        private void loadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Load from file.
+        }
+
         #endregion Menu Bar.
 
         #region Buttons.
         private void GeneratePaymenOrderBbutton_Click(object sender, EventArgs e)
         {
-            if(cosmoteRadioButton.Checked)
+            if (cosmoteRadioButton.Checked)
             {
                 //toolStripStatusLabel.Text = "Ready . . .";
                 // Generate Payment Order Here.
@@ -720,7 +725,7 @@ namespace RTFGeneratorWinForms
                 toolStripStatusLabel.Text = "Done . . .";
                 toolStripProgressBar.Value = 100;
             }
-            else if(oteRadioButton.Checked)
+            else if (oteRadioButton.Checked)
             {
                 //toolStripStatusLabel.Text = "Ready . . .";
                 // Generate Payment Order Here.
@@ -760,7 +765,7 @@ namespace RTFGeneratorWinForms
             streetTextBox.Text = "";
             streetNumberTextBox.Text = "";
             zipCodeTextBox.Text = "";
-            
+
             // Clear Selected Radio buttons
             maleRadioButton.Checked = false;
             femaleRadioButton.Checked = false;
@@ -798,7 +803,7 @@ namespace RTFGeneratorWinForms
         }
         #endregion Buttons.
 
-
+        #region Remove Items.
         private void removeCourtButton_Click(object sender, EventArgs e)
         {
             if (courtSelectionComboBox.SelectedIndex == -1)
@@ -807,18 +812,18 @@ namespace RTFGeneratorWinForms
             }
             else
             {
-                DialogResult d =MessageBox.Show("Are you sure you want to delete the selected Court from the list?", "Test Titel", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                DialogResult d = MessageBox.Show("Are you sure you want to delete the selected Court from the list?", "Test Titel", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (d == DialogResult.Yes)
                 {
                     // Delete the selected Court
                     CourtsList.RemoveAt(courtSelectionComboBox.SelectedIndex);
                     RTFGen.SaveCourts(CourtsList);
-                    
+
                     courtSelectionComboBox.DataBindings.Clear();
                     CourtsList = RTFGen.LoadCourts();
                     courtSelectionComboBox.DataSource = CourtsList;
                     courtSelectionComboBox.SelectedIndex = -1;
-                    
+
                 }
             }
         }
@@ -832,7 +837,7 @@ namespace RTFGeneratorWinForms
             else
             {
                 DialogResult d = MessageBox.Show("Are you sure you want to delete the selected Lawyer from the list?", "Test Titel", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
-                if(d == DialogResult.Yes)
+                if (d == DialogResult.Yes)
                 {
                     // Delete the selecte Lawyer
                     LawyersList.RemoveAt(lawyerSelectionComboBox.SelectedIndex);
@@ -841,12 +846,14 @@ namespace RTFGeneratorWinForms
                     lawyerSelectionComboBox.DataBindings.Clear();
                     LawyersList = RTFGen.LoadLawyers();
                     lawyerSelectionComboBox.DataSource = LawyersList;
-                    lawyerSelectionComboBox.SelectedIndex= -1;
-                    
+                    lawyerSelectionComboBox.SelectedIndex = -1;
+
                 }
             }
-            
         }
+
+        #endregion Remove Items.
+
     }
 
 }
