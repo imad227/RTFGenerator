@@ -70,10 +70,6 @@ namespace RTFGeneratorWinForms
             toolStripProgressBar.Value = 0;
         }
 
-        //private void courtSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    courtSelectionComboBox.SelectedIndex = CourtsList.FindIndex(r => r.CapitalName == courtSelectionComboBox.Text);
-        //}
 
 
 
@@ -249,7 +245,6 @@ namespace RTFGeneratorWinForms
 
         private void lawyerSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (lawyerSelectionComboBox.SelectedIndex != -1)
             {
                 person.orderforPayment.LawyerName = LawyersList[lawyerSelectionComboBox.SelectedIndex];
@@ -264,7 +259,6 @@ namespace RTFGeneratorWinForms
 
         private void totalAmountTextBox_TextChanged(object sender, EventArgs e)
         {
-
             double amount;
             string str = totalAmountTextBox.Text;
             bool amountParseResult = double.TryParse(str, NumberStyles.Currency, CultureInfo.GetCultureInfo("el-GR"), out amount);
@@ -279,11 +273,6 @@ namespace RTFGeneratorWinForms
                     toolStripProgressBar.Value += 1;
                 }
             }
-            //else
-            //{
-            //    MessageBox.Show("Unable to read Amount value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-
         }
 
         private void CompanyTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -316,7 +305,6 @@ namespace RTFGeneratorWinForms
                 toolStripStatusLabel.Text = "Registring User information . . .";
                 toolStripProgressBar.Value += 1;
             }
-
             person.Gender = gender.Male;
 
             CompanyTypeComboBox.SelectedIndex = -1;
@@ -333,7 +321,6 @@ namespace RTFGeneratorWinForms
                 toolStripStatusLabel.Text = "Registring User information . . .";
                 toolStripProgressBar.Value += 1;
             }
-
             person.Gender = gender.Female;
 
             CompanyTypeComboBox.SelectedIndex = -1;
@@ -345,7 +332,6 @@ namespace RTFGeneratorWinForms
 
         private void companyRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-
             person.Gender = gender.Company;
 
             if (toolStripProgressBar.Value < 100)
@@ -354,15 +340,8 @@ namespace RTFGeneratorWinForms
                 toolStripProgressBar.Value += 1;
             }
 
-            // TODO (Enable ComboBox here, and disable elsewhere.
-            // Enable ComboBox here to enable user to select the company type.
-            // temporary solution.
-            //ConstValues constValues = new ConstValues();
-
-
             companyTitelLabel.Show();
             companyTitelTextBox.Show();
-
         }
 
 
@@ -377,7 +356,7 @@ namespace RTFGeneratorWinForms
                 MessageBox.Show("Please provide a phone number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // In casee to Add with a Sim Card instade of phone number.
-            else if(contractTypeLabel.Visible == true)
+            else if (contractTypeLabel.Visible == true)
             {
 
                 Contract cont = new()
@@ -387,9 +366,6 @@ namespace RTFGeneratorWinForms
                     Durration = ContractDuration[contractDurationComboBox.SelectedIndex],
                     ContractType = contractTypeTextBox.Text
                 };
-                // TODO
-                // Convert string to date.
-                //cont.Date = contractDateTextBox.Text.Todate();
 
                 DateTime date = DateTime.MinValue;
                 bool parseResult = DateTime.TryParse(contractDateTextBox.Text, out date);
@@ -398,10 +374,6 @@ namespace RTFGeneratorWinForms
                     //parse was successful, continue
                     cont.Date = date;
                 }
-                //else
-                //{
-                //    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //}
 
                 person.orderforPayment.contracts.Add(cont);
 
@@ -419,9 +391,6 @@ namespace RTFGeneratorWinForms
                     phoneContractsListBox.Items.Add(p.Show);
                 }
 
-                // clear the boxs in anticpation for new contract
-                // TODO
-                // move this to a function
                 phoneNumberContractTextBox.Text = null;
                 contractNumberTextBox.Text = null;
                 contractDateTextBox.Text = null;
@@ -440,9 +409,6 @@ namespace RTFGeneratorWinForms
                     Number = contractNumberTextBox.Text,
                     Durration = ContractDuration[contractDurationComboBox.SelectedIndex]
                 };
-                // TODO
-                // Convert string to date.
-                //cont.Date = contractDateTextBox.Text.Todate();
 
                 DateTime date = DateTime.MinValue;
                 bool parseResult = DateTime.TryParse(contractDateTextBox.Text, out date);
@@ -451,10 +417,6 @@ namespace RTFGeneratorWinForms
                     //parse was successful, continue
                     cont.Date = date;
                 }
-                //else
-                //{
-                //    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //}
 
                 person.orderforPayment.contracts.Add(cont);
                 if (toolStripProgressBar.Value < 100)
@@ -485,13 +447,14 @@ namespace RTFGeneratorWinForms
 
         private void removeContractButton_Click(object sender, EventArgs e)
         {
-            if (phoneNumberContractTextBox.Text == "")
+            if (phoneContractsListBox.SelectedIndex == -1)
             {
-                MessageBox.Show("Please provide a phone number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please Select a contract to delete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                var toRemove = person.orderforPayment.contracts.RemoveAll(r => r.PhoneNumber == phoneNumberContractTextBox.Text);
+                //var toRemove = person.orderforPayment.contracts.RemoveAll(r => r.PhoneNumber == phoneNumberContractTextBox.Text);
+                person.orderforPayment.contracts.RemoveAt(phoneContractsListBox.SelectedIndex);
                 if (toolStripProgressBar.Value < 100)
                 {
                     toolStripStatusLabel.Text = $"Removing Contract: {phoneNumberContractTextBox.Text}. . .";
@@ -588,24 +551,18 @@ namespace RTFGeneratorWinForms
 
         private void removeBillButton_Click(object sender, EventArgs e)
         {
-            if (billDateTextBox.Text == "")
+            if (billsListBox.SelectedIndex == -1)
             {
-                MessageBox.Show("Please provide the Bill issue date", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select the Bill to be removed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                DateTime date = DateTime.MinValue;
-                bool parseResult = DateTime.TryParse(billDateTextBox.Text, out date);
-                if (parseResult)
-                {
-                    //parse was successful, continue
-                    var toRemove = person.orderforPayment.bills.RemoveAll(r => r.IssueDate == date);
+                person.orderforPayment.bills.RemoveAt(billsListBox.SelectedIndex);
 
-                    if (toolStripProgressBar.Value < 100)
-                    {
-                        toolStripStatusLabel.Text = $"Removing New Bill {billDateTextBox.Text}. . .";
-                        toolStripProgressBar.Value -= 2;
-                    }
+                if (toolStripProgressBar.Value < 100)
+                {
+                    toolStripStatusLabel.Text = $"Removing Bill {billDateTextBox.Text}. . .";
+                    toolStripProgressBar.Value -= 2;
                 }
 
                 billsListBox.Items.Clear();
@@ -661,14 +618,50 @@ namespace RTFGeneratorWinForms
 
         private void clearAllButton_Click(object sender, EventArgs e)
         {
-            // Delete Person otions.
 
-            // Clear textBox data
+            person = new Person();
 
-            Form1 NewForm = new();
-            NewForm.Show();
-            this.Dispose(false);
+            // Clear Text Boxes
+            firstNameTextBox.Text = "";
+            fatherNameTextBox.Text = "";
+            lastNameTextBox.Text = "";
+            taxNumberTextBox.Text = "";
+            companyTitelTextBox.Text = "";
+            totalAmountTextBox.Text = "";
+            judicialStampTextBox.Text = "";
+            promissoryNoteTextBox.Text = "";
+            remunerationFromTextBox.Text = "";
+            remunerationToTextBox.Text = "";
+            addressChangeApplicationDateTextBox.Text = "";
+            addressChangeApplicationNumberTextBox.Text = "";
+            streetNameTextBox.Text = "";
+            streetTextBox.Text = "";
+            streetNumberTextBox.Text = "";
+            zipCodeTextBox.Text = "";
+            
+            // Clear Selected Radio buttons
+            maleRadioButton.Checked = false;
+            femaleRadioButton.Checked = false;
+            companyRadioButton.Checked = false;
+            cosmoteRadioButton.Checked = false;
+            oteRadioButton.Checked = false;
 
+            // Clear CheckBox
+            athensJurisdictionCheckBox.Checked = false;
+            challengeRequestCheckBox.Checked = false;
+            AddressChangeCheckBox.Checked = false;
+            IdChangeCheckBox.Checked = false;
+
+            courtSelectionComboBox.SelectedIndex = -1;
+            lawyerSelectionComboBox.SelectedIndex = -1;
+            CompanyTypeComboBox.SelectedIndex = -1;
+
+            phoneContractsListBox.Items.Clear();
+            billsListBox.Items.Clear();
+
+            remunerationGroupBox.Visible = false;
+            companyTitelTextBox.Visible = false;
+            companyTitelLabel.Visible = false;
         }
 
         /// <summary>
@@ -678,23 +671,6 @@ namespace RTFGeneratorWinForms
         /// <param name="e"></param>
         private void testButton_Click(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
-            //RTFOptions.SetRTFOptions(person);
-            //MessageBox.Show($"{person.orderforPayment.CompanyType} {CompanyTypeComboBox.SelectedIndex.ToString()} ");
-            //MessageBox.Show(person.orderforPayment.Debt.ToString());
-
-            //CreateRTF.Test(person);
-
-            //MessageBox.Show(RTFGen.NumberToText(person.orderforPayment.Debt));
-
-            //MessageBox.Show($"First bill: {RTFGen.FirstBill(person).IssueDate.ToShortDateString()}, Last bill: {RTFGen.LastBill(person).IssueDate.ToShortDateString()}");
-
-            //MessageBox.Show(person.orderforPayment.PrintDebt);
-
-            //MessageBox.Show(RTFOptions.Remuneration(person).ToString());
-
-            //MessageBox.Show("Generate Not implemented yet.", "Generate RTF not avaliable", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            //MessageBox.Show(CreateRTF.ClientData(person));
             MessageBox.Show(person.Print(), "User Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
@@ -716,13 +692,8 @@ namespace RTFGeneratorWinForms
                 CourtsList.Clear();
                 CourtsList = RTFGen.LoadCourts();
 
-                //courtSelectionComboBox.Items.Clear();
                 courtSelectionComboBox.DataSource = CourtsList;
                 courtSelectionComboBox.SelectedIndex = -1;
-                //foreach (var court in CourtsList)
-                //{
-                //    courtSelectionComboBox.Items.Add(court.Show);
-                //}
 
             }
 
@@ -798,10 +769,6 @@ namespace RTFGeneratorWinForms
                 //parse was successful, continue
                 person.orderforPayment.ChangeOfAddressApplication.ApplicationDate = date;
             }
-            //else
-            //{
-            //    MessageBox.Show("Unable to read Date value", "unrecognizable Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
         }
 
         private void remunerationFromTextBox_TextChanged(object sender, EventArgs e)
@@ -832,6 +799,56 @@ namespace RTFGeneratorWinForms
         {
             contractTypeLabel.Visible = true;
             contractTypeTextBox.Visible = true;
+        }
+
+
+        private void removeCourtButton_Click(object sender, EventArgs e)
+        {
+            if (courtSelectionComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Plese select a court to remove", "Unable to Remove Court", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                DialogResult d =MessageBox.Show("Are you sure you want to delete the selected Court from the list?", "Test Titel", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if (d == DialogResult.Yes)
+                {
+                    // Delete the selected Court
+                    CourtsList.RemoveAt(courtSelectionComboBox.SelectedIndex);
+                    RTFGen.SaveCourts(CourtsList);
+                    
+                    courtSelectionComboBox.DataBindings.Clear();
+                    CourtsList = RTFGen.LoadCourts();
+                    courtSelectionComboBox.DataSource = CourtsList;
+                    courtSelectionComboBox.SelectedIndex = -1;
+                    
+                }
+            }
+        }
+
+        private void removeLawyerButton_Click(object sender, EventArgs e)
+        {
+            if (lawyerSelectionComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Plese select a lawyer to remove", "Unable to Remove Lawer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                DialogResult d = MessageBox.Show("Are you sure you want to delete the selected Lawyer from the list?", "Test Titel", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if(d == DialogResult.Yes)
+                {
+                    // Delete the selecte Lawyer
+                    LawyersList.RemoveAt(lawyerSelectionComboBox.SelectedIndex);
+                    RTFGen.SaveLawyers(LawyersList);
+
+                    lawyerSelectionComboBox.DataBindings.Clear();
+                    LawyersList = RTFGen.LoadLawyers();
+                    lawyerSelectionComboBox.DataSource = LawyersList;
+                    lawyerSelectionComboBox.SelectedIndex= -1;
+                    
+                }
+            }
+            
         }
     }
 

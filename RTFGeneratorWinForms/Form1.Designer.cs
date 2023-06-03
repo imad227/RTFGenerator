@@ -70,6 +70,8 @@ namespace RTFGeneratorWinForms
             femaleRadioButton = new RadioButton();
             maleRadioButton = new RadioButton();
             contractsGroupBox = new GroupBox();
+            contractTypeTextBox = new TextBox();
+            contractTypeLabel = new Label();
             contractDurationComboBox = new ComboBox();
             addSimNumberButton = new Button();
             phoneContractsListBox = new ListBox();
@@ -119,8 +121,8 @@ namespace RTFGeneratorWinForms
             remunerationToLabel = new Label();
             remunerationFromTextBox = new TextBox();
             remunerationFromLabel = new Label();
-            contractTypeTextBox = new TextBox();
-            contractTypeLabel = new Label();
+            removeCourtButton = new Button();
+            removeLawyerButton = new Button();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             userInfoGroupBox.SuspendLayout();
@@ -505,6 +507,22 @@ namespace RTFGeneratorWinForms
             contractsGroupBox.TabStop = false;
             contractsGroupBox.Text = "ΣΥΜΒΑΣΕΙΣ";
             // 
+            // contractTypeTextBox
+            // 
+            contractTypeTextBox.Location = new Point(136, 120);
+            contractTypeTextBox.Name = "contractTypeTextBox";
+            contractTypeTextBox.Size = new Size(287, 27);
+            contractTypeTextBox.TabIndex = 205;
+            // 
+            // contractTypeLabel
+            // 
+            contractTypeLabel.AutoSize = true;
+            contractTypeLabel.Location = new Point(9, 123);
+            contractTypeLabel.Name = "contractTypeLabel";
+            contractTypeLabel.Size = new Size(92, 20);
+            contractTypeLabel.TabIndex = 204;
+            contractTypeLabel.Text = "ΣΥΜΒΟΛΑΙΟ";
+            // 
             // contractDurationComboBox
             // 
             contractDurationComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -697,6 +715,8 @@ namespace RTFGeneratorWinForms
             // 
             // typeGroupBox
             // 
+            typeGroupBox.Controls.Add(removeLawyerButton);
+            typeGroupBox.Controls.Add(removeCourtButton);
             typeGroupBox.Controls.Add(selectLawyerLabel);
             typeGroupBox.Controls.Add(lawyerSelectionComboBox);
             typeGroupBox.Controls.Add(selectCourtLabel);
@@ -713,7 +733,7 @@ namespace RTFGeneratorWinForms
             // selectLawyerLabel
             // 
             selectLawyerLabel.AutoSize = true;
-            selectLawyerLabel.Location = new Point(150, 62);
+            selectLawyerLabel.Location = new Point(122, 63);
             selectLawyerLabel.Name = "selectLawyerLabel";
             selectLawyerLabel.Size = new Size(156, 20);
             selectLawyerLabel.TabIndex = 28;
@@ -724,7 +744,7 @@ namespace RTFGeneratorWinForms
             lawyerSelectionComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             lawyerSelectionComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             lawyerSelectionComboBox.FormattingEnabled = true;
-            lawyerSelectionComboBox.Location = new Point(349, 59);
+            lawyerSelectionComboBox.Location = new Point(321, 60);
             lawyerSelectionComboBox.Name = "lawyerSelectionComboBox";
             lawyerSelectionComboBox.Size = new Size(310, 28);
             lawyerSelectionComboBox.TabIndex = 30;
@@ -733,7 +753,7 @@ namespace RTFGeneratorWinForms
             // selectCourtLabel
             // 
             selectCourtLabel.AutoSize = true;
-            selectCourtLabel.Location = new Point(150, 22);
+            selectCourtLabel.Location = new Point(122, 23);
             selectCourtLabel.Name = "selectCourtLabel";
             selectCourtLabel.Size = new Size(184, 20);
             selectCourtLabel.TabIndex = 9;
@@ -742,7 +762,7 @@ namespace RTFGeneratorWinForms
             // courtSelectionComboBox
             // 
             courtSelectionComboBox.FormattingEnabled = true;
-            courtSelectionComboBox.Location = new Point(349, 19);
+            courtSelectionComboBox.Location = new Point(321, 20);
             courtSelectionComboBox.Name = "courtSelectionComboBox";
             courtSelectionComboBox.Size = new Size(310, 28);
             courtSelectionComboBox.TabIndex = 27;
@@ -985,21 +1005,27 @@ namespace RTFGeneratorWinForms
             remunerationFromLabel.TabIndex = 204;
             remunerationFromLabel.Text = "ΑΠΟ:";
             // 
-            // contractTypeTextBox
+            // removeCourtButton
             // 
-            contractTypeTextBox.Location = new Point(136, 120);
-            contractTypeTextBox.Name = "contractTypeTextBox";
-            contractTypeTextBox.Size = new Size(287, 27);
-            contractTypeTextBox.TabIndex = 205;
+            removeCourtButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            removeCourtButton.Location = new Point(634, 20);
+            removeCourtButton.Name = "removeCourtButton";
+            removeCourtButton.Size = new Size(29, 29);
+            removeCourtButton.TabIndex = 206;
+            removeCourtButton.Text = "-";
+            removeCourtButton.UseVisualStyleBackColor = true;
+            removeCourtButton.Click += removeCourtButton_Click;
             // 
-            // contractTypeLabel
+            // removeLawyerButton
             // 
-            contractTypeLabel.AutoSize = true;
-            contractTypeLabel.Location = new Point(9, 123);
-            contractTypeLabel.Name = "contractTypeLabel";
-            contractTypeLabel.Size = new Size(92, 20);
-            contractTypeLabel.TabIndex = 204;
-            contractTypeLabel.Text = "ΣΥΜΒΟΛΑΙΟ";
+            removeLawyerButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            removeLawyerButton.Location = new Point(634, 58);
+            removeLawyerButton.Name = "removeLawyerButton";
+            removeLawyerButton.Size = new Size(29, 30);
+            removeLawyerButton.TabIndex = 207;
+            removeLawyerButton.Text = "-";
+            removeLawyerButton.UseVisualStyleBackColor = true;
+            removeLawyerButton.Click += removeLawyerButton_Click;
             // 
             // Form1
             // 
@@ -1147,5 +1173,7 @@ namespace RTFGeneratorWinForms
         private Label remunerationFromLabel;
         private TextBox contractTypeTextBox;
         private Label contractTypeLabel;
+        private Button removeLawyerButton;
+        private Button removeCourtButton;
     }
 }

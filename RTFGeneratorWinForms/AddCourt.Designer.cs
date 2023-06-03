@@ -46,8 +46,13 @@
             AttikaRadioButton = new RadioButton();
             inCityTextBox = new TextBox();
             inCityLabel = new Label();
+            advanceOptionsGroupBox = new GroupBox();
+            writeAMDSAinApplictionCheckBox = new CheckBox();
+            writeAMDSAinOrderCheckBox = new CheckBox();
+            billingAnalysisCheckBox = new CheckBox();
             ArticlesgroupBox.SuspendLayout();
             courtRegionGroupBox.SuspendLayout();
+            advanceOptionsGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // addCourtLabel
@@ -163,7 +168,7 @@
             // 
             // exitButton
             // 
-            exitButton.Location = new Point(29, 397);
+            exitButton.Location = new Point(29, 544);
             exitButton.Name = "exitButton";
             exitButton.Size = new Size(108, 51);
             exitButton.TabIndex = 8;
@@ -173,7 +178,7 @@
             // 
             // saveButton
             // 
-            saveButton.Location = new Point(168, 397);
+            saveButton.Location = new Point(168, 544);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(108, 51);
             saveButton.TabIndex = 9;
@@ -234,11 +239,54 @@
             inCityLabel.TabIndex = 10;
             inCityLabel.Text = "In City  (Small)";
             // 
+            // advanceOptionsGroupBox
+            // 
+            advanceOptionsGroupBox.Controls.Add(billingAnalysisCheckBox);
+            advanceOptionsGroupBox.Controls.Add(writeAMDSAinOrderCheckBox);
+            advanceOptionsGroupBox.Controls.Add(writeAMDSAinApplictionCheckBox);
+            advanceOptionsGroupBox.Location = new Point(12, 377);
+            advanceOptionsGroupBox.Name = "advanceOptionsGroupBox";
+            advanceOptionsGroupBox.Size = new Size(320, 148);
+            advanceOptionsGroupBox.TabIndex = 12;
+            advanceOptionsGroupBox.TabStop = false;
+            advanceOptionsGroupBox.Text = "Advanced Options";
+            // 
+            // writeAMDSAinApplictionCheckBox
+            // 
+            writeAMDSAinApplictionCheckBox.AutoSize = true;
+            writeAMDSAinApplictionCheckBox.Location = new Point(17, 36);
+            writeAMDSAinApplictionCheckBox.Name = "writeAMDSAinApplictionCheckBox";
+            writeAMDSAinApplictionCheckBox.Size = new Size(177, 24);
+            writeAMDSAinApplictionCheckBox.TabIndex = 0;
+            writeAMDSAinApplictionCheckBox.Text = "AMDSA in Application";
+            writeAMDSAinApplictionCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // writeAMDSAinOrderCheckBox
+            // 
+            writeAMDSAinOrderCheckBox.AutoSize = true;
+            writeAMDSAinOrderCheckBox.Location = new Point(17, 66);
+            writeAMDSAinOrderCheckBox.Name = "writeAMDSAinOrderCheckBox";
+            writeAMDSAinOrderCheckBox.Size = new Size(138, 24);
+            writeAMDSAinOrderCheckBox.TabIndex = 1;
+            writeAMDSAinOrderCheckBox.Text = "AMDSA in Order";
+            writeAMDSAinOrderCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // billingAnalysisCheckBox
+            // 
+            billingAnalysisCheckBox.AutoSize = true;
+            billingAnalysisCheckBox.Location = new Point(17, 96);
+            billingAnalysisCheckBox.Name = "billingAnalysisCheckBox";
+            billingAnalysisCheckBox.Size = new Size(135, 24);
+            billingAnalysisCheckBox.TabIndex = 2;
+            billingAnalysisCheckBox.Text = "Billing Analysise";
+            billingAnalysisCheckBox.UseVisualStyleBackColor = true;
+            // 
             // AddCourt
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(357, 492);
+            ClientSize = new Size(370, 614);
+            Controls.Add(advanceOptionsGroupBox);
             Controls.Add(inCityTextBox);
             Controls.Add(inCityLabel);
             Controls.Add(courtRegionGroupBox);
@@ -260,6 +308,8 @@
             ArticlesgroupBox.PerformLayout();
             courtRegionGroupBox.ResumeLayout(false);
             courtRegionGroupBox.PerformLayout();
+            advanceOptionsGroupBox.ResumeLayout(false);
+            advanceOptionsGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -284,5 +334,9 @@
         private RadioButton AttikaRadioButton;
         private TextBox inCityTextBox;
         private Label inCityLabel;
+        private GroupBox advanceOptionsGroupBox;
+        private CheckBox writeAMDSAinApplictionCheckBox;
+        private CheckBox billingAnalysisCheckBox;
+        private CheckBox writeAMDSAinOrderCheckBox;
     }
 }

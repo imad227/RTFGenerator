@@ -15,17 +15,22 @@ namespace RTFGeneratorLibrary
         public gender Gender { get; set; }
         public CourtRegion Region { get; set; }
 
+        // Advanced options
+        public bool WriteAMDSAinApplication { get; set; }  = false;
+        public bool WriteAMDSAinOrder { get; set; } = false;
+        public bool BillingAnalysis { get; set; } = false;
+
 
         public string Show
         {
             get
             {
                 if (Gender == gender.Female)
-                    return $"ΕΙΡΗΝΟΚΙΚΕΙΟ {CapitalName}";
+                    return $"ΕΙΡΗΝΟΔΙΚΕΙΟ {CapitalName}";
                 else if (Gender == gender.Male)
-                    return $"ΕΙΡΗΝΟΚΙΚΕΙΟ {CapitalName}";
+                    return $"ΕΙΡΗΝΟΔΙΚΕΙΟ {CapitalName}";
                 else if (Gender == gender.Neutral)
-                    return $"ΕΙΡΗΝΟΚΙΚΕΙΟ { CapitalName}";
+                    return $"ΕΙΡΗΝΟΔΙΚΕΙΟ { CapitalName}";
                 else
                     return "";
             }

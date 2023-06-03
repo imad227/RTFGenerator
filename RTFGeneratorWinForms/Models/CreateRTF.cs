@@ -1,6 +1,7 @@
 ﻿using RTFGeneratorLibrary;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,14 @@ namespace RTFGeneratorWinForms.Models
         {
             
             RichTextBox richTextBox1 = new();
+
+            // Test the following:
+            richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
+
+
             richTextBox1 = RTFGen.ReadTemplateFiel();
+
 
             string str1 = richTextBox1.Rtf.Replace(RTFGen.RtfToString("ΚΕΦΑΛΑΙΟΟΝΟΜΑΕΙΡΗΝΟΔΙΚΕΙΟΥ"), RTFGen.RtfToString(person.orderforPayment.CourtName.CapitalName));
             richTextBox1.Rtf = str1;
@@ -168,7 +176,7 @@ namespace RTFGeneratorWinForms.Models
                 sb.Append("\tΤης ");
             }
 
-            sb.Append(person.FirstName.Trim() + " " + person.LastName.Trim());
+            sb.Append(person.FirstName.Trim() + "  " + person.LastName.Trim());
             if (person.FatherName != string.Empty)
             {
                 sb.Append(" του " + person.FatherName.Trim());
@@ -200,7 +208,7 @@ namespace RTFGeneratorWinForms.Models
                     sb.Append("νόμιμα εκπροσωπούμενης");
                 }
             }
-            else if (person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION)
+            else if (person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION && !person.orderforPayment.CourtName.WriteAMDSAinApplication)
             {
                 if (person.orderforPayment.LawyerName.Gender == gender.Male)
                 {
@@ -211,18 +219,17 @@ namespace RTFGeneratorWinForms.Models
                     sb.Append($"νόμιμα εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print}");
                 }
             }
-            // Only Thessaloniki, not other regions.
-            //else if(person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION)
-            //{
-            //    if (person.orderforPayment.LawyerName.Gender == gender.Male)
-            //    {
-            //        sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()})");
-            //    }
-            //    else if (person.orderforPayment.LawyerName.Gender == gender.Female)
-            //    {
-            //        sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()})");
-            //    }
-            //}
+            else if (person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION && person.orderforPayment.CourtName.WriteAMDSAinApplication)
+            {
+                if (person.orderforPayment.LawyerName.Gender == gender.Male)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()})");
+                }
+                else if (person.orderforPayment.LawyerName.Gender == gender.Female)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()})");
+                }
+            }
 
             return sb.ToString();
         }
@@ -822,13 +829,38 @@ namespace RTFGeneratorWinForms.Models
         {
             StringBuilder sb = new StringBuilder();
             // we need to check the lawyer also. ΑΝ ΥΠΑΡΧΕΙ ΑΙΤΗΜΑ ΑΜΦΗΖΒΗΤΗΣΗ
-            if(person.orderforPayment.LawyerName.Gender == gender.Male)
+            if (person.orderforPayment.CourtName.Region == CourtRegion.ATTICA)
             {
-                sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()}).");
+                if (person.orderforPayment.LawyerName.Gender == gender.Male)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()}).");
+                }
+                else if (person.orderforPayment.LawyerName.Gender == gender.Female)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()}).");
+                }
             }
-            else if(person.orderforPayment.LawyerName.Gender == gender.Female)
+            else if (person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION && !person.orderforPayment.CourtName.WriteAMDSAinOrder)
             {
-                sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()}).");
+                if (person.orderforPayment.LawyerName.Gender == gender.Male)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print}.");
+                }
+                else if (person.orderforPayment.LawyerName.Gender == gender.Female)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print}.");
+                }
+            }
+            else if (person.orderforPayment.CourtName.Region == CourtRegion.OTHERREGION && person.orderforPayment.CourtName.WriteAMDSAinOrder)
+            {
+                if (person.orderforPayment.LawyerName.Gender == gender.Male)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από τον πληρεξούσιο δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()}).");
+                }
+                else if (person.orderforPayment.LawyerName.Gender == gender.Female)
+                {
+                    sb.Append($"νόμιμα  εκπροσωπούμενης, και η οποία υπογράφεται από την πληρεξούσια δικηγόρο της {person.orderforPayment.LawyerName.Print} (ΑΜ ΔΣΑ {person.orderforPayment.LawyerName.AMDSA.ToString().Trim()}).");
+                }
             }
 
             return sb.ToString();
