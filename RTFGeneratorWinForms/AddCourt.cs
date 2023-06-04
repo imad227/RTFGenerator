@@ -70,6 +70,32 @@ namespace RTFGeneratorWinForms
         {
             // TODO - Implement Save here.
             // for now this button closes the window, and return newCourt to caller.
+            if(writeAMDSAinApplictionCheckBox.Checked) 
+            {
+                newCourt.WriteAMDSAinApplication = true;
+            }
+            else
+            {
+                newCourt.WriteAMDSAinApplication = false;
+            }
+
+            if(writeAMDSAinOrderCheckBox.Checked)
+            {
+                newCourt.WriteAMDSAinOrder = true;
+            }
+            else
+            {
+                newCourt.WriteAMDSAinOrder = false;
+            }
+
+            if(billingAnalysisCheckBox.Checked)
+            {
+                newCourt.BillingAnalysis = true;
+            }
+            else
+            {
+                newCourt.BillingAnalysis = false;
+            }
             this.Close();
         }
 

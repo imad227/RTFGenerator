@@ -62,6 +62,51 @@ namespace RTFGeneratorWinForms.Models
             }
         }
 
+        public static Bills RemunerationFirstBill(Person person)
+        {
+            Bills bill = new Bills();
+            if (person.orderforPayment.RemunerationDate.Count > 0)
+            {
+                bill = person.orderforPayment.RemunerationDate[0];
+                foreach (var t in person.orderforPayment.RemunerationDate)
+                {
+                    if (DateTime.Compare(t.IssueDate, bill.IssueDate) < 0)
+                    {
+                        bill = t;
+                    }
+                }
+                return bill;
+            }
+            else
+            {
+                bill.IssueDate = DateTime.MinValue;
+                return bill;
+            }
+
+        }
+
+        public static Bills RemunerationLastBill(Person person)
+        {
+            Bills bill = new Bills();
+            if (person.orderforPayment.RemunerationDate.Count > 0)
+            {
+                bill = person.orderforPayment.RemunerationDate[0];
+                foreach (var t in person.orderforPayment.RemunerationDate)
+                {
+                    if (DateTime.Compare(t.IssueDate, bill.IssueDate) > 0)
+                    {
+                        bill = t;
+                    }
+                }
+                return bill;
+            }
+            else
+            {
+                bill.IssueDate = DateTime.MaxValue;
+                return bill;
+            }
+        }
+
         /// <summary>
         /// Takes the total amount and return the amount verbaly in a string.
         /// </summary>
@@ -69,35 +114,24 @@ namespace RTFGeneratorWinForms.Models
         /// <returns> string </returns>
         public static string NumberToText(double number)
         {
-            //throw new NotImplementedException();
-            string str = number.ToString();
-            string[] parts = str.Split('.');
             int? intPart = null;
             int? fractionalPart = null;
 
-            intPart = int.Parse(parts[0]);
+            intPart = (int)Math.Truncate(number);
+            fractionalPart = (int)((number - intPart) * 100 + 0.5);
 
-            if(parts.Length > 1 )
+            if (fractionalPart != 0 )
             {
-                fractionalPart = int.Parse(parts[1]);
-                if(parts[1].Length < 2)
-                {
-                    fractionalPart *= 10;
-                }
-
                 if (fractionalPart == 1)
                 {
-                    return $"{SplitNumber(intPart)} ευρώ και {SplitNumber(fractionalPart)} λεπτό";
+                    return $"{SplitNumber(intPart)}ευρώ και {SplitNumber(fractionalPart)}λεπτό";
                 }
                 else
                 {
-                    return $"{SplitNumber(intPart)} ευρώ και {SplitNumber(fractionalPart)} λεπτά";
+                    return $"{SplitNumber(intPart)}ευρώ και {SplitNumber(fractionalPart)}λεπτά";
                 }
-
             }
-            return $"{SplitNumber(intPart)} ευρώ";
-
-            //return $"{intPart.ToString()} and {fractionalPart.ToString()}";
+            return $"{SplitNumber(intPart)}ευρώ";
         }
 
         internal static string SplitNumber(int? num)
@@ -107,30 +141,25 @@ namespace RTFGeneratorWinForms.Models
             {
                 int? thousandsNumber = num / 1000;
                 str.Append(NumberInVerbal(thousandsNumber,1000));
-                str.Append(' ');
                 num -= thousandsNumber * 1000;
             }
             if(num >= 100)
             {
                 int? hundredNumber = num / 100;
                 str.Append(NumberInVerbal(hundredNumber,100));
-                str.Append(' ');
                 num -= hundredNumber * 100;
             }
             if(num >= 10)
             {
-                if (num <= 21 && num >= 11)
+                if (num < 20 && num >= 11)
                 {
                     str.Append(NumberInVerbal(num, 10));
-                    str.Append(' ');
-
                     return str.ToString();
                 }
                 else
                 {
                     int? tensNumber = num / 10;
                     str.Append(NumberInVerbal(tensNumber, 10));
-                    str.Append(' ');
 
                     num -= tensNumber * 10;
                     str.Append(NumberInVerbal(num, 1));
@@ -154,15 +183,31 @@ namespace RTFGeneratorWinForms.Models
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public static RichTextBox ReadTemplateFiel()
+        public static RichTextBox ReadTemplateFiel(TemplateType template)
         {
             RichTextBox richTextBox1 = new();
-            string path = System.Configuration.ConfigurationManager.AppSettings["TemplateFile"].ToString();
 
-            //richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
-            richTextBox1.LoadFile(path);
+            if (template == TemplateType.CosmoteOFP)
+            {
+                string path = System.Configuration.ConfigurationManager.AppSettings["TemplateFileCMS"].ToString();
 
-            return richTextBox1;
+                //richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
+                richTextBox1.LoadFile(path);
+
+                return richTextBox1;
+            }
+            else if(template == TemplateType.OTEOFP)
+            {
+                string path = System.Configuration.ConfigurationManager.AppSettings["TemplateFileOTE"].ToString();
+
+                //richTextBox1.LoadFile(@"C:\Demos\DATA\TEMPLATE.rtf");
+                richTextBox1.LoadFile(path);
+                return richTextBox1;
+            }
+            else
+            {
+                return null;
+            }
         }
 
 
@@ -184,9 +229,16 @@ namespace RTFGeneratorWinForms.Models
             if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName.Length > 0)
             {
                 // Save the contents of the RichTextBox into the file.
-                //richTextBox1.SaveFile(saveFileDialog1.FileName, RichTextBoxStreamType.UnicodePlainText);
                 richTextBox1.SaveFile(saveFileDialog1.FileName);
             }
+            //DialogResult openfile = MessageBox.Show("Would you like to open the file?", "Open saved file", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if(openfile == DialogResult.Yes)
+            //{
+            //    RichTextBox text = new RichTextBox();
+            //    text.LoadFile(saveFileDialog1.FileName);
+            //    MyNotePad myNotePad = new MyNotePad(text);
+            //    myNotePad.Show();
+            //}
         }
 
         public static List<Lawyer> LoadLawyers()
@@ -252,6 +304,13 @@ namespace RTFGeneratorWinForms.Models
                     newLCourt.Region = CourtRegion.ATTICA;
                 else if (entries[5] == "E")
                     newLCourt.Region = CourtRegion.OTHERREGION;
+                //advanced options.
+                if (entries[6] == "T")
+                    newLCourt.WriteAMDSAinApplication = true;
+                if (entries[7] == "T")
+                    newLCourt.WriteAMDSAinOrder = true;
+                if (entries[8] == "T")
+                    newLCourt.BillingAnalysis = true;
 
                 courts.Add(newLCourt);
             }
@@ -265,39 +324,66 @@ namespace RTFGeneratorWinForms.Models
             string filePath = System.Configuration.ConfigurationManager.AppSettings["CourtsDatabase"].ToString();
 
             List<string> output = new List<string>();
+            string strRegion = "#";
+            string strGender = "#"; 
+            string strApplication = "#";
+            string strOrder = "#"; 
+            string strBilling = "#";
 
             foreach (var court in courts)
             {
                 if(court.Region == CourtRegion.ATTICA)
                 {
-                    if(court.Gender == gender.Female)
-                    {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},F,A");
-                    }
-                    else if(court.Gender == gender.Male)
-                    {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},M,A");
-                    }
-                    else if(court.Gender== gender.Neutral)
-                    {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},N,A");
-                    }
+                    strRegion = "A";
                 }
-                else if(court.Region== CourtRegion.OTHERREGION)
+                else if(court.Region == CourtRegion.OTHERREGION)
                 {
-                    if (court.Gender == gender.Female)
-                    {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},F,E");
-                    }
-                    else if (court.Gender == gender.Male)
-                    {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},M,E");
-                    }
-                    else if (court.Gender == gender.Neutral)
-                    {
-                        output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},N,E");
-                    }
+                    strRegion = "E";
                 }
+
+                if(court.Gender == gender.Male)
+                {
+                    strGender = "M";
+                }
+                else if(court.Gender == gender.Female)
+                {
+                    strGender = "F";
+                }
+                else if(court.Gender == gender.Neutral)
+                {
+                    strGender = "N";
+                }
+
+                if (court.WriteAMDSAinApplication == true)
+                {
+                    strApplication = "T";
+                }
+                else
+                {
+                    strApplication = "O";
+                }
+
+                if (court.WriteAMDSAinOrder == true)
+                {
+                    strOrder = "T";
+                }
+                else
+                {
+                    strOrder = "O";
+                }
+
+                if (court.BillingAnalysis == true)
+                {
+                    strBilling = "T";
+                }
+                else
+                {
+                    strBilling = "O";
+                }
+
+                //output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},{court.Gender},{court.Region},{court.WriteAMDSAinApplication},{court.WriteAMDSAinOrder},{court.BillingAnalysis}");
+
+                output.Add($"{court.CapitalName},{court.SmallName},{court.CityName},{court.InCity},{strGender},{strRegion},{strApplication},{strOrder},{strBilling}");
             }
 
             File.WriteAllLines(filePath, output);
@@ -1008,7 +1094,6 @@ namespace RTFGeneratorWinForms.Models
 
             }
                 return str2;
-
         }
 
 
@@ -1022,7 +1107,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δεκαεννέα χιλιάδες";
+                    return "δεκαεννέα χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1030,11 +1115,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δεκαεννέα";
+                    return "δεκαεννέα ";
                 }
                 else if(controler == 1)
                 {
-                    return "δεκαεννέα";
+                    return "δεκαεννέα ";
                 }
                 else
                 {
@@ -1045,7 +1130,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δεκαοκτώ χιλιάδες";
+                    return "δεκαοκτώ χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1053,11 +1138,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δεκαοκτώ";
+                    return "δεκαοκτώ ";
                 }
                 else if (controler == 1)
                 {
-                    return "δεκαοκτώ";
+                    return "δεκαοκτώ ";
                 }
                 else
                 {
@@ -1068,7 +1153,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δεκαεπτά χιλιάδες";
+                    return "δεκαεπτά χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1076,11 +1161,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δεκαεπτά";
+                    return "δεκαεπτά ";
                 }
                 else if (controler == 1)
                 {
-                    return "δεκαεπτά";
+                    return "δεκαεπτά ";
                 }
                 else
                 {
@@ -1091,7 +1176,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δεκαέξι χιλιάδες";
+                    return "δεκαέξι χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1099,11 +1184,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δεκαέξι";
+                    return "δεκαέξι ";
                 }
                 else if (controler == 1)
                 {
-                    return "δεκαέξι";
+                    return "δεκαέξι ";
                 }
                 else
                 {
@@ -1114,7 +1199,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δεκαπέντε χιλιάδες";
+                    return "δεκαπέντε χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1122,11 +1207,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δεκαπέντε";
+                    return "δεκαπέντε ";
                 }
                 else if (controler == 1)
                 {
-                    return "δεκαπέντε";
+                    return "δεκαπέντε ";
                 }
                 else
                 {
@@ -1137,7 +1222,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δεκατέσσερα χιλιάδες";
+                    return "δεκατέσσερα χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1145,11 +1230,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δεκατέσσερα";
+                    return "δεκατέσσερα ";
                 }
                 else if (controler == 1)
                 {
-                    return "δεκατέσσερα";
+                    return "δεκατέσσερα ";
                 }
                 else
                 {
@@ -1160,7 +1245,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δεκατρία χιλιάδες";
+                    return "δεκατρία χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1168,11 +1253,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δεκατρία";
+                    return "δεκατρία ";
                 }
                 else if (controler == 1)
                 {
-                    return "δεκατρία";
+                    return "δεκατρία ";
                 }
                 else
                 {
@@ -1183,7 +1268,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δώδεκα χιλιάδες";
+                    return "δώδεκα χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1191,11 +1276,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δώδεκα";
+                    return "δώδεκα ";
                 }
                 else if (controler == 1)
                 {
-                    return "δώδεκα";
+                    return "δώδεκα ";
                 }
                 else
                 {
@@ -1206,7 +1291,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "έντεκα χιλιάδες";
+                    return "έντεκα χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1214,11 +1299,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "έντεκα";
+                    return "έντεκα ";
                 }
                 else if (controler == 1)
                 {
-                    return "έντεκα";
+                    return "έντεκα ";
                 }
                 else
                 {
@@ -1229,7 +1314,7 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δέκα χιλιάδες";
+                    return "δέκα χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
@@ -1237,11 +1322,11 @@ namespace RTFGeneratorWinForms.Models
                 }
                 else if (controler == 10)
                 {
-                    return "δέκα";
+                    return "δέκα ";
                 }
                 else if (controler == 1)
                 {
-                    return "ένα";
+                    return "ένα ";
                 }
                 else
                 {
@@ -1252,19 +1337,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "εννέα χιλιάδες";
+                    return "εννέα χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "εννιακόσια";
+                    return "εννιακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "ενενήντα";
+                    return "ενενήντα ";
                 }
                 else if (controler == 1)
                 {
-                    return "εννέα";
+                    return "εννέα ";
                 }
                 else
                 {
@@ -1275,19 +1360,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "οκτώ χιλιάδες";
+                    return "οκτώ χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "οκτακόσια";
+                    return "οκτακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "ογδόντα";
+                    return "ογδόντα ";
                 }
                 else if (controler == 1)
                 {
-                    return "οκτώ";
+                    return "οκτώ ";
                 }
                 else
                 {
@@ -1298,19 +1383,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "επτά χιλιάδες";
+                    return "επτά χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "επτακόσια";
+                    return "επτακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "εβδομήντα";
+                    return "εβδομήντα ";
                 }
                 else if (controler == 1)
                 {
-                    return "επτά";
+                    return "επτά ";
                 }
                 else
                 {
@@ -1321,19 +1406,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "έξι χιλιάδες";
+                    return "έξι χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "εξακόσια";
+                    return "εξακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "εξήντα";
+                    return "εξήντα ";
                 }
                 else if (controler == 1)
                 {
-                    return "έξι";
+                    return "έξι ";
                 }
                 else
                 {
@@ -1344,19 +1429,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "πέντε χιλιάδες";
+                    return "πέντε χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "πεντακόσια";
+                    return "πεντακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "πενήντα";
+                    return "πενήντα ";
                 }
                 else if (controler == 1)
                 {
-                    return "πέντε";
+                    return "πέντε ";
                 }
                 else
                 {
@@ -1367,19 +1452,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "τέσσερις χιλιάδες";
+                    return "τέσσερις χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "τετρακόσια";
+                    return "τετρακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "σαράντα";
+                    return "σαράντα ";
                 }
                 else if (controler == 1)
                 {
-                    return "τέσσερα";
+                    return "τέσσερα ";
                 }
                 else
                 {
@@ -1390,19 +1475,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "τρεις χιλιάδες";
+                    return "τρεις χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "τριακόσια";
+                    return "τριακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "τριάντα";
+                    return "τριάντα ";
                 }
                 else if (controler == 1)
                 {
-                    return "τρία";
+                    return "τρία ";
                 }
                 else
                 {
@@ -1413,19 +1498,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "δύο χιλιάδες";
+                    return "δύο χιλιάδες ";
                 }
                 else if (controler == 100)
                 {
-                    return "διακόσια";
+                    return "διακόσια ";
                 }
                 else if (controler == 10)
                 {
-                    return "είκοσι";
+                    return "είκοσι ";
                 }
                 else if (controler == 1)
                 {
-                    return "δύο";
+                    return "δύο ";
                 }
                 else
                 {
@@ -1436,19 +1521,19 @@ namespace RTFGeneratorWinForms.Models
             {
                 if (controler == 1000)
                 {
-                    return "χίλια";
+                    return "χίλια ";
                 }
                 else if (controler == 100)
                 {
-                    return "εκατό";
+                    return "εκατό ";
                 }
                 else if (controler == 10)
                 {
-                    return "δέκα";
+                    return "δέκα ";
                 }
                 else if (controler == 1)
                 {
-                    return "ένα";
+                    return "ένα ";
                 }
                 else
                 {
@@ -1460,7 +1545,6 @@ namespace RTFGeneratorWinForms.Models
                 return "";
             }
         }
-
 
     }
 }

@@ -16,10 +16,12 @@ namespace RTFGeneratorLibrary
         public bool ChallengeRequest { get; set; } = false;
         public bool AthensJurisdiction { get; set; } = false;
         public bool AddressChange { get; set; } = false;
+        public bool IdChange { get; set; } = false;
         
         public ChangeOfAddress ChangeOfAddressApplication { get; set; }
         public List<Contract> contracts {get; set;}
         public List<Bills> bills { get; set;}
+        public List<Bills> RemunerationDate { get; set; }
 
         public string DSA { get; set; } = string.Empty;
         public string TAXDIK { get; set; } = string.Empty; 
@@ -31,6 +33,7 @@ namespace RTFGeneratorLibrary
             CourtName = new Court();
             LawyerName = new Lawyer();
             ChangeOfAddressApplication = new ChangeOfAddress();
+            RemunerationDate = new List<Bills>();
         }
 
         public string PrintDebt

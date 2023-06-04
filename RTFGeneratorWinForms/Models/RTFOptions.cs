@@ -186,4 +186,10 @@ namespace RTFGeneratorWinForms.Models
         Sxetiko4,
         AnalisiTimologion,
     }
+
+    public enum TemplateType
+    {
+        CosmoteOFP,
+        OTEOFP,
+    }
 }
