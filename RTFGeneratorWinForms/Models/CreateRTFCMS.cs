@@ -155,45 +155,7 @@ namespace RTFGeneratorWinForms.Models
             RTFGen.SaveTemplateFile(richTextBox1, person);
         }
 
-        public static string ClientData(Person person)
-        {
-            StringBuilder sb = new();
-            if (person.Gender == gender.Company)
-            {
-                sb.Append("\tΤης ");
-                sb.Append(person.orderforPayment.CompanyType.Trim() + " Εταιρείας με την επωνυμία «" + person.Title.Trim());
-                sb.Append("» με ΑΦΜ " + person.TaxNumber.Trim() + ", και με διακριτικό τίτλο «" + person.Title.Trim());
-                sb.Append("» νομίμως εκπροσωπουμένης, που εδρεύει ");
-                sb.Append(person.FirstAddress.Street.Trim() + " " + person.FirstAddress.StrNumber.ToString().Trim() + ", ");
-                sb.Append(person.FirstAddress.City.Trim() + ", " + person.FirstAddress.PostalCode.Trim() + ".\r");
-                return sb.ToString();
-            }
-            else if (person.Gender == gender.Male)
-            {
-                sb.Append("\tΤου ");
-            }
-            else if (person.Gender == gender.Female)
-            {
-                sb.Append("\tΤης ");
-            }
-
-            sb.Append(person.FirstName.Trim() + " " + person.LastName.Trim());
-            if (person.FatherName != string.Empty)
-            {
-                sb.Append(" του " + person.FatherName.Trim());
-            }
-            sb.Append(", με ΑΦΜ " + person.TaxNumber.Trim());
-            sb.Append(", που κατοικεί " + person.FirstAddress.Street.Trim() + " " + person.FirstAddress.StrNumber.ToString().Trim());
-            sb.Append(", " + person.FirstAddress.City.Trim() + ", ΤΚ " + person.FirstAddress.PostalCode.Trim() + ".\r");
-
-            return sb.ToString();
-        }
-
-
-
-        // Η ΑΙΤΗΣΗ ΞΕΗΕΙΝΑ ΕΔΩ. ............................................................................................................................................................................
-
-
+        #region Application.
         public static string AddLawyerInfoApplicationSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
@@ -823,10 +785,9 @@ namespace RTFGeneratorWinForms.Models
 
             return sb.ToString();
         }
-        // Η ΑΙΤΗΣΗ ΤΕΛΕΙΩΝΕΙ ΕΔΩ.....................................................................................................................................................................
+        #endregion Application.
 
-
-        // Η ΔΙΑΤΑΓΗ ΞΕΚΕΙΝΑΕΙ ΕΔΩ.....................................................................................................................................................................
+        #region Order For Payment.
         public static string AddLawyerInfoOrderSection(Person person)
         {
             StringBuilder sb = new StringBuilder();
@@ -1133,8 +1094,9 @@ namespace RTFGeneratorWinForms.Models
             return sb.ToString();
         }
 
-        // Η ΔΙΑΤΑΓΗ ΤΕΛΕΙΩΝΕΙ ΕΔΩ.....................................................................................................................................................................
+        #endregion Order For Payment.
 
+        #region OFP Data.
         public static string ClientContractsandConnectoin(Person person)
         {
             StringBuilder sb = new();
@@ -1230,6 +1192,42 @@ namespace RTFGeneratorWinForms.Models
             sb.Append(" στις ...........................\r");
             return sb.ToString();
         }
+
+        public static string ClientData(Person person)
+        {
+            StringBuilder sb = new();
+            if (person.Gender == gender.Company)
+            {
+                sb.Append("\tΤης ");
+                sb.Append(person.orderforPayment.CompanyType.Trim() + " Εταιρείας με την επωνυμία «" + person.Title.Trim());
+                sb.Append("» με ΑΦΜ " + person.TaxNumber.Trim() + ", και με διακριτικό τίτλο «" + person.Title.Trim());
+                sb.Append("» νομίμως εκπροσωπουμένης, που εδρεύει ");
+                sb.Append(person.FirstAddress.Street.Trim() + " " + person.FirstAddress.StrNumber.ToString().Trim() + ", ");
+                sb.Append(person.FirstAddress.City.Trim() + ", " + person.FirstAddress.PostalCode.Trim() + ".\r");
+                return sb.ToString();
+            }
+            else if (person.Gender == gender.Male)
+            {
+                sb.Append("\tΤου ");
+            }
+            else if (person.Gender == gender.Female)
+            {
+                sb.Append("\tΤης ");
+            }
+
+            sb.Append(person.FirstName.Trim() + " " + person.LastName.Trim());
+            if (person.FatherName != string.Empty)
+            {
+                sb.Append(" του " + person.FatherName.Trim());
+            }
+            sb.Append(", με ΑΦΜ " + person.TaxNumber.Trim());
+            sb.Append(", που κατοικεί " + person.FirstAddress.Street.Trim() + " " + person.FirstAddress.StrNumber.ToString().Trim());
+            sb.Append(", " + person.FirstAddress.City.Trim() + ", ΤΚ " + person.FirstAddress.PostalCode.Trim() + ".\r");
+
+            return sb.ToString();
+        }
+
+        #endregion OFP Data.
 
         public static void Test(Person person)
         {

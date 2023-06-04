@@ -85,6 +85,9 @@ namespace RTFGeneratorWinForms
             contractNumberTextBox = new TextBox();
             contractNumberLabel = new Label();
             billsGroupBox = new GroupBox();
+            billFreqButton = new Button();
+            billExpDateTextBox = new TextBox();
+            billExpDateLabel = new Label();
             billAmountTextBox = new TextBox();
             billAmountLabel = new Label();
             billsListBox = new ListBox();
@@ -414,7 +417,7 @@ namespace RTFGeneratorWinForms
             GeneratePaymenOrderBbutton.Location = new Point(941, 875);
             GeneratePaymenOrderBbutton.Name = "GeneratePaymenOrderBbutton";
             GeneratePaymenOrderBbutton.Size = new Size(107, 45);
-            GeneratePaymenOrderBbutton.TabIndex = 43;
+            GeneratePaymenOrderBbutton.TabIndex = 45;
             GeneratePaymenOrderBbutton.Text = "Generate";
             GeneratePaymenOrderBbutton.UseVisualStyleBackColor = true;
             GeneratePaymenOrderBbutton.Click += GeneratePaymenOrderBbutton_Click;
@@ -639,6 +642,9 @@ namespace RTFGeneratorWinForms
             // billsGroupBox
             // 
             billsGroupBox.BackColor = SystemColors.Control;
+            billsGroupBox.Controls.Add(billFreqButton);
+            billsGroupBox.Controls.Add(billExpDateTextBox);
+            billsGroupBox.Controls.Add(billExpDateLabel);
             billsGroupBox.Controls.Add(billAmountTextBox);
             billsGroupBox.Controls.Add(billAmountLabel);
             billsGroupBox.Controls.Add(billsListBox);
@@ -653,17 +659,44 @@ namespace RTFGeneratorWinForms
             billsGroupBox.TabStop = false;
             billsGroupBox.Text = "ΤΙΜΟΛΟΓΙΑ";
             // 
+            // billFreqButton
+            // 
+            billFreqButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            billFreqButton.Location = new Point(12, 126);
+            billFreqButton.Name = "billFreqButton";
+            billFreqButton.Size = new Size(48, 29);
+            billFreqButton.TabIndex = 29;
+            billFreqButton.Text = "Frq";
+            billFreqButton.UseVisualStyleBackColor = true;
+            billFreqButton.Click += billFreqButton_Click;
+            // 
+            // billExpDateTextBox
+            // 
+            billExpDateTextBox.Location = new Point(51, 60);
+            billExpDateTextBox.Name = "billExpDateTextBox";
+            billExpDateTextBox.Size = new Size(139, 27);
+            billExpDateTextBox.TabIndex = 25;
+            // 
+            // billExpDateLabel
+            // 
+            billExpDateLabel.AutoSize = true;
+            billExpDateLabel.Location = new Point(1, 63);
+            billExpDateLabel.Name = "billExpDateLabel";
+            billExpDateLabel.Size = new Size(39, 20);
+            billExpDateLabel.TabIndex = 208;
+            billExpDateLabel.Text = "Εώς:";
+            // 
             // billAmountTextBox
             // 
-            billAmountTextBox.Location = new Point(51, 59);
+            billAmountTextBox.Location = new Point(51, 93);
             billAmountTextBox.Name = "billAmountTextBox";
             billAmountTextBox.Size = new Size(139, 27);
-            billAmountTextBox.TabIndex = 25;
+            billAmountTextBox.TabIndex = 26;
             // 
             // billAmountLabel
             // 
             billAmountLabel.AutoSize = true;
-            billAmountLabel.Location = new Point(1, 60);
+            billAmountLabel.Location = new Point(1, 94);
             billAmountLabel.Name = "billAmountLabel";
             billAmountLabel.Size = new Size(50, 20);
             billAmountLabel.TabIndex = 206;
@@ -681,10 +714,10 @@ namespace RTFGeneratorWinForms
             // removeBillButton
             // 
             removeBillButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            removeBillButton.Location = new Point(51, 92);
+            removeBillButton.Location = new Point(66, 126);
             removeBillButton.Name = "removeBillButton";
             removeBillButton.Size = new Size(59, 29);
-            removeBillButton.TabIndex = 27;
+            removeBillButton.TabIndex = 28;
             removeBillButton.Text = "-";
             removeBillButton.UseVisualStyleBackColor = true;
             removeBillButton.Click += removeBillButton_Click;
@@ -699,10 +732,10 @@ namespace RTFGeneratorWinForms
             // addBillButton
             // 
             addBillButton.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            addBillButton.Location = new Point(116, 92);
+            addBillButton.Location = new Point(131, 125);
             addBillButton.Name = "addBillButton";
-            addBillButton.Size = new Size(74, 30);
-            addBillButton.TabIndex = 26;
+            addBillButton.Size = new Size(59, 30);
+            addBillButton.TabIndex = 27;
             addBillButton.Text = "+";
             addBillButton.UseVisualStyleBackColor = true;
             addBillButton.Click += addBillButton_Click;
@@ -712,16 +745,16 @@ namespace RTFGeneratorWinForms
             billDateLabel.AutoSize = true;
             billDateLabel.Location = new Point(1, 29);
             billDateLabel.Name = "billDateLabel";
-            billDateLabel.Size = new Size(54, 20);
+            billDateLabel.Size = new Size(40, 20);
             billDateLabel.TabIndex = 204;
-            billDateLabel.Text = "ημ/νία";
+            billDateLabel.Text = "Από:";
             // 
             // clearAllButton
             // 
             clearAllButton.Location = new Point(813, 875);
             clearAllButton.Name = "clearAllButton";
             clearAllButton.Size = new Size(107, 45);
-            clearAllButton.TabIndex = 44;
+            clearAllButton.TabIndex = 47;
             clearAllButton.Text = "Clear All";
             clearAllButton.UseVisualStyleBackColor = true;
             clearAllButton.Click += clearAllButton_Click;
@@ -782,7 +815,7 @@ namespace RTFGeneratorWinForms
             lawyerSelectionComboBox.Location = new Point(374, 60);
             lawyerSelectionComboBox.Name = "lawyerSelectionComboBox";
             lawyerSelectionComboBox.Size = new Size(302, 28);
-            lawyerSelectionComboBox.TabIndex = 42;
+            lawyerSelectionComboBox.TabIndex = 44;
             lawyerSelectionComboBox.SelectedIndexChanged += lawyerSelectionComboBox_SelectedIndexChanged;
             // 
             // selectCourtLabel
@@ -800,7 +833,7 @@ namespace RTFGeneratorWinForms
             courtSelectionComboBox.Location = new Point(374, 20);
             courtSelectionComboBox.Name = "courtSelectionComboBox";
             courtSelectionComboBox.Size = new Size(302, 28);
-            courtSelectionComboBox.TabIndex = 41;
+            courtSelectionComboBox.TabIndex = 43;
             courtSelectionComboBox.SelectedIndexChanged += courtSelectionComboBox_SelectedIndexChanged;
             // 
             // oteRadioButton
@@ -809,7 +842,7 @@ namespace RTFGeneratorWinForms
             oteRadioButton.Location = new Point(10, 58);
             oteRadioButton.Name = "oteRadioButton";
             oteRadioButton.Size = new Size(53, 24);
-            oteRadioButton.TabIndex = 40;
+            oteRadioButton.TabIndex = 42;
             oteRadioButton.TabStop = true;
             oteRadioButton.Text = "OTE";
             oteRadioButton.UseVisualStyleBackColor = true;
@@ -820,7 +853,7 @@ namespace RTFGeneratorWinForms
             cosmoteRadioButton.Location = new Point(10, 23);
             cosmoteRadioButton.Name = "cosmoteRadioButton";
             cosmoteRadioButton.Size = new Size(86, 24);
-            cosmoteRadioButton.TabIndex = 39;
+            cosmoteRadioButton.TabIndex = 41;
             cosmoteRadioButton.TabStop = true;
             cosmoteRadioButton.Text = "Cosomte";
             cosmoteRadioButton.UseVisualStyleBackColor = true;
@@ -858,7 +891,7 @@ namespace RTFGeneratorWinForms
             IdChangeCheckBox.Location = new Point(8, 64);
             IdChangeCheckBox.Name = "IdChangeCheckBox";
             IdChangeCheckBox.Size = new Size(178, 24);
-            IdChangeCheckBox.TabIndex = 34;
+            IdChangeCheckBox.TabIndex = 36;
             IdChangeCheckBox.Text = "ΑΛΛΑΓΗ ΤΑΥΤΟΤΗΤΑΣ";
             IdChangeCheckBox.UseVisualStyleBackColor = true;
             IdChangeCheckBox.CheckedChanged += IdChangeCheckBox_CheckedChanged;
@@ -868,7 +901,7 @@ namespace RTFGeneratorWinForms
             addressChangeApplicationDateTextBox.Location = new Point(14, 196);
             addressChangeApplicationDateTextBox.Name = "addressChangeApplicationDateTextBox";
             addressChangeApplicationDateTextBox.Size = new Size(221, 27);
-            addressChangeApplicationDateTextBox.TabIndex = 36;
+            addressChangeApplicationDateTextBox.TabIndex = 38;
             addressChangeApplicationDateTextBox.TextChanged += addressChangeApplicationDateTextBox_TextChanged;
             // 
             // addressChangeApplicationDateLabel
@@ -885,7 +918,7 @@ namespace RTFGeneratorWinForms
             addressChangeApplicationNumberTextBox.Location = new Point(14, 128);
             addressChangeApplicationNumberTextBox.Name = "addressChangeApplicationNumberTextBox";
             addressChangeApplicationNumberTextBox.Size = new Size(221, 27);
-            addressChangeApplicationNumberTextBox.TabIndex = 35;
+            addressChangeApplicationNumberTextBox.TabIndex = 37;
             addressChangeApplicationNumberTextBox.TextChanged += addressChangeApplicationNumberTextBox_TextChanged;
             // 
             // addressChangeApplicationNumberLabel
@@ -903,7 +936,7 @@ namespace RTFGeneratorWinForms
             AddressChangeCheckBox.Location = new Point(8, 32);
             AddressChangeCheckBox.Name = "AddressChangeCheckBox";
             AddressChangeCheckBox.Size = new Size(175, 24);
-            AddressChangeCheckBox.TabIndex = 33;
+            AddressChangeCheckBox.TabIndex = 35;
             AddressChangeCheckBox.Text = "ΑΛΛΑΓΗ ΔΙΕΥΘΥΝΣΗΣ";
             AddressChangeCheckBox.UseVisualStyleBackColor = true;
             AddressChangeCheckBox.CheckedChanged += AddressChangeCheckBox_CheckedChanged;
@@ -914,7 +947,7 @@ namespace RTFGeneratorWinForms
             challengeRequestCheckBox.Location = new Point(14, 66);
             challengeRequestCheckBox.Name = "challengeRequestCheckBox";
             challengeRequestCheckBox.Size = new Size(200, 24);
-            challengeRequestCheckBox.TabIndex = 38;
+            challengeRequestCheckBox.TabIndex = 40;
             challengeRequestCheckBox.Text = "ΑΙΤΗΜΑ ΑΜΦΙΣΒΗΤΗΣΗΣ";
             challengeRequestCheckBox.UseVisualStyleBackColor = true;
             challengeRequestCheckBox.CheckedChanged += challengeRequestCheckBox_CheckedChanged;
@@ -925,7 +958,7 @@ namespace RTFGeneratorWinForms
             athensJurisdictionCheckBox.Location = new Point(14, 36);
             athensJurisdictionCheckBox.Name = "athensJurisdictionCheckBox";
             athensJurisdictionCheckBox.Size = new Size(136, 24);
-            athensJurisdictionCheckBox.TabIndex = 37;
+            athensJurisdictionCheckBox.TabIndex = 39;
             athensJurisdictionCheckBox.Text = "ΜΕ ΠΑΡΕΚΤΑΣΗ";
             athensJurisdictionCheckBox.UseVisualStyleBackColor = true;
             athensJurisdictionCheckBox.CheckedChanged += athensJurisdictionCheckBox_CheckedChanged;
@@ -935,7 +968,7 @@ namespace RTFGeneratorWinForms
             totalAmountTextBox.Location = new Point(795, 560);
             totalAmountTextBox.Name = "totalAmountTextBox";
             totalAmountTextBox.Size = new Size(255, 27);
-            totalAmountTextBox.TabIndex = 30;
+            totalAmountTextBox.TabIndex = 32;
             totalAmountTextBox.TextChanged += totalAmountTextBox_TextChanged;
             // 
             // totalAmountLabel
@@ -952,7 +985,7 @@ namespace RTFGeneratorWinForms
             testButton.Location = new Point(693, 875);
             testButton.Name = "testButton";
             testButton.Size = new Size(107, 45);
-            testButton.TabIndex = 45;
+            testButton.TabIndex = 46;
             testButton.Text = "TEST";
             testButton.UseVisualStyleBackColor = true;
             testButton.Click += testButton_Click;
@@ -962,7 +995,7 @@ namespace RTFGeneratorWinForms
             promissoryNoteTextBox.Location = new Point(795, 654);
             promissoryNoteTextBox.Name = "promissoryNoteTextBox";
             promissoryNoteTextBox.Size = new Size(255, 27);
-            promissoryNoteTextBox.TabIndex = 32;
+            promissoryNoteTextBox.TabIndex = 34;
             promissoryNoteTextBox.TextChanged += promissoryNoteTextBox_TextChanged;
             // 
             // promissoryNoteLabel
@@ -979,7 +1012,7 @@ namespace RTFGeneratorWinForms
             judicialStampTextBox.Location = new Point(795, 621);
             judicialStampTextBox.Name = "judicialStampTextBox";
             judicialStampTextBox.Size = new Size(255, 27);
-            judicialStampTextBox.TabIndex = 31;
+            judicialStampTextBox.TabIndex = 33;
             judicialStampTextBox.TextChanged += judicialStampTextBox_TextChanged;
             // 
             // judicialStampLabel
@@ -1011,7 +1044,7 @@ namespace RTFGeneratorWinForms
             remunerationToTextBox.Location = new Point(243, 26);
             remunerationToTextBox.Name = "remunerationToTextBox";
             remunerationToTextBox.Size = new Size(92, 27);
-            remunerationToTextBox.TabIndex = 29;
+            remunerationToTextBox.TabIndex = 31;
             remunerationToTextBox.TextChanged += remunerationToTextBox_TextChanged;
             // 
             // remunerationToLabel
@@ -1028,7 +1061,7 @@ namespace RTFGeneratorWinForms
             remunerationFromTextBox.Location = new Point(52, 26);
             remunerationFromTextBox.Name = "remunerationFromTextBox";
             remunerationFromTextBox.Size = new Size(92, 27);
-            remunerationFromTextBox.TabIndex = 28;
+            remunerationFromTextBox.TabIndex = 30;
             remunerationFromTextBox.TextChanged += remunerationFromTextBox_TextChanged;
             // 
             // remunerationFromLabel
@@ -1234,5 +1267,8 @@ namespace RTFGeneratorWinForms
         private TextBox caseNumberTextBox;
         private Label caseNumberLabel;
         private Button searchButton;
+        private TextBox billExpDateTextBox;
+        private Label billExpDateLabel;
+        private Button billFreqButton;
     }
 }

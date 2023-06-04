@@ -20,6 +20,7 @@ namespace RTFGeneratorWinForms
         private List<string> ContractDuration = RTFGen.LoadContractsDuration();
         private List<string> CompaniesTypes = RTFGen.LoadCompaniesTypes();
         private List<Court> CourtsList = RTFGen.LoadCourts();
+        int BillFrequency = 1;
 
         public Form1()
         {
@@ -62,6 +63,8 @@ namespace RTFGeneratorWinForms
 
             courtSelectionComboBox.AutoCompleteCustomSource = courtAutoComleteList;
             // UNTIL HERE...
+
+            billFreqButton.Text = BillFrequency.ToString();
 
             CompanyTypeComboBox.DataSource = CompaniesTypes;
             CompanyTypeComboBox.SelectedIndex = -1;
@@ -465,6 +468,7 @@ namespace RTFGeneratorWinForms
                 contractDateTextBox.Text = null;
                 contractDurationComboBox.SelectedIndex = -1;
 
+                contractTypeTextBox.Text = "";
                 contractTypeLabel.Visible = false;
                 contractTypeTextBox.Visible = false;
 
@@ -545,6 +549,13 @@ namespace RTFGeneratorWinForms
             contractNumberTextBox.Text = null;
             contractDateTextBox.Text = null;
         }
+
+        private void addSimNumberButton_Click(object sender, EventArgs e)
+        {
+            contractTypeLabel.Visible = true;
+            contractTypeTextBox.Visible = true;
+        }
+
         #endregion Modify Contracts.
 
         #region Modify Bills.
@@ -558,6 +569,15 @@ namespace RTFGeneratorWinForms
             {
                 Bills cont = new();
                 DateTime date = DateTime.MinValue;
+                DateTime ExpDate = DateTime.MinValue;
+                if (billExpDateTextBox.Text != "")
+                {
+                    bool ExpParseResult = DateTime.TryParse(billExpDateTextBox.Text, out ExpDate);
+                    if (ExpParseResult)
+                    {
+                        cont.ExpirationDate = ExpDate;
+                    }
+                }
                 bool parseResult = DateTime.TryParse(billDateTextBox.Text, out date);
                 if (parseResult)
                 {
@@ -565,6 +585,8 @@ namespace RTFGeneratorWinForms
                     if (billAmountTextBox.Text == "")
                     {
                         cont.IssueDate = date;
+                        // Add Bill Frequency.
+                        cont.Frequency = BillFrequency;
                         person.orderforPayment.bills.Add(cont);
 
                         if (toolStripProgressBar.Value < 100)
@@ -582,6 +604,7 @@ namespace RTFGeneratorWinForms
                         {
                             cont.IssueDate = date;
                             cont.Amount = amount;
+                            cont.Frequency = BillFrequency;
                             person.orderforPayment.bills.Add(cont);
 
                             if (toolStripProgressBar.Value < 100)
@@ -607,6 +630,7 @@ namespace RTFGeneratorWinForms
                 }
 
                 billDateTextBox.Text = null;
+                billExpDateTextBox.Text = null;
                 billAmountTextBox.Text = null;
 
                 // show remunerationGroupBox if the user give amount.
@@ -642,10 +666,18 @@ namespace RTFGeneratorWinForms
 
             }
         }
-        private void addSimNumberButton_Click(object sender, EventArgs e)
+
+        private void billFreqButton_Click(object sender, EventArgs e)
         {
-            contractTypeLabel.Visible = true;
-            contractTypeTextBox.Visible = true;
+            if (BillFrequency == 1)
+            {
+                BillFrequency++;
+            }
+            else
+            {
+                BillFrequency = 1;
+            }
+            billFreqButton.Text = BillFrequency.ToString();
         }
 
         #endregion Modify Bills.
@@ -853,6 +885,7 @@ namespace RTFGeneratorWinForms
         }
 
         #endregion Remove Items.
+
 
     }
 
